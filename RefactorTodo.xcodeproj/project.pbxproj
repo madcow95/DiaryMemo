@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CDC6749F2D1A9CB600F429DA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CDC6749E2D1A9CB600F429DA /* SnapKit */; };
+		CDC674A22D1A9CC500F429DA /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = CDC674A12D1A9CC500F429DA /* ReactorKit */; };
+		CDC674A52D1A9CD600F429DA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CDC674A42D1A9CD600F429DA /* Kingfisher */; };
+		CDC674A82D1A9CE900F429DA /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CDC674A72D1A9CE900F429DA /* Alamofire */; };
+		CDC674B02D1A9EC500F429DA /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = CDC674AF2D1A9EC500F429DA /* FSCalendar */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		CD4734B42D19AE9200292086 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +73,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDC674A52D1A9CD600F429DA /* Kingfisher in Frameworks */,
+				CDC674A82D1A9CE900F429DA /* Alamofire in Frameworks */,
+				CDC674A22D1A9CC500F429DA /* ReactorKit in Frameworks */,
+				CDC674B02D1A9EC500F429DA /* FSCalendar in Frameworks */,
+				CDC6749F2D1A9CB600F429DA /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +138,11 @@
 			);
 			name = RefactorTodo;
 			packageProductDependencies = (
+				CDC6749E2D1A9CB600F429DA /* SnapKit */,
+				CDC674A12D1A9CC500F429DA /* ReactorKit */,
+				CDC674A42D1A9CD600F429DA /* Kingfisher */,
+				CDC674A72D1A9CE900F429DA /* Alamofire */,
+				CDC674AF2D1A9EC500F429DA /* FSCalendar */,
 			);
 			productName = RefactorTodo;
 			productReference = CD47349A2D19AE9000292086 /* RefactorTodo.app */;
@@ -208,6 +226,13 @@
 			);
 			mainGroup = CD4734912D19AE9000292086;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CDC6749D2D1A9CB600F429DA /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CDC674A02D1A9CC500F429DA /* XCRemoteSwiftPackageReference "ReactorKit" */,
+				CDC674A32D1A9CD600F429DA /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				CDC674A62D1A9CE900F429DA /* XCRemoteSwiftPackageReference "Alamofire" */,
+				CDC674AE2D1A9EC500F429DA /* XCRemoteSwiftPackageReference "FSCalendar" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CD47349B2D19AE9000292086 /* Products */;
 			projectDirPath = "";
@@ -567,6 +592,77 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CDC6749D2D1A9CB600F429DA /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		CDC674A02D1A9CC500F429DA /* XCRemoteSwiftPackageReference "ReactorKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactorKit/ReactorKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+		CDC674A32D1A9CD600F429DA /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.3;
+			};
+		};
+		CDC674A62D1A9CE900F429DA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		CDC674AE2D1A9EC500F429DA /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.8.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CDC6749E2D1A9CB600F429DA /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDC6749D2D1A9CB600F429DA /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		CDC674A12D1A9CC500F429DA /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDC674A02D1A9CC500F429DA /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
+		};
+		CDC674A42D1A9CD600F429DA /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDC674A32D1A9CD600F429DA /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		CDC674A72D1A9CE900F429DA /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDC674A62D1A9CE900F429DA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		CDC674AF2D1A9EC500F429DA /* FSCalendar */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDC674AE2D1A9EC500F429DA /* XCRemoteSwiftPackageReference "FSCalendar" */;
+			productName = FSCalendar;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CD4734922D19AE9000292086 /* Project object */;
 }
