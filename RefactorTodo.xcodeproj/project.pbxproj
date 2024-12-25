@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD064B772D1C4A2300254EC7 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CD064B762D1C4A2300254EC7 /* RxCocoa */; };
 		CDC6749F2D1A9CB600F429DA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CDC6749E2D1A9CB600F429DA /* SnapKit */; };
 		CDC674A22D1A9CC500F429DA /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = CDC674A12D1A9CC500F429DA /* ReactorKit */; };
 		CDC674A52D1A9CD600F429DA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CDC674A42D1A9CD600F429DA /* Kingfisher */; };
@@ -73,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD064B772D1C4A2300254EC7 /* RxCocoa in Frameworks */,
 				CDC674A52D1A9CD600F429DA /* Kingfisher in Frameworks */,
 				CDC674A82D1A9CE900F429DA /* Alamofire in Frameworks */,
 				CDC674A22D1A9CC500F429DA /* ReactorKit in Frameworks */,
@@ -143,6 +145,7 @@
 				CDC674A42D1A9CD600F429DA /* Kingfisher */,
 				CDC674A72D1A9CE900F429DA /* Alamofire */,
 				CDC674AF2D1A9EC500F429DA /* FSCalendar */,
+				CD064B762D1C4A2300254EC7 /* RxCocoa */,
 			);
 			productName = RefactorTodo;
 			productReference = CD47349A2D19AE9000292086 /* RefactorTodo.app */;
@@ -232,6 +235,7 @@
 				CDC674A32D1A9CD600F429DA /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				CDC674A62D1A9CE900F429DA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				CDC674AE2D1A9EC500F429DA /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				CD064B752D1C4A2300254EC7 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CD47349B2D19AE9000292086 /* Products */;
@@ -594,6 +598,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CD064B752D1C4A2300254EC7 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
 		CDC6749D2D1A9CB600F429DA /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -637,6 +649,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CD064B762D1C4A2300254EC7 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD064B752D1C4A2300254EC7 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
 		CDC6749E2D1A9CB600F429DA /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CDC6749D2D1A9CB600F429DA /* XCRemoteSwiftPackageReference "SnapKit" */;

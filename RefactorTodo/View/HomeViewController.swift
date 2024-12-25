@@ -1,22 +1,14 @@
 import UIKit
 import SnapKit
 import FSCalendar
+import ReactorKit
+import RxSwift
 
 class HomeViewController: UIViewController {
     
+    var disposeBag = DisposeBag()
     private let calendarView = TodoCalendar()
-    private let addButton: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        btn.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        btn.layer.cornerRadius = 25
-        btn.backgroundColor = .systemGreen
-        btn.setImage(UIImage(systemName: "plus"), for: .normal)
-        btn.tintColor = .white
-        
-        return btn
-    }()
+    private let addButton = AddButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +22,7 @@ class HomeViewController: UIViewController {
     }
     
     func configureCalendar() {
+        self.calendarView.delegate = self
         view.addSubview(calendarView)
         calendarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -45,5 +38,21 @@ class HomeViewController: UIViewController {
             $0.right.equalTo(view.snp.right).offset(-20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
         }
+    }
+}
+
+extension HomeViewController: FSCalendarDelegate {
+    // 날짜를 선택했을 때
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        reactor?.action.onNext(.moveToAddView)
+    }
+}
+
+extension HomeViewController: View {
+    func bind(reactor: HomeReactor) {
+        addButton.rx.tap
+            .map { Reactor.Action.moveToAddView }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 }
