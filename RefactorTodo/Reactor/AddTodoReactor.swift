@@ -11,12 +11,12 @@ class AddTodoReactor: Reactor {
     
     enum Action {
         case addTodo
-        case showEmotionView
+        case showEmotionView(Date)
     }
     
     enum Mutation {
         case addTodo
-        case showEmotionView
+        case showEmotionView(Date)
     }
     
     struct State {
@@ -27,8 +27,8 @@ class AddTodoReactor: Reactor {
         switch action {
         case .addTodo:
             return Observable.just(.addTodo)
-        case .showEmotionView:
-            addTodoCoordinator?.showEmotionSelectView()
+        case .showEmotionView(let date):
+            addTodoCoordinator?.showEmotionSelectView(date: date)
             return .empty()
         }
     }

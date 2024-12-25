@@ -3,10 +3,12 @@ import UIKit
 final class AddTodoCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     weak var parentCoordinator: HomeCoorinator?
+    let selectedDate: Date
     private let navigationController: UINavigationController
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: UINavigationController, selectedDate: Date) {
         self.navigationController = navigationController
+        self.selectedDate = selectedDate
     }
     
     func start() {
@@ -16,8 +18,8 @@ final class AddTodoCoordinator: Coordinator {
         navigationController.pushViewController(addVC, animated: true)
     }
     
-    func showEmotionSelectView() {
-        let reactor = EmotionReactor()
+    func showEmotionSelectView(date: Date) {
+        let reactor = EmotionReactor(selectedDate: date)
         let emotionVC = EmotionViewController()
         emotionVC.reactor = reactor
         navigationController.present(emotionVC, animated: true)

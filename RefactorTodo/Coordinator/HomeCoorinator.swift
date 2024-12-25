@@ -21,12 +21,13 @@ final class HomeCoorinator: Coordinator {
         tabBarController.viewControllers = [navigationVC]
     }
     
-    func moveToAddTodo() {
+    func moveToAddTodo(selected date: Date) {
         guard let navigationController = tabBarController.selectedViewController as? UINavigationController else {
             return
         }
                 
-        let addTodoCoordinator = AddTodoCoordinator(navigationController: navigationController)
+        let addTodoCoordinator = AddTodoCoordinator(navigationController: navigationController,
+                                                    selectedDate: date)
         childCoordinators.append(addTodoCoordinator)
         addTodoCoordinator.parentCoordinator = self
         addTodoCoordinator.start()

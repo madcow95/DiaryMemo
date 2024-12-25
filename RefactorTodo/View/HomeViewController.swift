@@ -8,7 +8,7 @@ class HomeViewController: UIViewController {
     
     var disposeBag = DisposeBag()
     private let calendarView = TodoCalendar()
-    private let addButton = AddButton()
+    private let addButton = AddButton(width: 50, height: 50)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,14 +44,14 @@ class HomeViewController: UIViewController {
 extension HomeViewController: FSCalendarDelegate {
     // 날짜를 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        reactor?.action.onNext(.moveToAddView)
+        reactor?.action.onNext(.moveToAddView(date))
     }
 }
 
 extension HomeViewController: View {
     func bind(reactor: HomeReactor) {
         addButton.rx.tap
-            .map { Reactor.Action.moveToAddView }
+            .map { Reactor.Action.moveToAddView(Date()) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

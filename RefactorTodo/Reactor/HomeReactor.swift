@@ -1,3 +1,4 @@
+import Foundation
 import RxSwift
 import ReactorKit
 
@@ -9,12 +10,12 @@ class HomeReactor: Reactor {
     }
     
     enum Action {
-        case moveToAddView
+        case moveToAddView(Date)
         case addTodo
     }
     
     enum Mutation {
-        case moveToAddView
+        case moveToAddView(Date)
         case addTodo
     }
     
@@ -24,8 +25,8 @@ class HomeReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .moveToAddView:
-            homeCoordinator?.moveToAddTodo()
+        case .moveToAddView(let date):
+            homeCoordinator?.moveToAddTodo(selected: date)
             return .empty()
         case .addTodo:
             return .empty()
