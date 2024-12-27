@@ -1,8 +1,8 @@
 import FSCalendar
 import UIKit
 
+// FSCalendar 라이브러리 -> UIViewController에서 사용하면 코드가 길어져서 분리
 class TodoCalendar: FSCalendar {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initialCalendar()

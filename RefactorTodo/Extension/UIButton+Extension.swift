@@ -1,6 +1,7 @@
 import UIKit
 import RxCocoa
 
+// 공통으로 쓰기 위한 UIButton
 class AddButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)

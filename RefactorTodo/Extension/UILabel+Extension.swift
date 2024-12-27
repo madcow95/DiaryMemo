@@ -1,5 +1,6 @@
 import UIKit
 
+// 공통으로 쓰기 위한 UILabel
 class TodoLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
