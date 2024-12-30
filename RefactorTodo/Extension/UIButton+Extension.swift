@@ -14,13 +14,26 @@ class AddButton: UIButton {
     }
     
     convenience init(
-        width: CGFloat = 50,
-        height: CGFloat = 50
+        width: CGFloat? = nil,
+        height: CGFloat? = nil,
+        image: UIImage? = nil,
+        title: String = ""
     ) {
         self.init()
-        self.widthAnchor.constraint(equalToConstant: width).isActive = true
-        self.heightAnchor.constraint(equalToConstant: height).isActive = true
-        self.layer.cornerRadius = width / 2
+        if let width = width {
+            self.widthAnchor.constraint(equalToConstant: width).isActive = true
+            self.layer.cornerRadius = width / 2
+        }
+        if let height = height {
+            self.heightAnchor.constraint(equalToConstant: height).isActive = true
+            self.layer.cornerRadius = height / 2
+        }
+        if let img = image {
+            self.setImage(img, for: .normal)
+        }
+        if !title.isEmpty {
+            self.setTitle(title, for: .normal)
+        }
     }
     
     func initialButton() {

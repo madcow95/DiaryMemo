@@ -22,6 +22,7 @@ class AddTodoViewController: UIViewController {
         
         return textView
     }()
+    private let addButton = AddButton(height: 50, title: "추가하기")
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,6 +41,7 @@ class AddTodoViewController: UIViewController {
         configureButton()
         configureLabel()
         configureTextView()
+        configureAddButton()
     }
     
     func configureButton() {
@@ -64,7 +66,15 @@ class AddTodoViewController: UIViewController {
             $0.top.equalTo(dateLabel.snp.bottom).offset(10)
             $0.left.equalTo(view.snp.left).offset(10)
             $0.right.equalTo(view.snp.right).offset(-10)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+    }
+    
+    func configureAddButton() {
+        view.addSubview(addButton)
+        addButton.snp.makeConstraints {
+            $0.top.equalTo(todoContent.snp.bottom).offset(10)
+            $0.left.right.equalTo(todoContent)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-5)
         }
     }
 }
