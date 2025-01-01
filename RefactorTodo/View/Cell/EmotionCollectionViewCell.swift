@@ -5,10 +5,9 @@ class EmotionCollectionViewCell: UICollectionViewCell {
     
     private lazy var emotionImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.image = UIImage(systemName: "sun.max")
-        imageView.frame = CGRect(x: 0, y: 0, width: contentView.frame.width, height: contentView.frame.height)
         
         return imageView
     }()
