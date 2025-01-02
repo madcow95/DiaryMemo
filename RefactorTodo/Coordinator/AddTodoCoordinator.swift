@@ -12,7 +12,7 @@ final class AddTodoCoordinator: Coordinator {
     }
     
     func start() {
-        let reactor = AddTodoReactor(addTodoCoordinator: self)
+        let reactor = AddTodoReactor(addTodoCoordinator: self, selectedDate: selectedDate)
         let addVC = AddTodoViewController()
         addVC.reactor = reactor
         navigationController.pushViewController(addVC, animated: true)

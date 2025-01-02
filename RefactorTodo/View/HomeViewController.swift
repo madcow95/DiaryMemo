@@ -54,5 +54,7 @@ extension HomeViewController: View {
             .map { Reactor.Action.moveToAddView(Date()) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        
     }
 }

@@ -3,10 +3,12 @@ import SnapKit
 import ReactorKit
 
 class AddTodoReactor: Reactor {
+    let initialState: State
     weak var addTodoCoordinator: AddTodoCoordinator?
     
-    init(addTodoCoordinator: AddTodoCoordinator) {
+    init(addTodoCoordinator: AddTodoCoordinator, selectedDate: Date) {
         self.addTodoCoordinator = addTodoCoordinator
+        self.initialState = State(selectedDate: selectedDate)
     }
     
     enum Action {
@@ -20,7 +22,7 @@ class AddTodoReactor: Reactor {
     }
     
     struct State {
-        
+        var selectedDate: Date
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -32,6 +34,4 @@ class AddTodoReactor: Reactor {
             return .empty()
         }
     }
-    
-    let initialState: State = State()
 }

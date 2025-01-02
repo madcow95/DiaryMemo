@@ -5,9 +5,8 @@ import ReactorKit
 class AddTodoViewController: UIViewController {
     var disposeBag = DisposeBag()
     
-    private lazy var selectedDate = reactor?.addTodoCoordinator?.selectedDate
     private let emotionButton = AddButton(width: 25, height: 25)
-    private lazy var dateLabel = TodoLabel(text: Date().dateToString(date: selectedDate),
+    private lazy var dateLabel = TodoLabel(text: Date().dateToString(date: reactor?.currentState.selectedDate),
                                       textColor: .lightGray,
                                       fontWeight: .bold)
     private let placeholderText = "오늘의 일기를 작성해주세요"
@@ -27,7 +26,7 @@ class AddTodoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // MARK: TODO - 선택된 날짜에 등록된 일기가 없을 때 실행
-        reactor?.action.onNext(.showEmotionView(selectedDate ?? Date()))
+        reactor?.action.onNext(.showEmotionView(reactor?.currentState.selectedDate ?? Date()))
     }
     
     override func viewDidLoad() {
@@ -82,7 +81,7 @@ class AddTodoViewController: UIViewController {
 extension AddTodoViewController: View {
     func bind(reactor: AddTodoReactor) {
         emotionButton.rx.tap
-            .map { Reactor.Action.showEmotionView(self.selectedDate ?? Date()) }
+            .map { Reactor.Action.showEmotionView(reactor.currentState.selectedDate) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

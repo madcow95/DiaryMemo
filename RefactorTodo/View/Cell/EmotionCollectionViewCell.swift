@@ -3,11 +3,10 @@ import SnapKit
 
 class EmotionCollectionViewCell: UICollectionViewCell {
     
-    private lazy var emotionImage: UIImageView = {
+    lazy var emotionImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.image = UIImage(systemName: "sun.max")
         
         return imageView
     }()
@@ -23,11 +22,13 @@ class EmotionCollectionViewCell: UICollectionViewCell {
     }
     
     func initialCell() {
-        contentView.backgroundColor = .brown
         contentView.addSubview(emotionImage)
         emotionImage.snp.makeConstraints {
-            $0.centerX.equalTo(contentView.snp.centerX)
-            $0.centerY.equalTo(contentView.snp.centerY)
+            $0.edges.equalToSuperview()
         }
+    }
+    
+    func configureCell(imgName: String) {
+        emotionImage.image = UIImage(named: imgName)
     }
 }

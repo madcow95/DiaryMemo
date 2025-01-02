@@ -5,14 +5,13 @@ import ReactorKit
 class EmotionViewController: UIViewController {
     var disposeBag = DisposeBag()
     
-    private lazy var selectedDate = reactor?.selectedDate
-    private lazy var dateLabel = TodoLabel(text: Date().dateToString(date: selectedDate),
+    private lazy var dateLabel = TodoLabel(text: Date().dateToString(date: reactor?.currentState.selectedDate),
                                            textColor: .lightGray,
                                            fontWeight: .bold)
     private let todayEmotionLabel = TodoLabel(text: "오늘은 어떤 하루였나요?",
                                               fontSize: 17,
                                               fontWeight: .semibold)
-    private lazy var emotionCollection: UICollectionView = {
+    private lazy var emotionCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -50,8 +49,8 @@ class EmotionViewController: UIViewController {
     }
     
     func configureTable() {
-        view.addSubview(emotionCollection)
-        emotionCollection.snp.makeConstraints {
+        view.addSubview(emotionCollectionView)
+        emotionCollectionView.snp.makeConstraints {
             $0.top.equalTo(todayEmotionLabel.snp.bottom).offset(10)
             $0.left.equalTo(view.snp.left).offset(10)
             $0.right.equalTo(view.snp.right).offset(-10)
@@ -62,18 +61,26 @@ class EmotionViewController: UIViewController {
 
 extension EmotionViewController: View {
     func bind(reactor: EmotionReactor) {
-        
+        emotionCollectionView.rx.itemSelected
+            .map { Reactor.Action.emotionSelect($0.item) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+            
     }
 }
 
 extension EmotionViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 50
+        return reactor?.currentState.emotionImages.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmotionCollectionViewCell", for: indexPath) as? EmotionCollectionViewCell else {
             return UICollectionViewCell()
+        }
+        
+        if let imgName = reactor?.currentState.emotionImages[indexPath.item] {
+            cell.configureCell(imgName: imgName)
         }
         
         return cell
@@ -91,9 +98,5 @@ extension EmotionViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacing: CGFloat) -> CGFloat {
         return 10
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
     }
 }
