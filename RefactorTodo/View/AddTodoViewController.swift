@@ -22,6 +22,12 @@ class AddTodoViewController: UIViewController {
         return textView
     }()
     private let addButton = AddButton(height: 50, title: "추가하기")
+    private lazy var deleteButton = UIBarButtonItem(
+        image: UIImage(systemName: "trash.fill")?.withTintColor(.systemGreen),
+        style: .done,
+        target: self,
+        action: nil
+    )
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -100,7 +106,18 @@ extension AddTodoViewController: View {
                         return Reactor.Action.editTodo(todo)
                     }
                 }
-                return Reactor.Action.addTodo(todo)
+                
+                return Reactor.Action.none
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        deleteButton.rx.tap
+            .map { _ in
+                if let todo = reactor.currentState.existTodo {
+                    return Reactor.Action.deleteTodo(todo)
+                }
+                return Reactor.Action.none
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -112,6 +129,7 @@ extension AddTodoViewController: View {
                 self?.todoContent.textColor = .black
                 self?.emotionButton.setImage(UIImage(named: todo.emotion), for: .normal)
                 self?.addButton.setTitle("수정하기", for: .normal)
+                self?.navigationItem.rightBarButtonItem = self?.deleteButton
             })
             .disposed(by: disposeBag)
         

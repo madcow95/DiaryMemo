@@ -12,7 +12,8 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reactor?.action.onNext(.loadAllTodosByYearMonth(Date()))
+        let currentPage = calendarView.currentPage
+        reactor?.action.onNext(.loadAllTodosByYearMonth(currentPage))
     }
     
     override func viewDidLoad() {
@@ -58,6 +59,8 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        let currentPage = calendar.currentPage
+        reactor?.action.onNext(.loadAllTodosByYearMonth(currentPage))
         calendarView.reloadData()
     }
     
@@ -72,7 +75,7 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
         } else {
             cell.backgroundView = nil
             cell.titleLabel.isHidden = false
-            cell.appearance.todayColor = .green
+            cell.appearance.todayColor = .clear
         }
     }
 }

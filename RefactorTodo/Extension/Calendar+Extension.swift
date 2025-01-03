@@ -16,7 +16,6 @@ class TodoCalendar: FSCalendar {
     func initialCalendar() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.locale = Locale(identifier: "ko_KR")
-        self.layer.cornerRadius = 8
         self.scrollEnabled = true
         self.scrollDirection = .vertical
         self.scope = .month
@@ -24,8 +23,8 @@ class TodoCalendar: FSCalendar {
         self.appearance.weekdayTextColor = .systemGreen
         self.appearance.headerTitleColor = .systemGreen
         self.appearance.headerTitleFont = UIFont.systemFont(ofSize: 20, weight: .bold)
-        self.appearance.todayColor = .systemGreen
-//        self.appearance.selectionColor = .systemGreen.withAlphaComponent(0.5)
-//        self.appearance.selectionColor = .clear
+        self.appearance.todayColor = .clear
+        self.appearance.selectionColor = .clear
+        self.placeholderType = .none
     }
 }

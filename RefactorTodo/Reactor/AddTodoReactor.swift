@@ -20,14 +20,17 @@ class AddTodoReactor: Reactor {
     enum Action {
         case addTodo(Todo)
         case editTodo(Todo)
+        case deleteTodo(TodoModel)
         case loadTodo(Date)
         case showEmotionView(Date)
         case updateEmotionIndex(Int)
+        case none
     }
     
     enum Mutation {
         case addTodo(Todo)
         case editTodo(Todo)
+        case deleteTodo(TodoModel)
         case loadTodo(TodoModel?)
         case showEmotionView(Date)
         case updateEmotionIndex(Int)
@@ -47,18 +50,22 @@ class AddTodoReactor: Reactor {
                 .do(onNext: { [weak self] _ in
                     self?.popViewController()
                 })
+        case .deleteTodo(let todo):
+            return CoreDataService.shared.deleteTodo(todo: todo)
+                .map { Mutation.deleteTodo(todo) }
+                .do(onNext: { [weak self] _ in
+                    self?.popViewController()
+                })
         case .loadTodo(let date):
             return CoreDataService.shared.loadTodoBy(date: date.dateToString(includeDay: .day))
                 .map { Mutation.loadTodo($0) }
         case .showEmotionView(let date):
-            return CoreDataService.shared.loadTodoBy(date: date.dateToString(includeDay: .day))
-                .flatMap { todo -> Observable<Mutation> in
-                    guard todo != nil else { return .empty() }
-                    self.addTodoCoordinator?.showEmotionSelectView(date: date)
-                    return .empty()
-                }
+            self.addTodoCoordinator?.showEmotionSelectView(date: date)
+            return .empty()
         case .updateEmotionIndex(let index):
             return .just(.updateEmotionIndex(index))
+        default:
+            return .empty()
         }
     }
     
