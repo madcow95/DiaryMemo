@@ -13,7 +13,7 @@ class TodoLabel: UILabel {
     }
     
     convenience init(
-        text: String,
+        text: String?,
         textColor: UIColor = .black,
         fontSize: CGFloat = 14,
         fontWeight: UIFont.Weight = .regular

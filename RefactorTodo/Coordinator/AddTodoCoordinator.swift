@@ -4,7 +4,7 @@ final class AddTodoCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     weak var parentCoordinator: HomeCoorinator?
     let selectedDate: Date
-    private let navigationController: UINavigationController
+    let navigationController: UINavigationController
     
     init(navigationController: UINavigationController, selectedDate: Date) {
         self.navigationController = navigationController
@@ -19,13 +19,20 @@ final class AddTodoCoordinator: Coordinator {
     }
     
     func showEmotionSelectView(date: Date) {
-        let reactor = EmotionReactor(selectedDate: date)
+        let addTodoReactor = navigationController.viewControllers
+            .compactMap { ($0 as? AddTodoViewController)?.reactor }
+            .first
+        
+        let emotionReactor = EmotionReactor(selectedDate: date)
+        emotionReactor.addTodoReactor = addTodoReactor
         let emotionVC = EmotionViewController()
-        emotionVC.reactor = reactor
+        emotionVC.reactor = emotionReactor
+        
         navigationController.present(emotionVC, animated: true)
     }
     
     func finish() {
+        navigationController.popViewController(animated: true)
         parentCoordinator?.childDidFinish(self)
     }
 }

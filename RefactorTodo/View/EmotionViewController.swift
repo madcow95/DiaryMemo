@@ -5,7 +5,7 @@ import ReactorKit
 class EmotionViewController: UIViewController {
     var disposeBag = DisposeBag()
     
-    private lazy var dateLabel = TodoLabel(text: Date().dateToString(date: reactor?.currentState.selectedDate),
+    private lazy var dateLabel = TodoLabel(text: reactor?.currentState.selectedDate.dateToString(),
                                            textColor: .lightGray,
                                            fontWeight: .bold)
     private let todayEmotionLabel = TodoLabel(text: "오늘은 어떤 하루였나요?",
@@ -62,10 +62,17 @@ class EmotionViewController: UIViewController {
 extension EmotionViewController: View {
     func bind(reactor: EmotionReactor) {
         emotionCollectionView.rx.itemSelected
-            .map { Reactor.Action.emotionSelect($0.item) }
+            .map { Reactor.Action.emotionSelect($0.row) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
             
+        reactor.state.map { $0.emotionSelected }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismiss(animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

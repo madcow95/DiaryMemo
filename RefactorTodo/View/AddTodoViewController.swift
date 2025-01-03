@@ -6,7 +6,7 @@ class AddTodoViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     private let emotionButton = AddButton(width: 25, height: 25)
-    private lazy var dateLabel = TodoLabel(text: Date().dateToString(date: reactor?.currentState.selectedDate),
+    private lazy var dateLabel = TodoLabel(text: reactor?.currentState.selectedDate.dateToString(),
                                       textColor: .lightGray,
                                       fontWeight: .bold)
     private let placeholderText = "오늘의 일기를 작성해주세요"
@@ -25,8 +25,8 @@ class AddTodoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // MARK: TODO - 선택된 날짜에 등록된 일기가 없을 때 실행
-        reactor?.action.onNext(.showEmotionView(reactor?.currentState.selectedDate ?? Date()))
+        reactor?.action.onNext(.showEmotionView(reactor?.initialState.selectedDate ?? Date()))
+        reactor?.action.onNext(.loadTodo(reactor?.initialState.selectedDate ?? Date()))
     }
     
     override func viewDidLoad() {
@@ -83,6 +83,35 @@ extension AddTodoViewController: View {
         emotionButton.rx.tap
             .map { Reactor.Action.showEmotionView(reactor.currentState.selectedDate) }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        addButton.rx.tap
+            .map { [weak self] _ in
+                let todo = Todo(context: CoreDataService.shared.context)
+                todo.content = self?.todoContent.text ?? ""
+                todo.date = self?.reactor?.currentState.selectedDate.dateToString(includeDay: .day) ?? "Unknown Date"
+                todo.emotion = "emoji_\(self?.reactor?.currentState.selectedImageIndex ?? 0).png"
+                todo.id = UUID().uuidString
+                return Reactor.Action.addTodo(todo)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.selectedImageIndex }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .map { "emoji_\($0).png" }
+            .map { UIImage(named: $0) }
+            .bind(to: emotionButton.rx.image())
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.existTodo }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] todo in
+                self?.todoContent.text = todo.content
+                self?.todoContent.textColor = .black
+                self?.emotionButton.setImage(UIImage(named: todo.emotion), for: .normal)
+            })
             .disposed(by: disposeBag)
     }
 }

@@ -15,7 +15,6 @@ class TodoCalendar: FSCalendar {
     
     func initialCalendar() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.dataSource = self
         self.locale = Locale(identifier: "ko_KR")
         self.layer.cornerRadius = 8
         self.scrollEnabled = true
@@ -26,13 +25,7 @@ class TodoCalendar: FSCalendar {
         self.appearance.headerTitleColor = .systemGreen
         self.appearance.headerTitleFont = UIFont.systemFont(ofSize: 20, weight: .bold)
         self.appearance.todayColor = .systemGreen
-        self.appearance.selectionColor = .systemGreen.withAlphaComponent(0.5)
-    }
-}
-
-extension TodoCalendar: FSCalendarDelegate, FSCalendarDataSource {
-    // 달력 스크롤 이벤트
-    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-//        print(calendar.currentPage)
+//        self.appearance.selectionColor = .systemGreen.withAlphaComponent(0.5)
+//        self.appearance.selectionColor = .clear
     }
 }

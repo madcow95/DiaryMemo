@@ -10,9 +10,18 @@ class HomeViewController: UIViewController {
     private let calendarView = TodoCalendar()
     private let addButton = AddButton(width: 50, height: 50)
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reactor?.action.onNext(.loadAllTodosByYearMonth(Date()))
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//        CoreDataService.shared.deleteAllData()
+//            .subscribe(onNext: {
+//                print("삭제완료")
+//            })
+//            .disposed(by: disposeBag)
         configureUI()
     }
     
@@ -23,6 +32,7 @@ class HomeViewController: UIViewController {
     
     func configureCalendar() {
         self.calendarView.delegate = self
+        self.calendarView.dataSource = self
         view.addSubview(calendarView)
         calendarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -41,10 +51,29 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: FSCalendarDelegate {
+extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     // 날짜를 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         reactor?.action.onNext(.moveToAddView(date))
+    }
+    
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        calendarView.reloadData()
+    }
+    
+    func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let dateStr = date.dateToString(includeDay: .day)
+        if let todo = reactor?.currentState.existTodos.first(where: { $0.date == dateStr }) {
+            let imageView = UIImageView(image: UIImage(named: todo.emotion))
+            imageView.contentMode = .scaleAspectFit
+            cell.backgroundView = imageView
+            cell.titleLabel.isHidden = true
+            cell.appearance.todayColor = .clear
+        } else {
+            cell.backgroundView = nil
+            cell.titleLabel.isHidden = false
+//            cell.appearance.todayColor = .green
+        }
     }
 }
 
@@ -55,6 +84,10 @@ extension HomeViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        
+        reactor.state.map { $0.existTodos }
+            .bind(onNext: { [weak self] todos in
+                self?.calendarView.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
 }
