@@ -22,7 +22,6 @@ final class AddTodoCoordinator: Coordinator {
         let addTodoReactor = navigationController.viewControllers
             .compactMap { ($0 as? AddTodoViewController)?.reactor }
             .first
-        
         let emotionReactor = EmotionReactor(selectedDate: date)
         emotionReactor.addTodoReactor = addTodoReactor
         let emotionVC = EmotionViewController()

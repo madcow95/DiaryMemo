@@ -19,6 +19,7 @@ class AddTodoReactor: Reactor {
     
     enum Action {
         case addTodo(Todo)
+        case editTodo(Todo)
         case loadTodo(Date)
         case showEmotionView(Date)
         case updateEmotionIndex(Int)
@@ -26,6 +27,7 @@ class AddTodoReactor: Reactor {
     
     enum Mutation {
         case addTodo(Todo)
+        case editTodo(Todo)
         case loadTodo(TodoModel?)
         case showEmotionView(Date)
         case updateEmotionIndex(Int)
@@ -35,17 +37,23 @@ class AddTodoReactor: Reactor {
         switch action {
         case .addTodo(let newTodo):
             return CoreDataService.shared.saveTodo(todo: newTodo)
+                .map { Mutation.addTodo(newTodo) }
                 .do(onNext: { [weak self] _ in
                     self?.popViewController()
                 })
-                .map { Mutation.addTodo(newTodo) }
+        case .editTodo(let newTodo):
+            return CoreDataService.shared.editTodo(editTodo: newTodo.toTodoModel())
+                .map { Mutation.editTodo(newTodo) }
+                .do(onNext: { [weak self] _ in
+                    self?.popViewController()
+                })
         case .loadTodo(let date):
             return CoreDataService.shared.loadTodoBy(date: date.dateToString(includeDay: .day))
                 .map { Mutation.loadTodo($0) }
         case .showEmotionView(let date):
             return CoreDataService.shared.loadTodoBy(date: date.dateToString(includeDay: .day))
                 .flatMap { todo -> Observable<Mutation> in
-                    guard todo == nil else { return .empty() }
+                    guard todo != nil else { return .empty() }
                     self.addTodoCoordinator?.showEmotionSelectView(date: date)
                     return .empty()
                 }
@@ -59,7 +67,11 @@ class AddTodoReactor: Reactor {
         
         switch mutation {
         case .loadTodo(let todo):
-            newState.existTodo = todo
+            if let todo = todo {
+                newState.existTodo = todo
+            } else {
+                self.addTodoCoordinator?.showEmotionSelectView(date: newState.selectedDate)
+            }
         case .updateEmotionIndex(let index):
             newState.selectedImageIndex = index
         default:

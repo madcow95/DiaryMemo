@@ -23,14 +23,40 @@ class CoreDataService {
         }
     }
     
+    func editTodo(editTodo: TodoModel) -> Observable<Void> {
+        return Observable.create { observer in
+            let request = Todo.fetchRequest()
+            request.predicate = NSPredicate(format: "date == %@", editTodo.date)
+            do {
+                let existTodos = try self.context.fetch(request)
+                existTodos.forEach { self.context.delete($0) }
+                
+                let editedTodo = Todo(context: self.context)
+                editedTodo.content = editTodo.content
+                editedTodo.emotion = editTodo.emotion
+                editedTodo.date = editTodo.date
+                editedTodo.photoPath = editTodo.photoPath
+                
+                try self.context.save()
+                observer.onNext(())
+                observer.onCompleted()
+                print("수정 완료!")
+            } catch {
+                observer.onError(error)
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
     func loadTodoBy(date: String) -> Observable<TodoModel?> {
         return Observable.create { observer in
             let request = Todo.fetchRequest()
             request.predicate = NSPredicate(format: "date == %@", date)
             do {
                 let todos = try self.context.fetch(request)
-                print(todos.first?.toTodoModel() ?? "데이터 없음")
-                observer.onNext(todos.first?.toTodoModel())
+                print(todos.last?.toTodoModel() ?? "데이터 없음")
+                observer.onNext(todos.last?.toTodoModel())
                 observer.onCompleted()
             } catch {
                 observer.onError(error)
