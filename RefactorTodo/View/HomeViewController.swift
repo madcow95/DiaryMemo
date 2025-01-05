@@ -76,6 +76,12 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
             cell.backgroundView = nil
             cell.titleLabel.isHidden = false
             cell.appearance.todayColor = .clear
+            
+            if date.dateToString() == Date().dateToString() {
+                cell.backgroundView = nil
+                cell.appearance.titleTodayColor = .systemGreen
+                cell.titleLabel.isHidden = false
+            }
         }
     }
 }
