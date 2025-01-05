@@ -12,6 +12,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        calendarView.reloadData()
         let currentPage = calendarView.currentPage
         reactor?.action.onNext(.loadAllTodosByYearMonth(currentPage))
     }

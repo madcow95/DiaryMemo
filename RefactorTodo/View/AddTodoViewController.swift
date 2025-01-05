@@ -21,7 +21,24 @@ class AddTodoViewController: UIViewController {
         
         return textView
     }()
-    private let addButton = AddButton(height: 50, title: "추가하기")
+    private lazy var bottomStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.addArrangedSubview(photoButton)
+        stack.addArrangedSubview(saveButton)
+        stack.distribution = .equalSpacing
+        
+        return stack
+    }()
+    private let photoButton = CustomButton(width: 50,
+                                           height: 50,
+                                           image: UIImage(systemName: "photo.fill"),
+                                           tintColor: .systemGreen)
+    private let saveButton = CustomButton(width: 50,
+                                          height: 50,
+                                          image: UIImage(systemName: "checkmark"),
+                                          tintColor: .systemGreen)
     private lazy var deleteButton = UIBarButtonItem(
         image: UIImage(systemName: "trash.fill")?.withTintColor(.systemGreen),
         style: .done,
@@ -45,8 +62,8 @@ class AddTodoViewController: UIViewController {
         navigationController?.tabBarController?.isTabBarHidden = true
         configureButton()
         configureLabel()
+        configureBottomView()
         configureTextView()
-        configureAddButton()
     }
     
     func configureButton() {
@@ -65,21 +82,29 @@ class AddTodoViewController: UIViewController {
         }
     }
     
+    func configureBottomView() {
+        view.addSubview(bottomStackView)
+        
+        bottomStackView.snp.makeConstraints {
+            $0.left.equalTo(view.snp.left).offset(10)
+            $0.right.equalTo(view.snp.right).offset(-10)
+            $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top)
+            $0.height.equalTo(50)
+        }
+        
+        NotificationCenter.default.addObserver(
+            forName: UIResponder.keyboardWillShowNotification,
+            object: nil,
+            queue: .main) { _ in }
+    }
+    
     func configureTextView() {
         view.addSubview(todoContent)
         todoContent.snp.makeConstraints {
             $0.top.equalTo(dateLabel.snp.bottom).offset(10)
             $0.left.equalTo(view.snp.left).offset(10)
             $0.right.equalTo(view.snp.right).offset(-10)
-        }
-    }
-    
-    func configureAddButton() {
-        view.addSubview(addButton)
-        addButton.snp.makeConstraints {
-            $0.top.equalTo(todoContent.snp.bottom).offset(10)
-            $0.left.right.equalTo(todoContent)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-5)
+            $0.bottom.equalTo(bottomStackView.snp.top).offset(-10)
         }
     }
 }
@@ -91,7 +116,7 @@ extension AddTodoViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        addButton.rx.tap
+        saveButton.rx.tap
             .map { [weak self] _ in
                 let todo = Todo(context: CoreDataService.shared.context)
                 todo.content = self?.todoContent.text ?? ""
@@ -99,15 +124,7 @@ extension AddTodoViewController: View {
                 todo.emotion = "emoji_\(self?.reactor?.currentState.selectedImageIndex ?? 0).png"
                 todo.id = UUID().uuidString
                 
-                if let titleLabel = self?.addButton.titleLabel, let title = titleLabel.text {
-                    if title == "추가하기" {
-                        return Reactor.Action.addTodo(todo)
-                    } else {
-                        return Reactor.Action.editTodo(todo)
-                    }
-                }
-                
-                return Reactor.Action.none
+                return Reactor.Action.addTodo(todo)
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -128,7 +145,6 @@ extension AddTodoViewController: View {
                 self?.todoContent.text = todo.content
                 self?.todoContent.textColor = .black
                 self?.emotionButton.setImage(UIImage(named: todo.emotion), for: .normal)
-                self?.addButton.setTitle("수정하기", for: .normal)
                 self?.navigationItem.rightBarButtonItem = self?.deleteButton
             })
             .disposed(by: disposeBag)

@@ -43,3 +43,44 @@ class AddButton: UIButton {
         self.tintColor = .white
     }
 }
+
+class CustomButton: UIButton {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    convenience init(
+        width: CGFloat? = nil,
+        height: CGFloat? = nil,
+        image: UIImage? = nil,
+        title: String? = nil,
+        tintColor: UIColor? = nil,
+        backgroundColor: UIColor? = .clear
+    ) {
+        self.init()
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
+        if let width = width {
+            self.widthAnchor.constraint(equalToConstant: width).isActive = true
+        }
+        if let height = height {
+            self.heightAnchor.constraint(equalToConstant: height).isActive = true
+        }
+        if let image = image {
+            self.setImage(image, for: .normal)
+        }
+        if let title = title {
+            self.setTitle(title, for: .normal)
+        }
+        if let tintColor = tintColor {
+            self.tintColor = tintColor
+        }
+        if let backgroundColor = backgroundColor {
+            self.backgroundColor = backgroundColor
+        }
+    }
+}

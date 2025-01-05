@@ -36,6 +36,7 @@ class AddTodoReactor: Reactor {
         case updateEmotionIndex(Int)
     }
     
+    // MARK: TODO - add / edit을 구분짓지 않고 add할 때 같은 날에 저장된 일기가 있으면 그 일기를 지우고 새로 등록하는 방식으로 수정
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .addTodo(let newTodo):
