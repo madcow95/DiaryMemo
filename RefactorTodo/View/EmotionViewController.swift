@@ -96,6 +96,7 @@ extension EmotionViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let spacing: CGFloat = 10
         let width = (collectionView.frame.width - spacing * 4) / 3
+        
         return CGSize(width: width, height: width)
     }
     

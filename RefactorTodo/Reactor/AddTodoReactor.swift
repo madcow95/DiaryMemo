@@ -8,13 +8,14 @@ class AddTodoReactor: Reactor {
     
     init(addTodoCoordinator: AddTodoCoordinator, selectedDate: Date) {
         self.addTodoCoordinator = addTodoCoordinator
-        self.initialState = State(selectedDate: selectedDate)
+        self.initialState = State(selectedDate: selectedDate, selectedPhotos: [])
     }
     
     struct State {
         var selectedDate: Date
         var selectedImageIndex: Int?
         var existTodo: TodoModel?
+        var selectedPhotos: [UIImage]
     }
     
     enum Action {
@@ -24,6 +25,7 @@ class AddTodoReactor: Reactor {
         case showEmotionView(Date)
         case updateEmotionIndex(Int)
         case showPhotoLibrary
+        case imageSelected([UIImage])
         case none
     }
     
@@ -34,6 +36,7 @@ class AddTodoReactor: Reactor {
         case showEmotionView(Date)
         case updateEmotionIndex(Int)
         case showPhotoLibrary
+        case imageSelected([UIImage])
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -60,6 +63,8 @@ class AddTodoReactor: Reactor {
             return .just(.updateEmotionIndex(index))
         case .showPhotoLibrary:
             return .just(.showPhotoLibrary)
+        case .imageSelected(let images):
+            return .just(.imageSelected(images))
         default:
             return .empty()
         }
@@ -78,7 +83,9 @@ class AddTodoReactor: Reactor {
         case .updateEmotionIndex(let index):
             newState.selectedImageIndex = index
         case .showPhotoLibrary:
-            self.addTodoCoordinator?.showPhotoLibaryView()
+            self.addTodoCoordinator?.showPhotoLibaryView(photo: newState.selectedPhotos.count)
+        case .imageSelected(let images):
+            newState.selectedPhotos = images
         default:
             break
         }

@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
         calendarView.reloadData()
         let currentPage = calendarView.currentPage
         reactor?.action.onNext(.loadAllTodosByYearMonth(currentPage))
+        navigationController?.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidLoad() {

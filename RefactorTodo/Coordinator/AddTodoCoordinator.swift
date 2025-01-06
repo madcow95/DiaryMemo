@@ -1,5 +1,6 @@
 import UIKit
 import Photos
+import PhotosUI
 
 final class AddTodoCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
@@ -31,7 +32,7 @@ final class AddTodoCoordinator: Coordinator {
         navigationController.present(emotionVC, animated: true)
     }
     
-    func showPhotoLibaryView() {
+    func showPhotoLibaryView(photo count: Int) {
         let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
         
         switch status {
@@ -39,12 +40,12 @@ final class AddTodoCoordinator: Coordinator {
             PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] status in
                 DispatchQueue.main.async {
                     if status == .authorized {
-                        self?.presentImagePicker()
+                        self?.presentImagePicker(photo: count)
                     }
                 }
             }
         case .authorized:
-            presentImagePicker()
+            presentImagePicker(photo: count)
         case .denied, .restricted:
             let alert = UIAlertController(
                 title: "갤러리 접근 권한이 필요합니다",
@@ -68,11 +69,14 @@ final class AddTodoCoordinator: Coordinator {
         }
     }
     
-    private func presentImagePicker() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.delegate = navigationController.viewControllers.last as? AddTodoViewController
-        navigationController.present(imagePickerController, animated: true)
+    private func presentImagePicker(photo count: Int) {
+        var config = PHPickerConfiguration(photoLibrary: .shared())
+        config.selectionLimit = 5 - count
+        config.filter = .images
+        
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = navigationController.viewControllers.last as? PHPickerViewControllerDelegate
+        navigationController.present(picker, animated: true)
     }
     
     func finish() {
