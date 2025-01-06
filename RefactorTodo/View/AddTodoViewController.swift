@@ -67,6 +67,7 @@ class AddTodoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         reactor?.action.onNext(.loadTodo(reactor?.initialState.selectedDate ?? Date()))
         navigationController?.tabBarController?.tabBar.isHidden = true
     }
@@ -256,6 +257,7 @@ extension AddTodoViewController: PHPickerViewControllerDelegate {
 
 extension AddTodoViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(reactor?.currentState.selectedPhotos.count)
         return reactor?.currentState.selectedPhotos.count ?? 0
     }
     
@@ -265,16 +267,15 @@ extension AddTodoViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
         
         if let image = reactor?.currentState.selectedPhotos[indexPath.item] {
-            cell.configureCell(photo: image)
+            cell.configureCell(photo: image, index: indexPath.item)
+            cell.photoDelegate = self
         }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = 150
-        let height: CGFloat = 150
-        return CGSize(width: width, height: height)
+        return CGSize(width: 150, height: 150)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -300,5 +301,11 @@ extension AddTodoViewController: UITextViewDelegate {
             textView.text = placeholderText
             textView.textColor = .lightGray
         }
+    }
+}
+
+extension AddTodoViewController: PhotoDeleteDelegate {
+    func deletePhoto(index: Int) {
+        reactor?.action.onNext(.deleteImage(index))
     }
 }

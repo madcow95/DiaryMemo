@@ -26,6 +26,7 @@ class AddTodoReactor: Reactor {
         case updateEmotionIndex(Int)
         case showPhotoLibrary
         case imageSelected([UIImage])
+        case deleteImage(Int)
         case none
     }
     
@@ -37,6 +38,7 @@ class AddTodoReactor: Reactor {
         case updateEmotionIndex(Int)
         case showPhotoLibrary
         case imageSelected([UIImage])
+        case deleteImage(Int)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -65,6 +67,8 @@ class AddTodoReactor: Reactor {
             return .just(.showPhotoLibrary)
         case .imageSelected(let images):
             return .just(.imageSelected(images))
+        case .deleteImage(let index):
+            return .just(.deleteImage(index))
         default:
             return .empty()
         }
@@ -85,7 +89,9 @@ class AddTodoReactor: Reactor {
         case .showPhotoLibrary:
             self.addTodoCoordinator?.showPhotoLibaryView(photo: newState.selectedPhotos.count)
         case .imageSelected(let images):
-            newState.selectedPhotos = images
+            newState.selectedPhotos += images
+        case .deleteImage(let index):
+            newState.selectedPhotos.remove(at: index)
         default:
             break
         }

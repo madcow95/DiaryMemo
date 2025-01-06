@@ -5,3 +5,7 @@ protocol Coordinator: AnyObject {
     var childCoordinators: [Coordinator] { get set }
     func start()
 }
+
+protocol PhotoDeleteDelegate {
+    func deletePhoto(index: Int)
+}
