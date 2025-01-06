@@ -27,6 +27,7 @@ class AddTodoReactor: Reactor {
         case showPhotoLibrary
         case imageSelected([UIImage])
         case deleteImage(Int)
+        case clearPhotos
         case none
     }
     
@@ -39,6 +40,7 @@ class AddTodoReactor: Reactor {
         case showPhotoLibrary
         case imageSelected([UIImage])
         case deleteImage(Int)
+        case clearPhotos
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -69,6 +71,8 @@ class AddTodoReactor: Reactor {
             return .just(.imageSelected(images))
         case .deleteImage(let index):
             return .just(.deleteImage(index))
+        case .clearPhotos:
+            return .just(.clearPhotos)
         default:
             return .empty()
         }
@@ -92,6 +96,8 @@ class AddTodoReactor: Reactor {
             newState.selectedPhotos += images
         case .deleteImage(let index):
             newState.selectedPhotos.remove(at: index)
+        case .clearPhotos:
+            newState.selectedPhotos = []
         default:
             break
         }

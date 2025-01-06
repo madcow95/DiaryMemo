@@ -78,6 +78,15 @@ class AddTodoViewController: UIViewController {
         configureUI()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        photoCollection.delegate = nil
+        photoCollection.dataSource = nil
+        reactor?.action.onNext(.clearPhotos)
+        photoCollection.removeFromSuperview()
+    }
+    
     func configureUI() {
         configureButton()
         configureLabel()
@@ -257,7 +266,6 @@ extension AddTodoViewController: PHPickerViewControllerDelegate {
 
 extension AddTodoViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(reactor?.currentState.selectedPhotos.count)
         return reactor?.currentState.selectedPhotos.count ?? 0
     }
     

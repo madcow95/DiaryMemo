@@ -40,6 +40,12 @@ class PhotoCollectionCell: UICollectionViewCell {
         let interaction = UIContextMenuInteraction(delegate: self)
         self.addInteraction(interaction)
     }
+    
+    override func prepareForReuse() {
+       super.prepareForReuse()
+       
+       photoView.image = nil
+   }
 }
 
 extension PhotoCollectionCell: UIContextMenuInteractionDelegate {
