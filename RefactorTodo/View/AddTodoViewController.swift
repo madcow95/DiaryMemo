@@ -17,7 +17,6 @@ class AddTodoViewController: UIViewController {
         textView.backgroundColor = .white
         textView.text = "오늘의 일기를 작성해주세요"
         textView.textColor = textView.text == "오늘의 일기를 작성해주세요" ? .lightGray : .black
-        textView.delegate = self
         
         return textView
     }()
@@ -48,7 +47,6 @@ class AddTodoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        reactor?.action.onNext(.showEmotionView(reactor?.initialState.selectedDate ?? Date()))
         reactor?.action.onNext(.loadTodo(reactor?.initialState.selectedDate ?? Date()))
     }
     
@@ -116,13 +114,20 @@ extension AddTodoViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        photoButton.rx.tap
+            .map { Reactor.Action.showPhotoLibrary }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         saveButton.rx.tap
             .map { [weak self] _ in
-                let todo = Todo(context: CoreDataService.shared.context)
-                todo.content = self?.todoContent.text ?? ""
-                todo.date = self?.reactor?.currentState.selectedDate.dateToString(includeDay: .day) ?? "Unknown Date"
-                todo.emotion = "emoji_\(self?.reactor?.currentState.selectedImageIndex ?? 0).png"
-                todo.id = UUID().uuidString
+                let todo = TodoModel(
+                    id: UUID().uuidString,
+                    date: self?.reactor?.currentState.selectedDate.dateToString(includeDay: .day) ?? "Unknown Date",
+                    content: self?.todoContent.text ?? "",
+                    emotion: "emoji_\(self?.reactor?.currentState.selectedImageIndex ?? 0).png",
+                    photoPath: ""
+                )
                 
                 return Reactor.Action.addTodo(todo)
             }
@@ -160,19 +165,14 @@ extension AddTodoViewController: View {
     }
 }
 
-extension AddTodoViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == placeholderText {
-            textView.text = ""
-            textView.textColor = .black
+extension AddTodoViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
         }
+        picker.dismiss(animated: true)
     }
-       
-   // 텍스트뷰 편집 종료할 때
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-           textView.text = placeholderText
-           textView.textColor = .lightGray
-        }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
     }
 }

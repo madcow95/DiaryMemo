@@ -6,11 +6,25 @@ class CoreDataService {
     static let shared = CoreDataService()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func saveTodo(todo: Todo) -> Observable<Void> {
+    func saveTodo(todo: TodoModel) -> Observable<Void> {
         return Observable.create { observer in
-            self.context.insert(todo)
-            print(todo.toTodoModel())
+            let request = Todo.fetchRequest()
+            request.predicate = NSPredicate(format: "date == %@", todo.date)
             do {
+                let existTodos = try self.context.fetch(request)
+                if existTodos.count > 0 {
+                    existTodos.forEach { self.context.delete($0) }
+                }
+                
+                let createTodo = Todo(context: self.context)
+                createTodo.content = todo.content
+                createTodo.date = todo.date
+                createTodo.emotion = todo.emotion
+                createTodo.id = todo.id
+                
+                self.context.insert(createTodo)
+                print(createTodo.toTodoModel())
+                
                 try self.context.save()
                 observer.onNext(())
                 observer.onCompleted()
@@ -23,33 +37,7 @@ class CoreDataService {
         }
     }
     
-    func editTodo(editTodo: TodoModel) -> Observable<Void> {
-        return Observable.create { observer in
-            let request = Todo.fetchRequest()
-            request.predicate = NSPredicate(format: "date == %@", editTodo.date)
-            do {
-                let existTodos = try self.context.fetch(request)
-                existTodos.forEach { self.context.delete($0) }
-                
-                let editedTodo = Todo(context: self.context)
-                editedTodo.content = editTodo.content
-                editedTodo.emotion = editTodo.emotion
-                editedTodo.date = editTodo.date
-                editedTodo.photoPath = editTodo.photoPath
-                
-                try self.context.save()
-                observer.onNext(())
-                observer.onCompleted()
-                print("수정 완료!")
-            } catch {
-                observer.onError(error)
-            }
-            
-            return Disposables.create()
-        }
-    }
-    
-    func deleteTodo(todo: TodoModel) -> Observable<Void> {
+    func deleteTodoForReactor(todo: TodoModel) -> Observable<Void> {
         return Observable.create { observer in
             let request = Todo.fetchRequest()
             request.predicate = NSPredicate(format: "date == %@", todo.date)
@@ -67,6 +55,21 @@ class CoreDataService {
             }
             
             return Disposables.create()
+        }
+    }
+    
+    func deleteTodo(date: String) {
+        let request = Todo.fetchRequest()
+        request.predicate = NSPredicate(format: "date == %@", date)
+        
+        do {
+            let existTodos = try self.context.fetch(request)
+            existTodos.forEach { self.context.delete( $0 ) }
+            
+            try self.context.save()
+            print("삭제 완료!")
+        } catch {
+            print("삭제하는 중 에러발생")
         }
     }
     

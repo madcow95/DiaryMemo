@@ -1,4 +1,5 @@
 import UIKit
+import Photos
 
 final class AddTodoCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
@@ -28,6 +29,50 @@ final class AddTodoCoordinator: Coordinator {
         emotionVC.reactor = emotionReactor
         
         navigationController.present(emotionVC, animated: true)
+    }
+    
+    func showPhotoLibaryView() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+        
+        switch status {
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] status in
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        self?.presentImagePicker()
+                    }
+                }
+            }
+        case .authorized:
+            presentImagePicker()
+        case .denied, .restricted:
+            let alert = UIAlertController(
+                title: "갤러리 접근 권한이 필요합니다",
+                message: "설정에서 갤러리 접근 권한을 허용해주세요",
+                preferredStyle: .alert
+            )
+            
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+            let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(settingsURL)
+                }
+            }
+            
+            alert.addAction(cancelAction)
+            alert.addAction(settingsAction)
+            
+            navigationController.present(alert, animated: true)
+        default:
+            break
+        }
+    }
+    
+    private func presentImagePicker() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.delegate = navigationController.viewControllers.last as? AddTodoViewController
+        navigationController.present(imagePickerController, animated: true)
     }
     
     func finish() {

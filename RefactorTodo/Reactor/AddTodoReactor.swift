@@ -18,25 +18,24 @@ class AddTodoReactor: Reactor {
     }
     
     enum Action {
-        case addTodo(Todo)
-        case editTodo(Todo)
+        case addTodo(TodoModel)
         case deleteTodo(TodoModel)
         case loadTodo(Date)
         case showEmotionView(Date)
         case updateEmotionIndex(Int)
+        case showPhotoLibrary
         case none
     }
     
     enum Mutation {
-        case addTodo(Todo)
-        case editTodo(Todo)
+        case addTodo(TodoModel)
         case deleteTodo(TodoModel)
         case loadTodo(TodoModel?)
         case showEmotionView(Date)
         case updateEmotionIndex(Int)
+        case showPhotoLibrary
     }
     
-    // MARK: TODO - add / edit을 구분짓지 않고 add할 때 같은 날에 저장된 일기가 있으면 그 일기를 지우고 새로 등록하는 방식으로 수정
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .addTodo(let newTodo):
@@ -45,14 +44,8 @@ class AddTodoReactor: Reactor {
                 .do(onNext: { [weak self] _ in
                     self?.popViewController()
                 })
-        case .editTodo(let newTodo):
-            return CoreDataService.shared.editTodo(editTodo: newTodo.toTodoModel())
-                .map { Mutation.editTodo(newTodo) }
-                .do(onNext: { [weak self] _ in
-                    self?.popViewController()
-                })
         case .deleteTodo(let todo):
-            return CoreDataService.shared.deleteTodo(todo: todo)
+            return CoreDataService.shared.deleteTodoForReactor(todo: todo)
                 .map { Mutation.deleteTodo(todo) }
                 .do(onNext: { [weak self] _ in
                     self?.popViewController()
@@ -65,6 +58,8 @@ class AddTodoReactor: Reactor {
             return .empty()
         case .updateEmotionIndex(let index):
             return .just(.updateEmotionIndex(index))
+        case .showPhotoLibrary:
+            return .just(.showPhotoLibrary)
         default:
             return .empty()
         }
@@ -82,6 +77,8 @@ class AddTodoReactor: Reactor {
             }
         case .updateEmotionIndex(let index):
             newState.selectedImageIndex = index
+        case .showPhotoLibrary:
+            self.addTodoCoordinator?.showPhotoLibaryView()
         default:
             break
         }
