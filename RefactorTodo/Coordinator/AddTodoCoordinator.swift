@@ -47,23 +47,30 @@ final class AddTodoCoordinator: Coordinator {
         case .authorized:
             presentImagePicker(photo: count)
         case .denied, .restricted:
-            let alert = UIAlertController(
-                title: "갤러리 접근 권한이 필요합니다",
-                message: "설정에서 갤러리 접근 권한을 허용해주세요",
-                preferredStyle: .alert
-            )
-            
-            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-            let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+            navigationController.showAlert(alertTitle: "갤러리 접근 권한이 필요합니다",
+                                           msg: "설정에서 갤러리 접근 권한을 허용해주세요",
+                                           confirm: "설정으로 이동") {
                 if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(settingsURL)
                 }
             }
+//            let alert = UIAlertController(
+//                title: "갤러리 접근 권한이 필요합니다",
+//                message: "설정에서 갤러리 접근 권한을 허용해주세요",
+//                preferredStyle: .alert
+//            )
+//            
+//            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+//            let settingsAction = UIAlertAction(title: "설정으로 이동", style: .default) { _ in
+//                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+//                    UIApplication.shared.open(settingsURL)
+//                }
+//            }
+//            
+//            alert.addAction(cancelAction)
+//            alert.addAction(settingsAction)
             
-            alert.addAction(cancelAction)
-            alert.addAction(settingsAction)
-            
-            navigationController.present(alert, animated: true)
+//            navigationController.present(alert, animated: true)
         default:
             break
         }
