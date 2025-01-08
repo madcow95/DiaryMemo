@@ -12,6 +12,7 @@ class AddTodoReactor: Reactor {
     }
     
     struct State {
+        var createdTodo: TodoModel?
         var selectedDate: Date
         var selectedImageIndex: Int?
         var existTodo: TodoModel?
@@ -19,7 +20,7 @@ class AddTodoReactor: Reactor {
     }
     
     enum Action {
-        case addTodo(TodoModel)
+        case addTodo(TodoModel, [UIImage])
         case deleteTodo(TodoModel)
         case loadTodo(Date)
         case showEmotionView(Date)
@@ -41,16 +42,20 @@ class AddTodoReactor: Reactor {
         case imageSelected([UIImage])
         case deleteImage(Int)
         case clearPhotos
+        case savePhotos([UIImage])
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .addTodo(let newTodo):
-            return CoreDataService.shared.saveTodo(todo: newTodo)
-                .map { Mutation.addTodo(newTodo) }
-                .do(onNext: { [weak self] _ in
-                    self?.popViewController()
-                })
+        case .addTodo(let newTodo, let images):
+            return .concat([
+                CoreDataService.shared.saveTodo(todo: newTodo)
+                    .map { Mutation.addTodo(newTodo) }
+                    .do(onNext: { [weak self] _ in
+                        self?.popViewController()
+                    }),
+                .just(.savePhotos(images))
+            ])
         case .deleteTodo(let todo):
             return CoreDataService.shared.deleteTodoForReactor(todo: todo)
                 .map { Mutation.deleteTodo(todo) }
@@ -82,8 +87,11 @@ class AddTodoReactor: Reactor {
         var newState = state
         
         switch mutation {
+        case .addTodo(let todo):
+            newState.createdTodo = todo
         case .loadTodo(let todo):
             if let todo = todo {
+                print(todo)
                 newState.existTodo = todo
             } else {
                 self.addTodoCoordinator?.showEmotionSelectView(date: newState.selectedDate)
@@ -98,6 +106,23 @@ class AddTodoReactor: Reactor {
             newState.selectedPhotos.remove(at: index)
         case .clearPhotos:
             newState.selectedPhotos = []
+        case .savePhotos(let images):
+            let dateStr = newState.selectedDate.dateToString(includeDay: .day)
+            let photoInfo = images.enumerated().map { ($1, "\(dateStr)-\($0)") }
+            
+            FirebaseService.shared.savePhotos(photoInfo: photoInfo,
+                                              date: dateStr) { result in
+                switch result {
+                case .success(let urls):
+                    print("이미지 url -> \(urls)")
+                    if var todo = newState.createdTodo {
+                        todo.photoPath = urls
+                        CoreDataService.shared.editTodo(todo: todo)
+                    }
+                case .failure(let error):
+                    print("이미지 업로드 실패 -> \(error.localizedDescription)")
+                }
+            }
         default:
             break
         }

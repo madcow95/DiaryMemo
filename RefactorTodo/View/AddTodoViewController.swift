@@ -168,10 +168,10 @@ extension AddTodoViewController: View {
                     date: self?.reactor?.currentState.selectedDate.dateToString(includeDay: .day) ?? "Unknown Date",
                     content: self?.todoContent.text ?? "",
                     emotion: "emoji_\(self?.reactor?.currentState.selectedImageIndex ?? 0).png",
-                    photoPath: ""
+                    photoPath: []
                 )
                 
-                return Reactor.Action.addTodo(todo)
+                return Reactor.Action.addTodo(todo, self?.reactor?.currentState.selectedPhotos ?? [])
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

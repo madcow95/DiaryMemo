@@ -37,6 +37,32 @@ class CoreDataService {
         }
     }
     
+    func editTodo(todo: TodoModel) {
+        let request = Todo.fetchRequest()
+        request.predicate = NSPredicate(format: "date == %@", todo.date)
+        do {
+            let existTodos = try self.context.fetch(request)
+            if existTodos.count > 0 {
+                existTodos.forEach { self.context.delete($0) }
+            }
+            
+            let createTodo = Todo(context: self.context)
+            createTodo.content = todo.content
+            createTodo.date = todo.date
+            createTodo.emotion = todo.emotion
+            createTodo.id = todo.id
+            createTodo.photoPath = todo.photoPath.joined(separator: ",")
+            
+            self.context.insert(createTodo)
+            print(createTodo.toTodoModel())
+            
+            try self.context.save()
+            print("저장 완료!")
+        } catch {
+            print("저장 실패! -> \(error)")
+        }
+    }
+    
     func deleteTodoForReactor(todo: TodoModel) -> Observable<Void> {
         return Observable.create { observer in
             let request = Todo.fetchRequest()

@@ -11,7 +11,7 @@ struct TodoModel {
     let date: String
     let content: String
     let emotion: String
-    let photoPath: String
+    var photoPath: [String]
 }
 
 extension Todo {
@@ -20,6 +20,6 @@ extension Todo {
                          date: self.date,
                          content: self.content,
                          emotion: self.emotion,
-                         photoPath: self.photoPath)
+                         photoPath: self.photoPath.components(separatedBy: ","))
     }
 }
