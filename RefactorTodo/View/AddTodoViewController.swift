@@ -283,6 +283,12 @@ extension AddTodoViewController: UICollectionViewDelegate, UICollectionViewDataS
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let loadedImage = reactor?.currentState.selectedPhotos {
+            reactor?.action.onNext(.showImageViewer(loadedImage, indexPath.item))
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 150, height: 150)
     }

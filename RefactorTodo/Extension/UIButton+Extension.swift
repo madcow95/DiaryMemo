@@ -17,7 +17,8 @@ class AddButton: UIButton {
         width: CGFloat? = nil,
         height: CGFloat? = nil,
         image: UIImage? = nil,
-        title: String = ""
+        title: String = "",
+        imageColor: UIColor = .white
     ) {
         self.init()
         if let width = width {
@@ -30,6 +31,7 @@ class AddButton: UIButton {
         }
         if let img = image {
             self.setImage(img, for: .normal)
+            self.tintColor = imageColor
         }
         if !title.isEmpty {
             self.setTitle(title, for: .normal)

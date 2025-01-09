@@ -29,6 +29,7 @@ class AddTodoReactor: Reactor {
         case imageSelected([UIImage])
         case deleteImage(Int)
         case clearPhotos
+        case showImageViewer([UIImage], Int)
         case none
     }
     
@@ -44,6 +45,7 @@ class AddTodoReactor: Reactor {
         case loadImages([Data]?)
         case clearPhotos
         case savePhotos([UIImage])
+        case showImageViewer([UIImage], Int)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -87,6 +89,8 @@ class AddTodoReactor: Reactor {
             return .just(.deleteImage(index))
         case .clearPhotos:
             return .just(.clearPhotos)
+        case .showImageViewer(let images, let index):
+            return .just(.showImageViewer(images, index))
         default:
             return .empty()
         }
@@ -132,6 +136,8 @@ class AddTodoReactor: Reactor {
                 
                 CoreDataService.shared.editTodo(todo: todo)
             }
+        case .showImageViewer(let images, let index):
+            self.addTodoCoordinator?.showImageViewer(images: images, index: index)
         default:
             break
         }
