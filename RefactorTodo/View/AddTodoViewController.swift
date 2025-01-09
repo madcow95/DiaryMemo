@@ -164,11 +164,10 @@ extension AddTodoViewController: View {
         saveButton.rx.tap
             .map { [weak self] _ in
                 let todo = TodoModel(
-                    id: UUID().uuidString,
                     date: self?.reactor?.currentState.selectedDate.dateToString(includeDay: .day) ?? "Unknown Date",
                     content: self?.todoContent.text ?? "",
                     emotion: "emoji_\(self?.reactor?.currentState.selectedImageIndex ?? 0).png",
-                    photoPath: []
+                    images: []
                 )
                 
                 return Reactor.Action.addTodo(todo, self?.reactor?.currentState.selectedPhotos ?? [])
@@ -187,12 +186,14 @@ extension AddTodoViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state.compactMap { $0.existTodo }
+            .take(1)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] todo in
                 self?.todoContent.text = todo.content
                 self?.todoContent.textColor = .black
                 self?.emotionButton.setImage(UIImage(named: todo.emotion), for: .normal)
                 self?.navigationItem.rightBarButtonItem = self?.deleteButton
+                self?.reactor?.action.onNext(.loadImages(todo.images))
             })
             .disposed(by: disposeBag)
         

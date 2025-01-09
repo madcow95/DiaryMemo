@@ -28,6 +28,7 @@ class AddTodoReactor: Reactor {
         case showPhotoLibrary
         case imageSelected([UIImage])
         case deleteImage(Int)
+        case loadImages([Data]?)
         case clearPhotos
         case none
     }
@@ -41,6 +42,7 @@ class AddTodoReactor: Reactor {
         case showPhotoLibrary
         case imageSelected([UIImage])
         case deleteImage(Int)
+        case loadImages([UIImage])
         case clearPhotos
         case savePhotos([UIImage])
     }
@@ -76,6 +78,12 @@ class AddTodoReactor: Reactor {
             return .just(.imageSelected(images))
         case .deleteImage(let index):
             return .just(.deleteImage(index))
+        case .loadImages(let images):
+            if let imgDatas = images {
+                let images = imgDatas.compactMap { UIImage(data: $0) }
+                return .just(.loadImages(images))
+            }
+            return .empty()
         case .clearPhotos:
             return .just(.clearPhotos)
         default:
@@ -91,7 +99,6 @@ class AddTodoReactor: Reactor {
             newState.createdTodo = todo
         case .loadTodo(let todo):
             if let todo = todo {
-                print(todo)
                 newState.existTodo = todo
             } else {
                 self.addTodoCoordinator?.showEmotionSelectView(date: newState.selectedDate)
@@ -104,24 +111,21 @@ class AddTodoReactor: Reactor {
             newState.selectedPhotos += images
         case .deleteImage(let index):
             newState.selectedPhotos.remove(at: index)
+        case .loadImages(let images):
+            newState.selectedPhotos = images
         case .clearPhotos:
             newState.selectedPhotos = []
         case .savePhotos(let images):
-            let dateStr = newState.selectedDate.dateToString(includeDay: .day)
-            let photoInfo = images.enumerated().map { ($1, "\(dateStr)-\($0)") }
+            let imageDatas = images.map { img -> Data? in
+                guard let data = img.jpegData(compressionQuality: 0.5) else { return nil }
+                
+                return data
+            }.compactMap { $0 }
             
-            FirebaseService.shared.savePhotos(photoInfo: photoInfo,
-                                              date: dateStr) { result in
-                switch result {
-                case .success(let urls):
-                    print("이미지 url -> \(urls)")
-                    if var todo = newState.createdTodo {
-                        todo.photoPath = urls
-                        CoreDataService.shared.editTodo(todo: todo)
-                    }
-                case .failure(let error):
-                    print("이미지 업로드 실패 -> \(error.localizedDescription)")
-                }
+            if var todo = newState.createdTodo, imageDatas.count > 0 {
+                todo.images = imageDatas
+                
+                CoreDataService.shared.editTodo(todo: todo)
             }
         default:
             break

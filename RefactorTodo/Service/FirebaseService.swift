@@ -1,5 +1,6 @@
 import UIKit
 import FirebaseStorage
+import ReactorKit
 
 class FirebaseService {
     static let shared = FirebaseService()
@@ -49,6 +50,39 @@ class FirebaseService {
         
         dispatchGroup.notify(queue: .main) {
             completion(.success(photoURLs))
+        }
+    }
+    
+    func loadImages(urls: [String]) -> Observable<[UIImage]> {
+        return Observable.create { observer in
+            let dispatchGroup = DispatchGroup()
+            var images: [UIImage] = []
+            
+            for urlString in urls {
+                dispatchGroup.enter()
+                
+                let gsReference = Storage.storage().reference(forURL: urlString)
+                
+                gsReference.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                    defer { dispatchGroup.leave() }
+                    
+                    if let error = error {
+                        print("Firebase storage download error: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    if let data = data, let image = UIImage(data: data) {
+                        images.append(image)
+                    }
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                observer.onNext(images)
+                observer.onCompleted()
+            }
+            
+            return Disposables.create()
         }
     }
 }

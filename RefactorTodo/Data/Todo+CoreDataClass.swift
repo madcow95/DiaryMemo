@@ -1,4 +1,12 @@
-import Foundation
+//
+//  Todo+CoreDataClass.swift
+//  RefactorTodo
+//
+//  Created by MadCow on 2025/1/9.
+//
+//
+
+import UIKit
 import CoreData
 
 @objc(Todo)
@@ -7,19 +15,17 @@ public class Todo: NSManagedObject {
 }
 
 struct TodoModel {
-    let id: String
     let date: String
     let content: String
     let emotion: String
-    var photoPath: [String]
+    var images: [Data]?
 }
 
 extension Todo {
     func toTodoModel() -> TodoModel {
-        return TodoModel(id: self.id,
-                         date: self.date,
+        return TodoModel(date: self.date,
                          content: self.content,
                          emotion: self.emotion,
-                         photoPath: self.photoPath.components(separatedBy: ","))
+                         images: self.images)
     }
 }

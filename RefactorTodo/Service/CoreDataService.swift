@@ -20,7 +20,6 @@ class CoreDataService {
                 createTodo.content = todo.content
                 createTodo.date = todo.date
                 createTodo.emotion = todo.emotion
-                createTodo.id = todo.id
                 
                 self.context.insert(createTodo)
                 print(createTodo.toTodoModel())
@@ -50,11 +49,9 @@ class CoreDataService {
             createTodo.content = todo.content
             createTodo.date = todo.date
             createTodo.emotion = todo.emotion
-            createTodo.id = todo.id
-            createTodo.photoPath = todo.photoPath.joined(separator: ",")
+            createTodo.images = todo.images
             
             self.context.insert(createTodo)
-            print(createTodo.toTodoModel())
             
             try self.context.save()
             print("저장 완료!")
