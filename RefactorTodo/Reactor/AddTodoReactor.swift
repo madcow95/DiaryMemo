@@ -28,7 +28,6 @@ class AddTodoReactor: Reactor {
         case showPhotoLibrary
         case imageSelected([UIImage])
         case deleteImage(Int)
-        case loadImages([Data]?)
         case clearPhotos
         case none
     }
@@ -42,7 +41,7 @@ class AddTodoReactor: Reactor {
         case showPhotoLibrary
         case imageSelected([UIImage])
         case deleteImage(Int)
-        case loadImages([UIImage])
+        case loadImages([Data]?)
         case clearPhotos
         case savePhotos([UIImage])
     }
@@ -66,7 +65,15 @@ class AddTodoReactor: Reactor {
                 })
         case .loadTodo(let date):
             return CoreDataService.shared.loadTodoBy(date: date.dateToString(includeDay: .day))
-                .map { Mutation.loadTodo($0) }
+                .flatMap { todo -> Observable<Mutation> in
+                    if let todo = todo {
+                        return .concat([
+                            .just(.loadTodo(todo)),
+                            .just(.loadImages(todo.images))
+                        ])
+                    }
+                    return .just(.loadTodo(nil))
+                }
         case .showEmotionView(let date):
             self.addTodoCoordinator?.showEmotionSelectView(date: date)
             return .empty()
@@ -78,12 +85,6 @@ class AddTodoReactor: Reactor {
             return .just(.imageSelected(images))
         case .deleteImage(let index):
             return .just(.deleteImage(index))
-        case .loadImages(let images):
-            if let imgDatas = images {
-                let images = imgDatas.compactMap { UIImage(data: $0) }
-                return .just(.loadImages(images))
-            }
-            return .empty()
         case .clearPhotos:
             return .just(.clearPhotos)
         default:
@@ -112,7 +113,11 @@ class AddTodoReactor: Reactor {
         case .deleteImage(let index):
             newState.selectedPhotos.remove(at: index)
         case .loadImages(let images):
-            newState.selectedPhotos = images
+            if let imgDatas = images {
+                let images = imgDatas.compactMap { UIImage(data: $0) }
+
+                newState.selectedPhotos = images
+            }
         case .clearPhotos:
             newState.selectedPhotos = []
         case .savePhotos(let images):

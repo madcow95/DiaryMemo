@@ -4,6 +4,6 @@
         <attribute name="content" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="String"/>
         <attribute name="emotion" optional="YES" attributeType="String"/>
-        <attribute name="images" optional="YES" attributeType="Transformable"/>
+        <attribute name="images" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName=".NSArray"/>
     </entity>
 </model>

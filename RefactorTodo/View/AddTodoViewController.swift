@@ -193,7 +193,6 @@ extension AddTodoViewController: View {
                 self?.todoContent.textColor = .black
                 self?.emotionButton.setImage(UIImage(named: todo.emotion), for: .normal)
                 self?.navigationItem.rightBarButtonItem = self?.deleteButton
-                self?.reactor?.action.onNext(.loadImages(todo.images))
             })
             .disposed(by: disposeBag)
         
