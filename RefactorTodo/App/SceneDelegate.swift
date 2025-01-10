@@ -55,6 +55,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        // 앱이 백그라운드로 진입할 때 이미지 캐시 정리
+        ImageCacheService.shared.clearCache()
     }
 
 

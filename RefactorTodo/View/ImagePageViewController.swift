@@ -26,7 +26,6 @@ class ImagePageViewController: UIPageViewController {
     
     private func createImageViewController(for index: Int) -> ImageViewerController? {
         guard index >= 0, index < images.count else { return nil }
-        let imageViewVC = ImageViewerController(image: images[index])
         
         return ImageViewerController(image: images[index])
     }

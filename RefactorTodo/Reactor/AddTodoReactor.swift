@@ -113,14 +113,33 @@ class AddTodoReactor: Reactor {
         case .showPhotoLibrary:
             self.addTodoCoordinator?.showPhotoLibaryView(photo: newState.selectedPhotos.count)
         case .imageSelected(let images):
+            images.enumerated().forEach { index, image in
+                ImageCacheService.shared.setImage(image: image,
+                                                  key: "\(newState.selectedDate.dateToString(includeDay: .day))_\(index)")
+            }
             newState.selectedPhotos += images
         case .deleteImage(let index):
+            ImageCacheService.shared.removeImage(key: "\(newState.selectedDate.dateToString(includeDay: .day))_\(index)")
             newState.selectedPhotos.remove(at: index)
         case .loadImages(let images):
             if let imgDatas = images {
-                let images = imgDatas.compactMap { UIImage(data: $0) }
-
-                newState.selectedPhotos = images
+                let dateStr = newState.selectedDate.dateToString(includeDay: .day)
+                let convertedImages = imgDatas.enumerated().compactMap { index, data -> UIImage? in
+                    let cacheKey = "\(dateStr)_\(index)"
+                    
+                    if let cachedImage = ImageCacheService.shared.getImage(key: cacheKey) {
+                        return cachedImage
+                    }
+                    
+                    if let image = UIImage(data: data) {
+                        ImageCacheService.shared.setImage(image: image, key: cacheKey)
+                        return image
+                    }
+                    
+                    return nil
+                }
+                
+                newState.selectedPhotos = convertedImages
             }
         case .clearPhotos:
             newState.selectedPhotos = []

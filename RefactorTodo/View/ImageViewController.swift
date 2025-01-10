@@ -35,6 +35,13 @@ class ImageViewerController: UIViewController {
         setupUI()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        scrollView.delegate = nil
+        imageView.image = nil
+    }
+    
     private func setupUI() {
         view.backgroundColor = .black
         
