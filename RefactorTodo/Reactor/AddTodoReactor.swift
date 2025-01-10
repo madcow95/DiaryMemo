@@ -102,6 +102,14 @@ class AddTodoReactor: Reactor {
         switch mutation {
         case .addTodo(let todo):
             newState.createdTodo = todo
+        case .deleteTodo(let todo):
+            if let images = todo.images {
+                let dateStr = newState.selectedDate.dateToString(includeDay: .day)
+                (0..<images.count).forEach {
+                    let key = "\(dateStr)_\($0)"
+                    ImageCacheService.shared.removeImage(key: key)
+                }
+            }
         case .loadTodo(let todo):
             if let todo = todo {
                 newState.existTodo = todo
@@ -113,9 +121,10 @@ class AddTodoReactor: Reactor {
         case .showPhotoLibrary:
             self.addTodoCoordinator?.showPhotoLibaryView(photo: newState.selectedPhotos.count)
         case .imageSelected(let images):
+            let existImageCount = newState.selectedPhotos.count
             images.enumerated().forEach { index, image in
                 ImageCacheService.shared.setImage(image: image,
-                                                  key: "\(newState.selectedDate.dateToString(includeDay: .day))_\(index)")
+                                                  key: "\(newState.selectedDate.dateToString(includeDay: .day))_\(existImageCount + index)")
             }
             newState.selectedPhotos += images
         case .deleteImage(let index):
