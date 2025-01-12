@@ -79,6 +79,8 @@ class AddTodoViewController: UIViewController {
         configureUI()
     }
     
+    // MARK: TODO - 이미 등록된 사진이 있을 때 back 왔다갔다하면 메모리 계속 올라감
+    // MARK: Instrument 사용해서 Leak 확인해볼것
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
