@@ -17,6 +17,21 @@ final class AddTodoCoordinator: Coordinator {
         let reactor = AddTodoReactor(addTodoCoordinator: self, selectedDate: selectedDate)
         let addVC = AddTodoViewController()
         addVC.reactor = reactor
+        
+        addVC.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
+        appearance.setBackIndicatorImage(
+            UIImage(systemName: "chevron.left"),
+            transitionMaskImage: UIImage(systemName: "chevron.left")
+        )
+        
+        navigationController.navigationBar.tintColor = .primaryColor
+        navigationController.navigationBar.standardAppearance = appearance
+        navigationController.navigationBar.scrollEdgeAppearance = appearance
+        navigationController.navigationBar.compactAppearance = appearance
+        
         navigationController.pushViewController(addVC, animated: true)
     }
     

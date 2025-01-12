@@ -46,6 +46,6 @@ class EmotionReactor: Reactor {
         var selectedDate: Date
         var selectedEmotionIndex: Int?
         var emotionSelected: Bool = false
-        var emotionImages: [String] = (0..<9).map { "emoji_\($0).png" }
+        var emotionImages: [String] = (0..<13).map { "emoji_\($0).png" }
     }
 }

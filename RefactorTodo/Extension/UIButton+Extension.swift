@@ -18,7 +18,8 @@ class AddButton: UIButton {
         height: CGFloat? = nil,
         image: UIImage? = nil,
         title: String = "",
-        imageColor: UIColor = .white
+        imageColor: UIColor = .white,
+        backgroundColor: UIColor = .systemGreen
     ) {
         self.init()
         if let width = width {
@@ -36,11 +37,11 @@ class AddButton: UIButton {
         if !title.isEmpty {
             self.setTitle(title, for: .normal)
         }
+        self.backgroundColor = backgroundColor
     }
     
     func initialButton() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = .systemGreen
         self.setImage(UIImage(systemName: "plus"), for: .normal)
         self.tintColor = .white
     }

@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import ReactorKit
 
-class ImageViewerController: UIViewController {
+class ImageViewerController: TodoViewController {
     var disposeBag = DisposeBag()
     
     private let scrollView: UIScrollView = {

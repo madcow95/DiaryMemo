@@ -3,19 +3,38 @@ import PhotosUI
 import SnapKit
 import ReactorKit
 
-class AddTodoViewController: UIViewController {
+class AddTodoViewController: TodoViewController {
     var disposeBag = DisposeBag()
     
-    private let emotionButton = AddButton(width: 25, height: 25)
+    private let emotionButton = AddButton(width: 25, height: 25, backgroundColor: .clear)
     private lazy var dateLabel = TodoLabel(text: reactor?.currentState.selectedDate.dateToString(),
                                            textColor: .lightGray,
                                            fontWeight: .bold)
+    private lazy var photoCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 150, height: 150)
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(PhotoCollectionCell.self, forCellWithReuseIdentifier: "PhotoCollectionCell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.showsHorizontalScrollIndicator = true
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        collectionView.backgroundColor = .todoBackgroundColor
+        
+        return collectionView
+    }()
     private let placeholderText = "오늘의 일기를 작성해주세요"
     private lazy var todoContent: UITextView = {
         let textView = UITextView()
         textView.font = .systemFont(ofSize: 15)
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        textView.backgroundColor = .white
+        textView.backgroundColor = .todoBackgroundColor
         textView.text = "오늘의 일기를 작성해주세요"
         textView.textColor = textView.text == "오늘의 일기를 작성해주세요" ? .lightGray : .black
         textView.delegate = self
@@ -35,32 +54,14 @@ class AddTodoViewController: UIViewController {
     private let photoButton = CustomButton(width: 50,
                                            height: 50,
                                            image: UIImage(systemName: "photo.fill"),
-                                           tintColor: .systemGreen)
+                                           tintColor: .primaryColor)
     private let saveButton = CustomButton(width: 50,
                                           height: 50,
                                           image: UIImage(systemName: "checkmark"),
-                                          tintColor: .systemGreen)
-    private lazy var photoCollection: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 150, height: 150)
-        layout.minimumInteritemSpacing = 10
-        layout.minimumLineSpacing = 10
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(PhotoCollectionCell.self, forCellWithReuseIdentifier: "PhotoCollectionCell")
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.showsHorizontalScrollIndicator = true
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        
-        return collectionView
-    }()
+                                          tintColor: .primaryColor)
     private var photoCollectionHeightConstraint: Constraint?
     private lazy var deleteButton = UIBarButtonItem(
-        image: UIImage(systemName: "trash.fill")?.withTintColor(.systemGreen),
+        image: UIImage(systemName: "trash.fill")?.withTintColor(.primaryColor, renderingMode: .alwaysOriginal),
         style: .done,
         target: self,
         action: nil

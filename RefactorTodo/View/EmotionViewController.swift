@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import ReactorKit
 
-class EmotionViewController: UIViewController {
+class EmotionViewController: TodoViewController {
     var disposeBag = DisposeBag()
     
     private lazy var dateLabel = TodoLabel(text: reactor?.currentState.selectedDate.dateToString(),

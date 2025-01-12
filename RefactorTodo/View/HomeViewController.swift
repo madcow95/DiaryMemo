@@ -4,11 +4,11 @@ import FSCalendar
 import ReactorKit
 import RxSwift
 
-class HomeViewController: UIViewController {
+class HomeViewController: TodoViewController {
     
     var disposeBag = DisposeBag()
     private let calendarView = TodoCalendar()
-    private let addButton = AddButton(width: 50, height: 50)
+    private let addButton = AddButton(width: 50, height: 50, backgroundColor: .primaryColor)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -81,7 +81,7 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
             
             if date.dateToString() == Date().dateToString() {
                 cell.backgroundView = nil
-                cell.appearance.titleTodayColor = .systemGreen
+                cell.appearance.titleTodayColor = .primaryColor
                 cell.titleLabel.isHidden = false
             }
         }

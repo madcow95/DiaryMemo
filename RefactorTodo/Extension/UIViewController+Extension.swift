@@ -1,5 +1,13 @@
 import UIKit
 
+class TodoViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.todoBackgroundColor
+    }
+}
+
 extension UIViewController {
     func showAlert(alertTitle: String, msg: String? = nil, confirm: String, hideCancel: Bool? = false, confirmAction: (() -> Void)?, cancelAction: (() -> Void)? = nil) {
         let alertController = UIAlertController(title: alertTitle, message: msg, preferredStyle: .alert)

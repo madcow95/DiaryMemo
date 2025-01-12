@@ -20,8 +20,8 @@ class TodoCalendar: FSCalendar {
         self.scrollDirection = .vertical
         self.scope = .month
         self.appearance.weekdayFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        self.appearance.weekdayTextColor = .systemGreen
-        self.appearance.headerTitleColor = .systemGreen
+        self.appearance.weekdayTextColor = .primaryColor
+        self.appearance.headerTitleColor = .primaryColor
         self.appearance.headerTitleFont = UIFont.systemFont(ofSize: 20, weight: .bold)
         self.appearance.todayColor = .clear
         self.appearance.selectionColor = .clear
