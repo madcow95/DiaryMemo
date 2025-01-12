@@ -71,7 +71,6 @@ class AddTodoViewController: TodoViewController {
         super.viewWillAppear(animated)
         
         reactor?.action.onNext(.loadTodo(reactor?.initialState.selectedDate ?? Date()))
-        navigationController?.tabBarController?.tabBar.isHidden = true
     }
     
     override func viewDidLoad() {

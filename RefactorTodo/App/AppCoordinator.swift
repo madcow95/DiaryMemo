@@ -22,7 +22,7 @@ final class AppCoordinator: Coordinator {
     }
     
     func configureTabBar() {
-        tabBarController.tabBar.tintColor = .systemGreen
+        tabBarController.tabBar.tintColor = .primaryColor
     }
 }
 

@@ -1,6 +1,39 @@
 import UIKit
 
 class TodoViewController: UIViewController {
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        
+        if let navigationVC = self.navigationController {
+            let navBar = navigationVC.navigationBar
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = .todoBackgroundColor
+            appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
+            appearance.setBackIndicatorImage(
+                UIImage(systemName: "chevron.backward")?
+                    .withTintColor(.primaryColor, renderingMode: .alwaysOriginal),
+                transitionMaskImage: UIImage(systemName: "chevron.backward")?
+                    .withTintColor(.primaryColor, renderingMode: .alwaysOriginal)
+            )
+
+            navBar.standardAppearance = appearance
+            navBar.scrollEdgeAppearance = appearance
+            navBar.isTranslucent = false
+        }
+        
+        if let tabBarVC = self.tabBarController {
+            let tabBar = tabBarVC.tabBar
+            let tabAppearance = UITabBarAppearance()
+            tabAppearance.configureWithOpaqueBackground()
+            tabAppearance.backgroundColor = .todoBackgroundColor
+            
+            tabBar.standardAppearance = tabAppearance
+            tabBar.scrollEdgeAppearance = tabAppearance
+            tabBar.isTranslucent = false
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
