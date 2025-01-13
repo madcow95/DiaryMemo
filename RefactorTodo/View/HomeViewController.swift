@@ -15,7 +15,7 @@ class HomeViewController: TodoViewController {
         calendarView.reloadData()
         let currentPage = calendarView.currentPage
         reactor?.action.onNext(.loadAllTodosByYearMonth(currentPage))
-        navigationController?.tabBarController?.tabBar.isHidden = false
+//        navigationController?.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidLoad() {
@@ -57,6 +57,7 @@ class HomeViewController: TodoViewController {
 extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     // 날짜를 선택했을 때
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        calendar.deselect(date)
         reactor?.action.onNext(.moveToAddView(date))
     }
     

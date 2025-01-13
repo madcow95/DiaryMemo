@@ -2,30 +2,20 @@ import UIKit
 
 final class HomeCoorinator: Coordinator {
     var childCoordinators: [Coordinator] = []
-    private let tabBarController: UITabBarController
+    private let navigationController: UINavigationController
     
-    init(tabBarController: UITabBarController) {
-        self.tabBarController = tabBarController
+    init(tabBarController: UINavigationController) {
+        self.navigationController = tabBarController
     }
     
     func start() {
         let reactor = HomeReactor(homeCoordinator: self)
-        let homeVC = HomeViewController()
-        homeVC.reactor = reactor
-        
-        let navigationVC = UINavigationController(rootViewController: homeVC)
-        navigationVC.tabBarItem = UITabBarItem(title: "Home",
-                                               image: UIImage(systemName: "house.fill"),
-                                               selectedImage: nil)
-        
-        tabBarController.viewControllers = [navigationVC]
+        if let homeVC = navigationController.viewControllers.first as? HomeViewController {        
+            homeVC.reactor = reactor
+        }
     }
     
     func moveToAddTodo(selected date: Date) {
-        guard let navigationController = tabBarController.selectedViewController as? UINavigationController else {
-            return
-        }
-                
         let addTodoCoordinator = AddTodoCoordinator(navigationController: navigationController,
                                                     selectedDate: date)
         childCoordinators.append(addTodoCoordinator)

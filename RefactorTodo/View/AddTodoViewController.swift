@@ -2,6 +2,7 @@ import UIKit
 import PhotosUI
 import SnapKit
 import ReactorKit
+import RxRelay
 
 class AddTodoViewController: TodoViewController {
     var disposeBag = DisposeBag()
@@ -41,24 +42,40 @@ class AddTodoViewController: TodoViewController {
         
         return textView
     }()
-    private lazy var bottomStackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.addArrangedSubview(photoButton)
-        stack.addArrangedSubview(saveButton)
-        stack.distribution = .equalSpacing
-        
-        return stack
-    }()
     private let photoButton = CustomButton(width: 50,
                                            height: 50,
                                            image: UIImage(systemName: "photo.fill"),
                                            tintColor: .primaryColor)
+    private let hideKeyboardButton = CustomButton(width: 50,
+                                                  height: 50,
+                                                  image: UIImage(systemName: "keyboard.chevron.compact.down.fill"),
+                                                  tintColor: .primaryColor)
     private let saveButton = CustomButton(width: 50,
                                           height: 50,
                                           image: UIImage(systemName: "checkmark"),
                                           tintColor: .primaryColor)
+    private var isKeyboardVisible = BehaviorRelay<Bool>(value: false)
+    private lazy var bottomStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        
+        let leftSpacer = UIView()
+        let middleSpacer = UIView()
+        
+        stack.addArrangedSubview(photoButton)
+        stack.addArrangedSubview(leftSpacer)
+        stack.addArrangedSubview(hideKeyboardButton)
+        stack.addArrangedSubview(saveButton)
+        
+        leftSpacer.snp.makeConstraints {
+            $0.width.greaterThanOrEqualTo(0)
+        }
+        
+        stack.setCustomSpacing(10, after: hideKeyboardButton)
+        
+        return stack
+    }()
     private var photoCollectionHeightConstraint: Constraint?
     private lazy var deleteButton = UIBarButtonItem(
         image: UIImage(systemName: "trash.fill")?.withTintColor(.primaryColor, renderingMode: .alwaysOriginal),
@@ -76,6 +93,7 @@ class AddTodoViewController: TodoViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        hideKeyboardButton.alpha = 0.0
         configureUI()
     }
     
@@ -161,6 +179,34 @@ extension AddTodoViewController: View {
         photoButton.rx.tap
             .map { Reactor.Action.showPhotoLibrary }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        isKeyboardVisible
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] isVisible in
+                UIView.animate(withDuration: 0.3) {
+                    self?.hideKeyboardButton.alpha = isVisible ? 1.0 : 0.0
+                }
+            })
+            .disposed(by: disposeBag)
+        Observable.merge([
+            NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+                .map { _ in true },
+            NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+                .map { _ in false }
+        ])
+        .bind(to: isKeyboardVisible)
+        .disposed(by: disposeBag)
+//        
+//        isKeyboardVisible
+//            .observe(on: MainScheduler.instance)
+//            .bind(to: hideKeyboardButton.rx.isHidden)
+//            .disposed(by: disposeBag)
+        
+        hideKeyboardButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.view.endEditing(true)
+            })
             .disposed(by: disposeBag)
         
         saveButton.rx.tap
