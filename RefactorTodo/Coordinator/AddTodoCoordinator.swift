@@ -18,8 +18,6 @@ final class AddTodoCoordinator: Coordinator {
         let addVC = AddTodoViewController()
         addVC.reactor = reactor
         
-        navigationController.tabBarController?.tabBar.isHidden = true
-        navigationController.tabBarController?.tabBar.backgroundColor = .todoBackgroundColor
         navigationController.pushViewController(addVC, animated: true)
     }
     

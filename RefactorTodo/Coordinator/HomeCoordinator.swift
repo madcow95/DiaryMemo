@@ -2,7 +2,7 @@ import UIKit
 
 final class HomeCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
-    private let navigationController: UINavigationController
+    let navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -22,6 +22,13 @@ final class HomeCoordinator: Coordinator {
         childCoordinators.append(addTodoCoordinator)
         addTodoCoordinator.parentCoordinator = self
         addTodoCoordinator.start()
+    }
+    
+    func moveToSetting() {
+        let settingCoordinator = SettingCoordinator(navigationController: navigationController)
+        childCoordinators.append(settingCoordinator)
+        settingCoordinator.parentCoordinator = self
+        settingCoordinator.start()
     }
     
     func childDidFinish(_ child: Coordinator) {

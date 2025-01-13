@@ -18,6 +18,7 @@ class HomeReactor: Reactor {
         case moveToAddView(Date)
         case addTodo
         case loadAllTodosByYearMonth(Date)
+        case moveToSetting
     }
     
     enum Mutation {
@@ -36,6 +37,9 @@ class HomeReactor: Reactor {
         case .loadAllTodosByYearMonth(let date):
             return CoreDataService.shared.loadTodosBy(yearMonth: date.dateToString(includeDay: .month))
                 .map { Mutation.loadAllTodosByYearMonth($0) }
+        case .moveToSetting:
+            homeCoordinator?.moveToSetting()
+            return .empty()
         }
     }
     

@@ -9,13 +9,14 @@ class HomeViewController: TodoViewController {
     var disposeBag = DisposeBag()
     private let calendarView = TodoCalendar()
     private let addButton = AddButton(width: 50, height: 50, backgroundColor: .primaryColor)
+    private lazy var settingButton = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"),
+                                                     style: .done,
+                                                     target: self,
+                                                     action: nil)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        calendarView.reloadData()
-        let currentPage = calendarView.currentPage
-        reactor?.action.onNext(.loadAllTodosByYearMonth(currentPage))
-//        navigationController?.tabBarController?.tabBar.isHidden = false
+        reactor?.action.onNext(.loadAllTodosByYearMonth(calendarView.currentPage))
     }
     
     override func viewDidLoad() {
@@ -30,7 +31,7 @@ class HomeViewController: TodoViewController {
     
     func configureUI() {
         configureCalendar()
-        configureAddButton()
+        configureButton()
     }
     
     func configureCalendar() {
@@ -45,12 +46,15 @@ class HomeViewController: TodoViewController {
         }
     }
     
-    func configureAddButton() {
+    func configureButton() {
         view.addSubview(addButton)
         addButton.snp.makeConstraints {
             $0.right.equalTo(view.snp.right).offset(-20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
         }
+        
+        settingButton.tintColor = .primaryColor
+        self.navigationItem.rightBarButtonItem = settingButton
     }
 }
 
@@ -92,6 +96,11 @@ extension HomeViewController: View {
     func bind(reactor: HomeReactor) {
         addButton.rx.tap
             .map { Reactor.Action.moveToAddView(Date()) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        settingButton.rx.tap
+            .map { Reactor.Action.moveToSetting }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

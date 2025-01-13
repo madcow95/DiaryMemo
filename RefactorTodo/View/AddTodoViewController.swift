@@ -61,7 +61,6 @@ class AddTodoViewController: TodoViewController {
         stack.axis = .horizontal
         
         let leftSpacer = UIView()
-        let middleSpacer = UIView()
         
         stack.addArrangedSubview(photoButton)
         stack.addArrangedSubview(leftSpacer)
@@ -97,8 +96,6 @@ class AddTodoViewController: TodoViewController {
         configureUI()
     }
     
-    // MARK: TODO - 이미 등록된 사진이 있을 때 back 왔다갔다하면 메모리 계속 올라감
-    // MARK: Instrument 사용해서 Leak 확인해볼것
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
@@ -197,11 +194,6 @@ extension AddTodoViewController: View {
         ])
         .bind(to: isKeyboardVisible)
         .disposed(by: disposeBag)
-//        
-//        isKeyboardVisible
-//            .observe(on: MainScheduler.instance)
-//            .bind(to: hideKeyboardButton.rx.isHidden)
-//            .disposed(by: disposeBag)
         
         hideKeyboardButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
