@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		CD064B772D1C4A2300254EC7 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CD064B762D1C4A2300254EC7 /* RxCocoa */; };
-		CD0829822D2ED96E0088BF2F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CD0829812D2ED96E0088BF2F /* FirebaseAnalytics */; };
-		CD0829842D2ED96E0088BF2F /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CD0829832D2ED96E0088BF2F /* FirebaseStorage */; };
 		CDC6749F2D1A9CB600F429DA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CDC6749E2D1A9CB600F429DA /* SnapKit */; };
 		CDC674A22D1A9CC500F429DA /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = CDC674A12D1A9CC500F429DA /* ReactorKit */; };
 		CDC674A52D1A9CD600F429DA /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CDC674A42D1A9CD600F429DA /* Kingfisher */; };
@@ -76,12 +74,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD0829822D2ED96E0088BF2F /* FirebaseAnalytics in Frameworks */,
 				CD064B772D1C4A2300254EC7 /* RxCocoa in Frameworks */,
 				CDC674A52D1A9CD600F429DA /* Kingfisher in Frameworks */,
 				CDC674A82D1A9CE900F429DA /* Alamofire in Frameworks */,
 				CDC674A22D1A9CC500F429DA /* ReactorKit in Frameworks */,
-				CD0829842D2ED96E0088BF2F /* FirebaseStorage in Frameworks */,
 				CDC674B02D1A9EC500F429DA /* FSCalendar in Frameworks */,
 				CDC6749F2D1A9CB600F429DA /* SnapKit in Frameworks */,
 			);
@@ -150,8 +146,6 @@
 				CDC674A72D1A9CE900F429DA /* Alamofire */,
 				CDC674AF2D1A9EC500F429DA /* FSCalendar */,
 				CD064B762D1C4A2300254EC7 /* RxCocoa */,
-				CD0829812D2ED96E0088BF2F /* FirebaseAnalytics */,
-				CD0829832D2ED96E0088BF2F /* FirebaseStorage */,
 			);
 			productName = RefactorTodo;
 			productReference = CD47349A2D19AE9000292086 /* RefactorTodo.app */;
@@ -242,7 +236,6 @@
 				CDC674A62D1A9CE900F429DA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				CDC674AE2D1A9EC500F429DA /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				CD064B752D1C4A2300254EC7 /* XCRemoteSwiftPackageReference "RxSwift" */,
-				CD0829802D2ED96E0088BF2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CD47349B2D19AE9000292086 /* Products */;
@@ -331,9 +324,10 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 첨부를 위해 갤러리 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -341,9 +335,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.madcow.RefactorTodo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -360,9 +358,10 @@
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 첨부를 위해 갤러리 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -370,9 +369,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.madcow.RefactorTodo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -617,14 +620,6 @@
 				minimumVersion = 6.8.0;
 			};
 		};
-		CD0829802D2ED96E0088BF2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.6.0;
-			};
-		};
 		CDC6749D2D1A9CB600F429DA /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -672,16 +667,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CD064B752D1C4A2300254EC7 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxCocoa;
-		};
-		CD0829812D2ED96E0088BF2F /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CD0829802D2ED96E0088BF2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		CD0829832D2ED96E0088BF2F /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CD0829802D2ED96E0088BF2F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
 		};
 		CDC6749E2D1A9CB600F429DA /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
