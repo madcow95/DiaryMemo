@@ -16,7 +16,7 @@ class AddButton: UIButton {
     convenience init(
         width: CGFloat? = nil,
         height: CGFloat? = nil,
-        image: UIImage? = nil,
+        image: UIImage? = UIImage(systemName: "plus"),
         title: String = "",
         imageColor: UIColor = .white,
         backgroundColor: UIColor = .systemGreen

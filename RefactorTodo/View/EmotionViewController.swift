@@ -14,6 +14,7 @@ class EmotionViewController: TodoViewController {
     private lazy var emotionCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.backgroundColor = .todoBackgroundColor
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.delegate = self
         collection.dataSource = self
@@ -29,7 +30,6 @@ class EmotionViewController: TodoViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .white
         configureLabel()
         configureTable()
     }

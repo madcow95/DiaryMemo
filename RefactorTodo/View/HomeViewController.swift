@@ -64,7 +64,6 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         let currentPage = calendar.currentPage
         reactor?.action.onNext(.loadAllTodosByYearMonth(currentPage))
-        calendarView.reloadData()
     }
     
     func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {

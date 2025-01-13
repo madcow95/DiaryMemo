@@ -7,11 +7,11 @@ final class AppCoordinator: Coordinator {
     
     init(window: UIWindow) {
         self.window = window
-        self.navigationController = UINavigationController(rootViewController: HomeViewController())
+        self.navigationController = UINavigationController()
     }
     
     func start() {
-        let homeCoordinator = HomeCoorinator(tabBarController: self.navigationController)
+        let homeCoordinator = HomeCoordinator(navigationController: navigationController)
         childCoordinators.append(homeCoordinator)
         homeCoordinator.start()
         
@@ -19,4 +19,3 @@ final class AppCoordinator: Coordinator {
         window.makeKeyAndVisible()
     }
 }
-

@@ -1,18 +1,19 @@
 import UIKit
 
-final class HomeCoorinator: Coordinator {
+final class HomeCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     private let navigationController: UINavigationController
     
-    init(tabBarController: UINavigationController) {
-        self.navigationController = tabBarController
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
     }
     
     func start() {
+        let homeVC = HomeViewController()
         let reactor = HomeReactor(homeCoordinator: self)
-        if let homeVC = navigationController.viewControllers.first as? HomeViewController {        
-            homeVC.reactor = reactor
-        }
+        homeVC.reactor = reactor
+        
+        navigationController.viewControllers = [homeVC]
     }
     
     func moveToAddTodo(selected date: Date) {

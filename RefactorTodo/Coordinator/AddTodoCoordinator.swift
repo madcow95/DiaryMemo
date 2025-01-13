@@ -4,7 +4,7 @@ import PhotosUI
 
 final class AddTodoCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
-    weak var parentCoordinator: HomeCoorinator?
+    weak var parentCoordinator: HomeCoordinator?
     let selectedDate: Date
     let navigationController: UINavigationController
     

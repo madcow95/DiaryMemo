@@ -7,7 +7,7 @@ import RxRelay
 class AddTodoViewController: TodoViewController {
     var disposeBag = DisposeBag()
     
-    private let emotionButton = AddButton(width: 25, height: 25, backgroundColor: .clear)
+    private let emotionButton = AddButton(width: 25, height: 25, imageColor: .primaryColor, backgroundColor: .clear)
     private lazy var dateLabel = TodoLabel(text: reactor?.currentState.selectedDate.dateToString(),
                                            textColor: .lightGray,
                                            fontWeight: .bold)

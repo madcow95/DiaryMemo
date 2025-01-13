@@ -3,9 +3,9 @@ import RxSwift
 import ReactorKit
 
 class HomeReactor: Reactor {
-    weak var homeCoordinator: HomeCoorinator?
+    weak var homeCoordinator: HomeCoordinator?
     
-    init(homeCoordinator: HomeCoorinator?) {
+    init(homeCoordinator: HomeCoordinator?) {
         self.homeCoordinator = homeCoordinator
     }
     
