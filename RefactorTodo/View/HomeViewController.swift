@@ -7,7 +7,7 @@ import RxSwift
 class HomeViewController: TodoViewController {
     
     var disposeBag = DisposeBag()
-    private let calendarView = TodoCalendar()
+    private lazy var calendarView = TodoCalendar()
     private let addButton = AddButton(width: 50, height: 50, backgroundColor: .primaryColor)
     private lazy var settingButton = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"),
                                                      style: .done,
@@ -16,6 +16,7 @@ class HomeViewController: TodoViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        calendarView.layoutIfNeeded()
         reactor?.action.onNext(.loadAllTodosByYearMonth(calendarView.currentPage))
     }
     
