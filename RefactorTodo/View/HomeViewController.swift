@@ -14,6 +14,7 @@ class HomeViewController: TodoViewController {
                                                      target: self,
                                                      action: nil)
     
+    // view가 시작될 때 달력 초기화
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         calendarView.layoutIfNeeded()
