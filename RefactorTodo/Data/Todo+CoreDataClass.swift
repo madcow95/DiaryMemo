@@ -29,3 +29,17 @@ extension Todo {
                          images: self.images)
     }
 }
+
+public enum FontCase: Int, CaseIterable {
+    case smallest
+    case smaller
+    case small
+    case normal
+    case large
+    case larger
+    case largest
+    
+    init?(index: Int) {
+        self.init(rawValue: index)
+    }
+}

@@ -67,6 +67,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.item {
         case 0:
             reactor?.action.onNext(.presentPrivatePolicy)
+        case 1:
+            reactor?.action.onNext(.showFontSettingView)
         default:
             break
         }

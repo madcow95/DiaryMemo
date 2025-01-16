@@ -44,7 +44,8 @@ class HomeViewController: TodoViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.left.equalTo(view.safeAreaLayoutGuide.snp.left)
             $0.right.equalTo(view.safeAreaLayoutGuide.snp.right)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-150)
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-100)
+            $0.height.equalTo(view.safeAreaLayoutGuide.layoutFrame.height - 200)
         }
     }
     

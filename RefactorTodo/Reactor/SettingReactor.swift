@@ -11,11 +11,12 @@ class SettingReactor: Reactor {
     }
     
     struct State {
-        let cellLabels: [String] = ["개인정보 처리방침"]
+        let cellLabels: [String] = ["개인정보 처리방침", "글자 스타일"]
     }
     
     enum Action {
         case presentPrivatePolicy
+        case showFontSettingView
     }
     
     enum Mutation {
@@ -26,6 +27,9 @@ class SettingReactor: Reactor {
         switch action {
         case .presentPrivatePolicy:
             settingCoordinator?.showPrivacyPolicy()
+            return .empty()
+        case .showFontSettingView:
+            settingCoordinator?.showFontStyleView()
             return .empty()
         }
     }

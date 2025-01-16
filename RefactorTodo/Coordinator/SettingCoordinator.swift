@@ -23,4 +23,12 @@ class SettingCoordinator: Coordinator {
         let navController = UINavigationController(rootViewController: privacyPolicyVC)
         navigationController.present(navController, animated: true, completion: nil)
     }
+    
+    func showFontStyleView() {
+        let reactor = SettingFontReactor(parentCoordinator: self)
+        let fontView = SettingFontViewController()
+        fontView.reactor = reactor
+        
+        navigationController.pushViewController(fontView, animated: true)
+    }
 }
