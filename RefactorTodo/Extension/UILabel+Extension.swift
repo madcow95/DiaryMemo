@@ -15,13 +15,25 @@ class TodoLabel: UILabel {
     convenience init(
         text: String?,
         textColor: UIColor = .black,
-        fontSize: CGFloat = 14,
-        fontWeight: UIFont.Weight = .regular
+        fontSize: CGFloat? = nil,
+        fontWeight: UIFont.Weight = .regular,
+        isDefaultSize: Bool = true
     ) {
         self.init()
         self.text = text
         self.textColor = textColor
-        self.font = UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
+        if let fontSize = fontSize {
+            self.font = UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
+        } else {
+            if isDefaultSize {
+                let fontSize = UserInfoService.shared.getFontSize(key: "savedFontSize")            
+                self.font = UIFont.systemFont(ofSize: fontSize.fontSize, weight: fontWeight)
+            }
+        }
+    }
+    
+    func updateFontSize() {
+        self.font = UIFont.systemFont(ofSize: UserInfoService.shared.getFontSize(key: "savedFontSize").fontSize)
     }
     
     func initialLabel() {

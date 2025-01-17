@@ -1,6 +1,7 @@
 import RxSwift
 import ReactorKit
 
+
 class SettingFontReactor: Reactor {
     
     weak var parentCoordinator: SettingCoordinator?
@@ -16,19 +17,23 @@ class SettingFontReactor: Reactor {
     enum Action {
         case loadFontSize
         case changeFontSize(FontCase)
+        case changeFontSizeByButton(FontCase, FontCase.SelectCase)
     }
     
     enum Mutation {
-        case changeFontSize(FontCase)
+        case changeFontCase(FontCase)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadFontSize:
             // MARK: TODO - userDefault에 저장된 폰트사이즈 정보 불러오는 로직 추가
-            return .just(.changeFontSize(.normal))
+            let savedFontSize = UserInfoService.shared.getFontSize(key: "savedFontSize")
+            return .just(.changeFontCase(savedFontSize))
         case .changeFontSize(let fontCase):
-            return .just(.changeFontSize(fontCase))
+            return .just(.changeFontCase(fontCase))
+        case .changeFontSizeByButton(let fontcase, let selectCase):
+            return .just(.changeFontCase(fontcase.updateCaseBy(selectCase: selectCase)))
         }
     }
     
@@ -36,8 +41,9 @@ class SettingFontReactor: Reactor {
         var newState = state
         
         switch mutation {
-        case .changeFontSize(let fontSize):
-            newState.currentFontSize = fontSize
+        case .changeFontCase(let fontCase):
+            UserInfoService.shared.saveFontSize(fontCase: fontCase, key: "savedFontSize")
+            newState.currentFontSize = fontCase
         }
         
         return newState

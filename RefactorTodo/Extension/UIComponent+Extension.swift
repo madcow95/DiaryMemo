@@ -1,5 +1,7 @@
 import UIKit
 import SnapKit
+import ReactorKit
+import RxSwift
 
 class FontSizeSlider: UIView {
     private lazy var minusButton: UIButton = {
@@ -25,17 +27,18 @@ class FontSizeSlider: UIView {
         
         return button
     }()
+    var circles: [UIButton] = []
     private var count: Int = 0
-    private var index: Int = 3
     private var prevCircle: UIButton?
+    private weak var vc: SettingFontViewController?
     
     convenience init(
         count: Int,
-        index: Int
+        vc: SettingFontViewController?
     ) {
         self.init()
         self.count = count
-        self.index = index
+        self.vc = vc
     }
     
     override init(frame: CGRect) {
@@ -78,7 +81,26 @@ class FontSizeSlider: UIView {
         }
     }
     
-    func drawCircle(lineWidth: CGFloat) {
+    func addButtonAction() {
+        minusButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                if let currentFontSize = self?.vc?.reactor?.currentState.currentFontSize, currentFontSize.rawValue > 0 {
+                    self?.vc?.reactor?.action.onNext(.changeFontSizeByButton(currentFontSize, .minus))
+                }
+            })
+            .disposed(by: self.vc!.disposeBag)
+        
+        plusButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                if let currentFontSize = self.vc?.reactor?.currentState.currentFontSize, currentFontSize.rawValue < self.count - 1 {
+                    self.vc?.reactor?.action.onNext(.changeFontSizeByButton(currentFontSize, .plus))
+                }
+            })
+            .disposed(by: self.vc!.disposeBag)
+    }
+    
+    func drawCircle(lineWidth: CGFloat, index: Int) {
         let xPoint: CGFloat = lineWidth / CGFloat(count - 1)
         for i in 0..<self.count {
             let circle = UIButton()
@@ -86,6 +108,7 @@ class FontSizeSlider: UIView {
             var tintColor: UIColor = .systemGray4
             circle.translatesAutoresizingMaskIntoConstraints = false
             circle.setImage(UIImage(systemName: "circle.fill"), for: .normal)
+            circle.backgroundColor = .clear
             
             if i == index {
                 height = 20
@@ -97,15 +120,39 @@ class FontSizeSlider: UIView {
             
             circle.snp.makeConstraints {
                 if i == 0 {
-                    // 첫 번째 원의 centerX를 hLine의 left와 일치
                     $0.centerX.equalTo(hLine.snp.left)
                 } else if i == self.count - 1 {
-                    // 마지막 원의 centerX를 hLine의 right와 일치
                     $0.centerX.equalTo(hLine.snp.right)
                 } else {
-                    $0.left.equalTo(hLine.snp.left).offset(xPoint * CGFloat(i))
+                    $0.centerX.equalTo(hLine.snp.left).offset(xPoint * CGFloat(i))
                 }
                 $0.centerY.equalTo(hLine)
+                $0.height.equalTo(height)
+                $0.width.equalTo(height)
+            }
+            
+            circle.rx.tap
+                .subscribe { [weak self] _ in
+                    self?.vc?.reactor?.action.onNext(.changeFontSize(FontCase.allCases[i]))
+                }
+                .disposed(by: self.vc!.disposeBag)
+            
+            circles.append(circle)
+        }
+    }
+    
+    func updateCircle(index: Int) {
+        for i in 0..<self.count {
+            var height: CGFloat = 10
+            var tintColor: UIColor = .systemGray4
+            
+            if i == index {
+                height = 20
+                tintColor = .primaryColor
+            }
+            
+            circles[i].tintColor = tintColor
+            circles[i].snp.updateConstraints {
                 $0.height.equalTo(height)
                 $0.width.equalTo(height)
             }

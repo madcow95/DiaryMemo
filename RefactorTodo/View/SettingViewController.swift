@@ -17,6 +17,12 @@ class SettingViewController: TodoViewController {
         return table
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        settingTableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

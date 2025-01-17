@@ -39,7 +39,73 @@ public enum FontCase: Int, CaseIterable {
     case larger
     case largest
     
+    var fontSize: CGFloat {
+        get {
+            switch self {
+            case .largest:
+                return 22
+            case .larger:
+                return 20
+            case .large:
+                return 18
+            case .normal:
+                return 16
+            case .small:
+                return 14
+            case .smaller:
+                return 12
+            case .smallest:
+                return 10
+            }
+        }
+    }
+    
     init?(index: Int) {
         self.init(rawValue: index)
+    }
+    
+    enum SelectCase {
+        case minus
+        case plus
+    }
+    
+    func updateCaseBy(selectCase: SelectCase) -> FontCase {
+        switch selectCase {
+        case .minus:
+            switch self {
+            case .largest:
+                return .larger
+            case .larger:
+                return .large
+            case .large:
+                return .normal
+            case .normal:
+                return .small
+            case .small:
+                return .smaller
+            case .smaller:
+                return .smallest
+            default:
+                break
+            }
+        case .plus:
+            switch self {
+            case .larger:
+                return .largest
+            case .large:
+                return .larger
+            case .normal:
+                return .large
+            case .small:
+                return .normal
+            case .smaller:
+                return .small
+            case .smallest:
+                return .smaller
+            default:
+                break
+            }
+        }
+        return .normal
     }
 }

@@ -3,13 +3,7 @@ import SnapKit
 
 class SettingTableViewCell: UITableViewCell {
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .black
-        
-        return label
-    }()
+    private let titleLabel = TodoLabel(text: "", textColor: .black)
     private let chevoronImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -49,5 +43,13 @@ class SettingTableViewCell: UITableViewCell {
     
     func configureCell(title: String) {
         titleLabel.text = title
+        titleLabel.updateFontSize()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        chevoronImageView.image = nil
+        titleLabel.text = nil
     }
 }

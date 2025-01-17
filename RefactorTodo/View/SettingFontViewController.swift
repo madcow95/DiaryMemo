@@ -24,10 +24,18 @@ class SettingFontViewController: TodoViewController {
         return imageView
     }()
     private let dateLabel = TodoLabel(text: Date().dateToString(includeDay: .dayOfWeek),
-                                      textColor: .lightGray)
+                                      textColor: .lightGray,
+                                      isDefaultSize: false)
     private let firstPreviewLabel = TodoLabel(text: "일기를 쓰는 습관 :)")
     private let secondPreviewLabel = TodoLabel(text: "변경된 폰트 사이즈가 표시됩니다")
-    private let slider = FontSizeSlider(count: 7, index: FontCase.normal.rawValue)
+    private lazy var slider = FontSizeSlider(count: 7,
+                                             vc: self)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        reactor?.action.onNext(.loadFontSize)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +55,7 @@ class SettingFontViewController: TodoViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             $0.left.equalTo(view.snp.left).offset(10)
             $0.right.equalTo(view.snp.right).offset(-10)
-            $0.height.equalTo(200)
+            $0.height.equalTo(180)
         }
         
         previewContainer.addSubview(imageView)
@@ -76,6 +84,7 @@ class SettingFontViewController: TodoViewController {
             $0.left.equalTo(previewContainer.snp.left).offset(10)
             $0.right.equalTo(previewContainer.snp.right).offset(-10)
         }
+        secondPreviewLabel.numberOfLines = 0
     }
     
     func configureSlider() {
@@ -88,19 +97,23 @@ class SettingFontViewController: TodoViewController {
 
         view.layoutIfNeeded()
         
-        slider.drawCircle(lineWidth: slider.hLine.frame.width)
+        slider.drawCircle(lineWidth: slider.hLine.frame.width,
+                          index: reactor!.currentState.currentFontSize.rawValue)
+        slider.addButtonAction()
     }
 }
 
 extension SettingFontViewController: View {
     func bind(reactor: SettingFontReactor) {
-//        reactor.state.map { $0.currentFontSize.rawValue }
-//            .observe(on: MainScheduler.instance)
-//            .distinctUntilChanged()
-//            .subscribe { [weak self] idx in
-//                guard let self = self else { return }
-//                
-//            }
-//            .disposed(by: disposeBag)
+        reactor.state.map { $0.currentFontSize.rawValue }
+            .observe(on: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe { [weak self] idx in
+                guard let self = self, self.slider.circles.count > 0 else { return }
+                self.slider.updateCircle(index: idx)
+                self.firstPreviewLabel.font = UIFont.systemFont(ofSize: self.reactor?.currentState.currentFontSize.fontSize ?? 18)
+                self.secondPreviewLabel.font = UIFont.systemFont(ofSize: self.reactor?.currentState.currentFontSize.fontSize ?? 18)
+            }
+            .disposed(by: disposeBag)
     }
 }
