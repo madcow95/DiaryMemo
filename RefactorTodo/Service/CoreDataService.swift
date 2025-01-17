@@ -113,6 +113,25 @@ class CoreDataService {
         }
     }
     
+    func loadTodoBy(keyword: String) -> Observable<[TodoModel]> {
+        return Observable.create { observer in
+            let request = Todo.fetchRequest()
+            request.predicate = NSPredicate(format: "content CONTAINS[c] %@", keyword)
+            do {
+                let todos = try self.context.fetch(request)
+                print(#function, #line)
+                print(todos.count)
+                print(#function, #line)
+                observer.onNext(todos.map { $0.toTodoModel() })
+                observer.onCompleted()
+            } catch {
+                observer.onError(error)
+            }
+            
+            return Disposables.create()
+        }
+    }
+    
     func loadTodosBy(yearMonth: String) -> Observable<[TodoModel]> {
         return Observable.create { observer in
             let request = Todo.fetchRequest()

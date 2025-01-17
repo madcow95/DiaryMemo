@@ -192,6 +192,7 @@ extension AddTodoViewController: View {
                 }
             })
             .disposed(by: disposeBag)
+        
         Observable.merge([
             NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
                 .map { _ in true },
@@ -209,10 +210,16 @@ extension AddTodoViewController: View {
         
         saveButton.rx.tap
             .map { [weak self] _ in
+                let date = self?.reactor?.currentState.selectedDate.dateToString(includeDay: .day) ?? "Unknown Date"
+                let content = self?.todoContent.text ?? ""
+                var emotion = ""
+                if let selectedIdx = self?.reactor?.currentState.selectedImageIndex {
+                    emotion = "emoji_\(selectedIdx).png"
+                }
                 let todo = TodoModel(
-                    date: self?.reactor?.currentState.selectedDate.dateToString(includeDay: .day) ?? "Unknown Date",
-                    content: self?.todoContent.text ?? "",
-                    emotion: "emoji_\(self?.reactor?.currentState.selectedImageIndex ?? 0).png",
+                    date: date,
+                    content: content,
+                    emotion: emotion,
                     images: []
                 )
                 
@@ -237,7 +244,11 @@ extension AddTodoViewController: View {
             .subscribe(onNext: { [weak self] todo in
                 self?.todoContent.text = todo.content
                 self?.todoContent.textColor = .black
-                self?.emotionButton.setImage(UIImage(named: todo.emotion), for: .normal)
+                if todo.emotion.isEmpty {
+                    self?.emotionButton.setImage(UIImage(systemName: "plus"), for: .normal)
+                } else {                
+                    self?.emotionButton.setImage(UIImage(named: todo.emotion), for: .normal)
+                }
                 self?.navigationItem.rightBarButtonItem = self?.deleteButton
             })
             .disposed(by: disposeBag)

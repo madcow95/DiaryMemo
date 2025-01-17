@@ -33,12 +33,14 @@ class PhotoCollectionCell: UICollectionViewCell {
         self.layer.cornerRadius = 8
     }
     
-    func configureCell(photo: UIImage, index: Int) {
+    func configureCell(photo: UIImage, index: Int, deleteOption: Bool = true) {
         self.photoView.image = photo
         self.photoIndex = index
         
-        let interaction = UIContextMenuInteraction(delegate: self)
-        self.addInteraction(interaction)
+        if deleteOption {        
+            let interaction = UIContextMenuInteraction(delegate: self)
+            self.addInteraction(interaction)
+        }
     }
     
     override func prepareForReuse() {

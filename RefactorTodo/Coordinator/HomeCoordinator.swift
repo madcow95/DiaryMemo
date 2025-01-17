@@ -31,6 +31,13 @@ final class HomeCoordinator: Coordinator {
         settingCoordinator.start()
     }
     
+    func moveToSearch() {
+        let searchCoordinator = SearchDiaryCoordinator(navigationController: navigationController)
+        childCoordinators.append(searchCoordinator)
+        searchCoordinator.parentCoordinator = self
+        searchCoordinator.start()
+    }
+    
     func childDidFinish(_ child: Coordinator) {
         if let idx = childCoordinators.firstIndex(where: { $0 === child }) {
             childCoordinators.remove(at: idx)

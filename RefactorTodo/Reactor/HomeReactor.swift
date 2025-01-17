@@ -16,14 +16,12 @@ class HomeReactor: Reactor {
     
     enum Action {
         case moveToAddView(Date)
-        case addTodo
+        case moveToSearch
         case loadAllTodosByYearMonth(Date)
         case moveToSetting
     }
     
     enum Mutation {
-        case moveToAddView(Date)
-        case addTodo
         case loadAllTodosByYearMonth([TodoModel])
     }
     
@@ -32,7 +30,8 @@ class HomeReactor: Reactor {
         case .moveToAddView(let date):
             homeCoordinator?.moveToAddTodo(selected: date)
             return .empty()
-        case .addTodo:
+        case .moveToSearch:
+            homeCoordinator?.moveToSearch()
             return .empty()
         case .loadAllTodosByYearMonth(let date):
             return CoreDataService.shared.loadTodosBy(yearMonth: date.dateToString(includeDay: .month))
@@ -49,8 +48,6 @@ class HomeReactor: Reactor {
         switch mutation {
         case .loadAllTodosByYearMonth(let todos):
             newState.existTodos = todos
-        default:
-            break
         }
         
         return newState

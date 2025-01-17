@@ -21,8 +21,6 @@ class TodoCalendar: FSCalendar {
         self.scope = .month
         self.appearance.weekdayTextColor = .primaryColor
         self.appearance.headerTitleColor = .primaryColor
-        self.appearance.todayColor = .clear
-        self.appearance.selectionColor = .clear
         self.placeholderType = .none
         
         updateCaledanrFont()
