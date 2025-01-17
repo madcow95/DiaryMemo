@@ -84,8 +84,9 @@ class FontSizeSlider: UIView {
     func addButtonAction() {
         minusButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                if let currentFontSize = self?.vc?.reactor?.currentState.currentFontSize, currentFontSize.rawValue > 0 {
-                    self?.vc?.reactor?.action.onNext(.changeFontSizeByButton(currentFontSize, .minus))
+                guard let self = self else { return }
+                if let currentFontSize = self.vc?.reactor?.currentState.currentFontSize, currentFontSize.rawValue > 0 {
+                    self.vc?.reactor?.action.onNext(.changeFontSizeByButton(currentFontSize, .minus))
                 }
             })
             .disposed(by: self.vc!.disposeBag)

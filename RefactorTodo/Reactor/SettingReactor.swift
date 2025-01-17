@@ -11,7 +11,8 @@ class SettingReactor: Reactor {
     }
     
     struct State {
-        let cellLabels: [String] = ["개인정보 처리방침", "글자 스타일"]
+        let cellLabels: [String] = ["글자 스타일", "개인정보 처리방침"]
+        let cellImage: [String] = ["t.circle", "lock"]
     }
     
     enum Action {

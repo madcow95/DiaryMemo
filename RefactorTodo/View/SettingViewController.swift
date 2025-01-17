@@ -57,8 +57,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        if let title = reactor?.currentState.cellLabels[indexPath.item] {
-            cell.configureCell(title: title)
+        if let title = reactor?.currentState.cellLabels[indexPath.item],
+            let image = reactor?.currentState.cellImage[indexPath.item] {
+            cell.configureCell(title: title, imageName: image)
         }
         
         return cell
@@ -72,9 +73,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.item {
         case 0:
-            reactor?.action.onNext(.presentPrivatePolicy)
-        case 1:
             reactor?.action.onNext(.showFontSettingView)
+        case 1:
+            reactor?.action.onNext(.presentPrivatePolicy)
         default:
             break
         }

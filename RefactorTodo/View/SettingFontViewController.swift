@@ -19,22 +19,31 @@ class SettingFontViewController: TodoViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.backgroundColor = .clear
-        imageView.image = UIImage(named: "emoji_\((0..<13).randomElement()!)")
+        imageView.image = UIImage(named: "emoji_8")
         
         return imageView
     }()
     private let dateLabel = TodoLabel(text: Date().dateToString(includeDay: .dayOfWeek),
-                                      textColor: .lightGray,
-                                      isDefaultSize: false)
+                                      textColor: .lightGray)
     private let firstPreviewLabel = TodoLabel(text: "일기를 쓰는 습관 :)")
     private let secondPreviewLabel = TodoLabel(text: "변경된 폰트 사이즈가 표시됩니다")
     private lazy var slider = FontSizeSlider(count: 7,
                                              vc: self)
+    private lazy var fontTableView: UITableView = {
+        let table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.delegate = self
+        table.dataSource = self
+        table.register(FontTableViewCell.self, forCellReuseIdentifier: "FontTableViewCell")
+        table.layer.cornerRadius = 10
+        
+        return table
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        reactor?.action.onNext(.loadFontSize)
+        reactor?.action.onNext(.loadFontInfo)
     }
     
     override func viewDidLoad() {
@@ -47,6 +56,7 @@ class SettingFontViewController: TodoViewController {
         self.title = "글자 스타일"
         configurePreview()
         configureSlider()
+        configureTable()
     }
     
     func configurePreview() {
@@ -101,6 +111,15 @@ class SettingFontViewController: TodoViewController {
                           index: reactor!.currentState.currentFontSize.rawValue)
         slider.addButtonAction()
     }
+    
+    func configureTable() {
+        view.addSubview(fontTableView)
+        fontTableView.snp.makeConstraints {
+            $0.top.equalTo(slider.snp.bottom).offset(40)
+            $0.left.right.equalTo(slider)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-15)
+        }
+    }
 }
 
 extension SettingFontViewController: View {
@@ -111,9 +130,39 @@ extension SettingFontViewController: View {
             .subscribe { [weak self] idx in
                 guard let self = self, self.slider.circles.count > 0 else { return }
                 self.slider.updateCircle(index: idx)
-                self.firstPreviewLabel.font = UIFont.systemFont(ofSize: self.reactor?.currentState.currentFontSize.fontSize ?? 18)
-                self.secondPreviewLabel.font = UIFont.systemFont(ofSize: self.reactor?.currentState.currentFontSize.fontSize ?? 18)
+                let fontName = UserInfoService.shared.getFontName()
+                self.firstPreviewLabel.updateFontSize()
+                self.secondPreviewLabel.updateFontSize()
             }
             .disposed(by: disposeBag)
+    }
+}
+
+extension SettingFontViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return reactor?.currentState.fonts.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FontTableViewCell", for: indexPath) as? FontTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        if let fontItem = reactor?.currentState.fonts[indexPath.row] {
+            cell.configureCell(title: fontItem.1, fontName: fontItem.0)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            if let fontName = self.reactor?.currentState.fonts[indexPath.row] {
+                UserInfoService.shared.saveFontName(name: fontName.0)
+                self.firstPreviewLabel.updateFontSize()
+                self.secondPreviewLabel.updateFontSize()
+            }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

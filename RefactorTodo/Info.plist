@@ -19,5 +19,15 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>KyungKiCheonNyunBatang.ttf</string>
+		<string>OnGeulYipGongbuJalHajana.ttf</string>
+		<string>OnGeulYipMitMi.ttf</string>
+		<string>ChosunCentennial.ttf</string>
+		<string>NanumSquareR.ttf</string>
+		<string>NotoSansKR-Regular.ttf</string>
+		<string>Recipekorea.ttf</string>
+	</array>
 </dict>
 </plist>
