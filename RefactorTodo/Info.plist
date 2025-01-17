@@ -21,13 +21,15 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>KyungKiCheonNyunBatang.ttf</string>
-		<string>OnGeulYipGongbuJalHajana.ttf</string>
-		<string>OnGeulYipMitMi.ttf</string>
+		<string>Cafe24Simplehae.ttf</string>
+		<string>TheFaceShop.ttf</string>
 		<string>ChosunCentennial.ttf</string>
 		<string>NanumSquareR.ttf</string>
 		<string>NotoSansKR-Regular.ttf</string>
 		<string>Recipekorea.ttf</string>
+		<string>Cafe24Syongsyong.ttf</string>
+		<string>UhBee mysen.ttf</string>
+		<string>Mabinogi_Classic.ttf</string>
 	</array>
 </dict>
 </plist>

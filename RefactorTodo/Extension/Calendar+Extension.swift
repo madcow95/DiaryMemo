@@ -19,12 +19,25 @@ class TodoCalendar: FSCalendar {
         self.scrollEnabled = true
         self.scrollDirection = .vertical
         self.scope = .month
-        self.appearance.weekdayFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
         self.appearance.weekdayTextColor = .primaryColor
         self.appearance.headerTitleColor = .primaryColor
-        self.appearance.headerTitleFont = UIFont.systemFont(ofSize: 20, weight: .bold)
         self.appearance.todayColor = .clear
         self.appearance.selectionColor = .clear
         self.placeholderType = .none
+        
+        updateCaledanrFont()
+    }
+    
+    func updateCaledanrFont() {
+        let fontName = UserInfoService.shared.getFontName()
+        if fontName == "normal" {
+            self.appearance.weekdayFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
+            self.appearance.headerTitleFont = UIFont.systemFont(ofSize: 20, weight: .bold)
+            self.appearance.titleFont = UIFont.systemFont(ofSize: 12)
+        } else {
+            self.appearance.weekdayFont = UIFont(name: fontName, size: 15)
+            self.appearance.headerTitleFont = UIFont(name: fontName, size: 20)
+            self.appearance.titleFont = UIFont(name: fontName, size: 12)
+        }
     }
 }

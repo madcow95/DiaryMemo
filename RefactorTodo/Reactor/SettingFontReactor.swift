@@ -14,13 +14,16 @@ class SettingFontReactor: Reactor {
         var currentFontSize: FontCase = .normal
         var currentFont: String = "normal"
         let fonts: [(String, String)] = [("normal", "기본"),
-                                         ("KyungKiCheonNyunBatang", "경기천년바탕"),
-                                         ("OnGeulYipGongbuJalHajana", "온글잎 공부잘하자나"),
-                                         ("OnGeulYipMitMi", "온글잎 밑미"),
+                                         ("Cafe24Simplehae", "카페24 심플해"),
+                                         ("Cafe24Syongsyong", "카페24 숑숑"),
+                                         ("TheFaceShop", "잉크립퀴드체"),
                                          ("ChosunCentennial", "ChosunCentennial"),
                                          ("NanumSquareR", "NanumSquare"),
                                          ("NotoSansKR-Regular", "NotoSans"),
-                                         ("Recipekorea", "Recipekorea")]
+                                         ("UhBee mysen", "어비 마이센체"),
+                                         ("Mabinogi_Classic", "마비옛체"),
+                                         ("Recipekorea", "Recipekorea")
+                                        ]
     }
     
     enum Action {

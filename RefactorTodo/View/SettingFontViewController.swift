@@ -130,7 +130,7 @@ extension SettingFontViewController: View {
             .subscribe { [weak self] idx in
                 guard let self = self, self.slider.circles.count > 0 else { return }
                 self.slider.updateCircle(index: idx)
-                let fontName = UserInfoService.shared.getFontName()
+                self.dateLabel.updateFontSize()
                 self.firstPreviewLabel.updateFontSize()
                 self.secondPreviewLabel.updateFontSize()
             }
@@ -159,10 +159,15 @@ extension SettingFontViewController: UITableViewDelegate, UITableViewDataSource 
         DispatchQueue.main.async {
             if let fontName = self.reactor?.currentState.fonts[indexPath.row] {
                 UserInfoService.shared.saveFontName(name: fontName.0)
+                self.dateLabel.updateFontSize()
                 self.firstPreviewLabel.updateFontSize()
                 self.secondPreviewLabel.updateFontSize()
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
 }

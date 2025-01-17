@@ -17,8 +17,10 @@ class HomeViewController: TodoViewController {
     // view가 시작될 때 달력 초기화
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         calendarView.layoutIfNeeded()
         reactor?.action.onNext(.loadAllTodosByYearMonth(calendarView.currentPage))
+        calendarView.updateCaledanrFont()
     }
     
     override func viewDidLoad() {
@@ -32,8 +34,8 @@ class HomeViewController: TodoViewController {
     }
     
     func configureUI() {
-        configureCalendar()
         configureButton()
+        configureCalendar()
     }
     
     func configureCalendar() {
@@ -44,7 +46,6 @@ class HomeViewController: TodoViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.left.equalTo(view.safeAreaLayoutGuide.snp.left)
             $0.right.equalTo(view.safeAreaLayoutGuide.snp.right)
-//            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-100)
             $0.height.equalTo(view.safeAreaLayoutGuide.layoutFrame.height - 200)
         }
     }

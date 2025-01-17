@@ -2,8 +2,6 @@ import UIKit
 
 // 공통으로 쓰기 위한 UILabel
 class TodoLabel: UILabel {
-    lazy var savedFontSize = UserInfoService.shared.getFontSize().fontSize
-    lazy var savedFontName = UserInfoService.shared.getFontName()
     override init(frame: CGRect) {
         super.init(frame: frame)
         initialLabel()
@@ -18,24 +16,22 @@ class TodoLabel: UILabel {
         text: String?,
         textColor: UIColor = .black,
         fontSize: CGFloat? = nil,
-        fontWeight: UIFont.Weight = .regular,
-        isDefaultSize: Bool = true
+        fontWeight: UIFont.Weight = .regular
     ) {
         self.init()
         self.text = text
         self.textColor = textColor
-        if let fontSize = fontSize {
-            self.font = UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
-        } else {
-            if isDefaultSize {
-                let fontSize = UserInfoService.shared.getFontSize()
-                self.font = UIFont.systemFont(ofSize: fontSize.fontSize, weight: fontWeight)
-            }
-        }
+        updateFontSize(fontSize: fontSize)
     }
     
-    func updateFontSize() {
-        self.font = UIFont.systemFont(ofSize: UserInfoService.shared.getFontSize().fontSize)
+    func updateFontSize(fontSize: CGFloat? = nil, fontName: String? = nil) {
+        let savedFontSize = UserInfoService.shared.getFontSize().fontSize
+        let savedFontName = UserInfoService.shared.getFontName()
+        if savedFontName == "normal" {
+            self.font = UIFont.systemFont(ofSize: fontSize ?? savedFontSize)
+        } else {
+            self.font = UIFont(name: fontName ?? savedFontName, size: fontSize ?? savedFontSize)
+        }
     }
     
     func initialLabel() {

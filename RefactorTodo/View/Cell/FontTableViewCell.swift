@@ -16,7 +16,7 @@ class FontTableViewCell: UITableViewCell {
     func initialCell() {
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.centerY.equalTo(contentView.snp.centerY)
             $0.left.equalTo(contentView.snp.left).offset(10)
         }
     }
@@ -24,6 +24,6 @@ class FontTableViewCell: UITableViewCell {
     func configureCell(title: String, fontName: String) {
         titleLabel.text = title
 
-        titleLabel.updateFontSize()
+        titleLabel.updateFontSize(fontSize: FontCase.normal.fontSize, fontName: fontName)
     }
 }

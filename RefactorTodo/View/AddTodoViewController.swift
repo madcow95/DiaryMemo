@@ -33,7 +33,13 @@ class AddTodoViewController: TodoViewController {
     private let placeholderText = "오늘의 일기를 작성해주세요"
     private lazy var todoContent: UITextView = {
         let textView = UITextView()
-        textView.font = .systemFont(ofSize: 15)
+        let fontName = UserInfoService.shared.getFontName()
+        let fontSize = UserInfoService.shared.getFontSize()
+        if fontName == "normal" {
+            textView.font = UIFont.systemFont(ofSize: fontSize.fontSize)
+        } else {
+            textView.font = UIFont(name: fontName, size: fontSize.fontSize)
+        }
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         textView.backgroundColor = .todoBackgroundColor
         textView.text = "오늘의 일기를 작성해주세요"
