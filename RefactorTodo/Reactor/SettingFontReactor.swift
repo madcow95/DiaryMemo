@@ -24,32 +24,37 @@ class SettingFontReactor: Reactor {
                                          ("Mabinogi_Classic", "마비옛체"),
                                          ("Recipekorea", "Recipekorea")
                                         ]
+        var fontIndex: Int
+        
+        init() {
+            let fontName = UserInfoService.shared.getFontName()
+            self.fontIndex = self.fonts.firstIndex(where: { $0.0 == fontName })!
+        }
     }
     
     enum Action {
         case loadFontInfo
         case changeFontSize(FontCase)
         case changeFontSizeByButton(FontCase, FontCase.SelectCase)
+        case updateFontIndex(Int)
     }
     
     enum Mutation {
         case changeFontCase(FontCase)
-//        case changeFontName(String)
+        case updateFontIndex(Int)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .loadFontInfo:
             let savedFontSize = UserInfoService.shared.getFontSize()
-//            let savedFontName = UserInfoService.shared.getFontName()
-            return .concat([
-                .just(.changeFontCase(savedFontSize)),
-//                .just(.changeFontName(savedFontName))
-            ])
+            return .just(.changeFontCase(savedFontSize))
         case .changeFontSize(let fontCase):
             return .just(.changeFontCase(fontCase))
         case .changeFontSizeByButton(let fontcase, let selectCase):
             return .just(.changeFontCase(fontcase.updateCaseBy(selectCase: selectCase)))
+        case .updateFontIndex(let index):
+            return .just(.updateFontIndex(index))
         }
     }
     
@@ -60,8 +65,8 @@ class SettingFontReactor: Reactor {
         case .changeFontCase(let fontCase):
             UserInfoService.shared.saveFontSize(fontCase: fontCase)
             newState.currentFontSize = fontCase
-//        case .changeFontName(let fontName):
-//            newState.currentFont = fontName
+        case .updateFontIndex(let index):
+            newState.fontIndex = index
         }
         
         return newState

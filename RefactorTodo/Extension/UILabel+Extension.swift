@@ -24,13 +24,17 @@ class TodoLabel: UILabel {
         updateFontSize(fontSize: fontSize)
     }
     
-    func updateFontSize(fontSize: CGFloat? = nil, fontName: String? = nil) {
+    func updateFontSize(fontSize: CGFloat? = nil, fontName: String? = nil, byPass: Bool = false) {
         let savedFontSize = UserInfoService.shared.getFontSize().fontSize
         let savedFontName = UserInfoService.shared.getFontName()
         if savedFontName == "normal" {
             self.font = UIFont.systemFont(ofSize: fontSize ?? savedFontSize)
         } else {
             self.font = UIFont(name: fontName ?? savedFontName, size: fontSize ?? savedFontSize)
+        }
+        
+        if byPass {
+            self.font = UIFont(name: fontName ?? savedFontName, size: 16)
         }
     }
     

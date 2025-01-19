@@ -149,7 +149,9 @@ extension SettingFontViewController: UITableViewDelegate, UITableViewDataSource 
         }
         
         if let fontItem = reactor?.currentState.fonts[indexPath.row] {
-            cell.configureCell(title: fontItem.1, fontName: fontItem.0)
+            cell.configureCell(title: fontItem.1,
+                               fontName: fontItem.0,
+                               fontSelected: indexPath.item == reactor?.currentState.fontIndex)
         }
         
         return cell
@@ -162,6 +164,12 @@ extension SettingFontViewController: UITableViewDelegate, UITableViewDataSource 
                 self.dateLabel.updateFontSize()
                 self.firstPreviewLabel.updateFontSize()
                 self.secondPreviewLabel.updateFontSize()
+                if let cell = tableView.cellForRow(at: indexPath) as? FontTableViewCell,
+                   let prevCell = tableView.cellForRow(at: IndexPath(item: self.reactor?.currentState.fontIndex ?? 0, section: 0))  as? FontTableViewCell {
+                    prevCell.checkImageView.isHidden = true
+                    cell.checkImageView.isHidden = false
+                }
+                self.reactor?.action.onNext(.updateFontIndex(indexPath.item))
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
