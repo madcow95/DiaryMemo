@@ -62,7 +62,7 @@ class EmotionViewController: TodoViewController {
 extension EmotionViewController: View {
     func bind(reactor: EmotionReactor) {
         emotionCollectionView.rx.itemSelected
-            .map { Reactor.Action.emotionSelect($0.item) }
+            .map { .emotionSelect($0.item) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
             

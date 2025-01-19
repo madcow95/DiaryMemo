@@ -175,7 +175,7 @@ class AddTodoViewController: TodoViewController {
 extension AddTodoViewController: View {
     func bind(reactor: AddTodoReactor) {
         emotionButton.rx.tap
-            .map { Reactor.Action.showEmotionView(reactor.currentState.selectedDate) }
+            .map { .showEmotionView(reactor.currentState.selectedDate) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -223,17 +223,48 @@ extension AddTodoViewController: View {
                     images: []
                 )
                 
-                return Reactor.Action.addTodo(todo, self?.reactor?.currentState.selectedPhotos ?? [])
+                return .addTodo(todo, self?.reactor?.currentState.selectedPhotos ?? [])
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         deleteButton.rx.tap
+            .flatMap { [weak self] _ -> Observable<Bool> in
+                guard let self = self else { return Observable.just(false) }
+                
+                return Observable.create { observer in
+                    let alert = UIAlertController(
+                        title: "삭제",
+                        message: "정말 삭제하시겠습니까?",
+                        preferredStyle: .alert
+                    )
+                    
+                    let okAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                        observer.onNext(true)
+                        observer.onCompleted()
+                    }
+                    
+                    let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+                        observer.onNext(false)
+                        observer.onCompleted()
+                    }
+                    
+                    alert.addAction(cancelAction)
+                    alert.addAction(okAction)
+                    
+                    self.present(alert, animated: true)
+                    
+                    return Disposables.create {
+                        alert.dismiss(animated: true)
+                    }
+                }
+            }
+            .filter { $0 }
             .map { _ in
                 if let todo = reactor.currentState.existTodo {
-                    return Reactor.Action.deleteTodo(todo)
+                    return .deleteTodo(todo)
                 }
-                return Reactor.Action.none
+                return .none
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -257,8 +288,7 @@ extension AddTodoViewController: View {
             .observe(on: MainScheduler.instance)
             .distinctUntilChanged()
             .compactMap { $0 }
-            .map { "emoji_\($0).png" }
-            .map { UIImage(named: $0) }
+            .map { UIImage(named: "emoji_\($0).png") }
             .bind(to: emotionButton.rx.image())
             .disposed(by: disposeBag)
         

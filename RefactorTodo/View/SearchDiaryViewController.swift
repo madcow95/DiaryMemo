@@ -60,7 +60,7 @@ extension SearchDiaryViewController: View {
         searchController.searchBar.rx.text.orEmpty
             .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-            .map { Reactor.Action.searchDiary($0) }
+            .map { .searchDiary($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

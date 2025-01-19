@@ -131,17 +131,17 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
 extension HomeViewController: View {
     func bind(reactor: HomeReactor) {
         addButton.rx.tap
-            .map { Reactor.Action.moveToAddView(Date()) }
+            .map { .moveToAddView(Date()) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         settingButton.rx.tap
-            .map { Reactor.Action.moveToSetting }
+            .map { .moveToSetting }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         searchButton.rx.tap
-            .map { Reactor.Action.moveToSearch }
+            .map { .moveToSearch }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

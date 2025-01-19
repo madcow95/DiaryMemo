@@ -160,3 +160,41 @@ class FontSizeSlider: UIView {
         }
     }
 }
+
+extension UIView {
+    func showToast(msg: String, duration: TimeInterval = 2.0) {
+        let toastLabel = UILabel()
+        toastLabel.backgroundColor = UIColor.primaryColor.withAlphaComponent(0.7)
+        toastLabel.textColor = .white
+        toastLabel.textAlignment = .center
+        let fontName = UserInfoService.shared.getFontName()
+        if fontName == "normal" {
+            toastLabel.font = UIFont.systemFont(ofSize: 14)
+        } else {
+            toastLabel.font = UIFont(name: fontName, size: 14)
+        }
+        toastLabel.text = msg
+        toastLabel.alpha = 0
+        toastLabel.layer.cornerRadius = 10
+        toastLabel.clipsToBounds = true
+        
+        let maxSize = CGSize(width: self.frame.width - 40, height: 100)
+        var expectedSize = toastLabel.sizeThatFits(maxSize)
+        expectedSize.width = min(maxSize.width, expectedSize.width + 20)
+        expectedSize.height = min(maxSize.height, expectedSize.height + 20)
+        toastLabel.frame = CGRect(x: 0, y: 0, width: expectedSize.width, height: expectedSize.height)
+        toastLabel.center = CGPoint(x: self.frame.width / 2, y: self.frame.height - 200)
+        
+        self.addSubview(toastLabel)
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
+            toastLabel.alpha = 1
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.3, delay: duration, options: .curveEaseOut, animations: {
+                toastLabel.alpha = 0
+            }, completion: { _ in
+                toastLabel.removeFromSuperview()
+            })
+        })
+    }
+}

@@ -55,6 +55,7 @@ class AddTodoReactor: Reactor {
                 CoreDataService.shared.saveTodo(todo: newTodo)
                     .map { Mutation.addTodo(newTodo) }
                     .do(onNext: { [weak self] _ in
+                        self?.addTodoCoordinator?.navigationController.view.showToast(msg: "저장이 완료되었습니다.")
                         self?.popViewController()
                     }),
                 .just(.savePhotos(images))
@@ -63,6 +64,7 @@ class AddTodoReactor: Reactor {
             return CoreDataService.shared.deleteTodoForReactor(todo: todo)
                 .map { Mutation.deleteTodo(todo) }
                 .do(onNext: { [weak self] _ in
+                    self?.addTodoCoordinator?.navigationController.view.showToast(msg: "삭제가 완료되었습니다.")
                     self?.popViewController()
                 })
         case .loadTodo(let date):
