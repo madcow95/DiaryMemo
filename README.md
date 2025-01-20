@@ -4,9 +4,9 @@
   <h3>DiaryMemo</h3>
 </div>
 
-이 프로젝트는 주로 학습 목적으로 진행되었고, CRUD 기능을 기반으로 새로운 아키텍처와 라이브러리 활용 능력 향상을 목표로 했습니다.
-DiaryMemo앱을 제작하며 ReactorKit 아키텍처와 RxSwift를 도입하여 단방향 데이터 흐름을 구현하고, UI 상태 관리와 비동기 작업의 효율성에 대해 공부할 수 있었습니다.
-또한 ```convinience init```을 통해 여러 parameter로 커스텀하여 재사용 가능한 UI 컴포넌트를 만드는 모듈화된 방식으로 활용한 결과 UI작업에 대한 개발 시간을 단축할 수 있었습니다.
+이 프로젝트는 주로 학습 목적으로 진행되었고, CRUD 기능을 기반으로 새로운 아키텍처와 라이브러리 활용 능력 향상을 목표로 했습니다.<br/>
+DiaryMemo앱을 제작하며 ReactorKit 아키텍처와 RxSwift를 도입하여 단방향 데이터 흐름을 구현하고, UI 상태 관리와 비동기 작업의 효율성에 대해 공부할 수 있었습니다.<br/>
+또한 ```convinience init```을 통해 여러 parameter로 커스텀하여 재사용 가능한 UI 컴포넌트를 만드는 모듈화된 방식으로 활용한 결과 UI작업에 대한 개발 시간을 단축할 수 있었습니다.<br/>
 이 프로젝트를 통해 ReactorKit 아키텍처의 State, Action, Mutate에 맞는 구조를 구현하도록 노력했습니다.
 
 ## 앱스토어: https://apps.apple.com/kr/app/diarymemo/id6740481010
