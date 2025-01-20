@@ -31,9 +31,8 @@ DiaryMemo앱을 제작하며 ReactorKit 아키텍처와 RxSwift를 도입하여 
 ```수정 후```
 <div align="center">
   <img src="https://github.com/user-attachments/assets/aa361531-1cc1-4086-9096-4a6c832cbafc" alt="DiaryMemo_icon" width="700px"/>
-  <h4>캐시에 특정 키로 저장된 이미지가 있는 경우 해당 이미지를 재사용하고, 없는 경우에만 새로 로드하여 캐시에 저장</h4>
 </div>
-
+3. 캐시에 특정 키로 저장된 이미지가 있는 경우 해당 이미지를 재사용하고, 없는 경우에만 새로 로드하여 캐시에 저장
 
 ```수정 전```
 <div align="center">
