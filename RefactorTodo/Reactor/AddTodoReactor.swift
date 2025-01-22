@@ -115,6 +115,11 @@ class AddTodoReactor: Reactor {
         case .loadTodo(let todo):
             if let todo = todo {
                 newState.existTodo = todo
+                if !todo.emotion.isEmpty, let range = todo.emotion.range(of: "\\d+", options: .regularExpression),
+                   let number = Int(todo.emotion[range]) {
+                    newState.selectedImageIndex = number
+                }
+                
             } else {
                 self.addTodoCoordinator?.showEmotionSelectView(date: newState.selectedDate)
             }
