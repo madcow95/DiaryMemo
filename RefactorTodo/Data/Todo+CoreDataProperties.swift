@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-
+// CoreData용 모델링
 extension Todo {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Todo> {

@@ -1,5 +1,6 @@
 import UIKit
 
+// 앱 전용 색상 정리
 extension UIColor {
     static var todoBackgroundColor: UIColor {
         get {

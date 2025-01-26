@@ -3,6 +3,7 @@ import SnapKit
 import ReactorKit
 import RxSwift
 
+// 폰트 크기 조절 슬라이더
 class FontSizeSlider: UIView {
     private lazy var minusButton: UIButton = {
         let button = UIButton()
@@ -161,6 +162,7 @@ class FontSizeSlider: UIView {
     }
 }
 
+// 간단한 알림메세지
 extension UIView {
     func showToast(msg: String, duration: TimeInterval = 2.0) {
         let toastLabel = UILabel()

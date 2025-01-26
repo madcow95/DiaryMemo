@@ -13,6 +13,7 @@ final class AddTodoCoordinator: Coordinator {
         self.selectedDate = selectedDate
     }
     
+    // 일기 작성 화면으로 이동
     func start() {
         let reactor = AddTodoReactor(addTodoCoordinator: self, selectedDate: selectedDate)
         let addVC = AddTodoViewController()
@@ -21,6 +22,7 @@ final class AddTodoCoordinator: Coordinator {
         navigationController.pushViewController(addVC, animated: true)
     }
     
+    // 감정 선택 화면으로 이동
     func showEmotionSelectView(date: Date) {
         let addTodoReactor = navigationController.viewControllers
             .compactMap { ($0 as? AddTodoViewController)?.reactor }
@@ -33,9 +35,11 @@ final class AddTodoCoordinator: Coordinator {
         navigationController.present(emotionVC, animated: true)
     }
     
+    // 사용자 갤러리 화면으로 이동
     func showPhotoLibaryView(photo count: Int) {
         let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
         
+        // 갤러리 접근 권한에 따른 분기처리
         switch status {
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] status in
@@ -60,6 +64,7 @@ final class AddTodoCoordinator: Coordinator {
         }
     }
     
+    // 갤러리 접근 권한 허용일 때 실제로 화면에 present
     private func presentImagePicker(photo count: Int) {
         var config = PHPickerConfiguration(photoLibrary: .shared())
         config.selectionLimit = 5 - count
@@ -70,6 +75,7 @@ final class AddTodoCoordinator: Coordinator {
         navigationController.present(picker, animated: true)
     }
     
+    // UICollectionViewCell을 선택했을 때 전체화면으로 이미지를 볼 수 있는 화면으로 이동
     func showImageViewer(images: [UIImage], index: Int) {
         let pageVC = ImagePageViewController(images: images, initialIndex: index)
         let navigationVC = UINavigationController(rootViewController: pageVC)

@@ -30,6 +30,7 @@ extension Todo {
     }
 }
 
+// 폰트 설정을 위한 enum 케이스
 public enum FontCase: Int, CaseIterable {
     case smallest
     case smaller

@@ -1,5 +1,6 @@
 import UIKit
 
+// 공통으로 사용하는 UIViewController
 class TodoViewController: UIViewController {
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
@@ -41,6 +42,7 @@ class TodoViewController: UIViewController {
     }
 }
 
+// UIViewController에서 바로 사용할 수 있는 alert
 extension UIViewController {
     func showAlert(alertTitle: String, msg: String? = nil, confirm: String, hideCancel: Bool? = false, confirmAction: (() -> Void)?, cancelAction: (() -> Void)? = nil) {
         let alertController = UIAlertController(title: alertTitle, message: msg, preferredStyle: .alert)

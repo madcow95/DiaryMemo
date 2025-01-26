@@ -16,6 +16,7 @@ final class HomeCoordinator: Coordinator {
         navigationController.viewControllers = [homeVC]
     }
     
+    // 일기 작성 화면으로 이동
     func moveToAddTodo(selected date: Date) {
         let addTodoCoordinator = AddTodoCoordinator(navigationController: navigationController,
                                                     selectedDate: date)
@@ -24,6 +25,7 @@ final class HomeCoordinator: Coordinator {
         addTodoCoordinator.start()
     }
     
+    // 설정 화면으로 이동
     func moveToSetting() {
         let settingCoordinator = SettingCoordinator(navigationController: navigationController)
         childCoordinators.append(settingCoordinator)
@@ -31,6 +33,7 @@ final class HomeCoordinator: Coordinator {
         settingCoordinator.start()
     }
     
+    // 일기 검색 화면으로 이동
     func moveToSearch() {
         let searchCoordinator = SearchDiaryCoordinator(navigationController: navigationController)
         childCoordinators.append(searchCoordinator)

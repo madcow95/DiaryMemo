@@ -1,5 +1,6 @@
 import UIKit
 
+// String을 Date방식으로 전환
 extension String {
     func stringToDate() -> Date? {
         let dateFormatter = DateFormatter()

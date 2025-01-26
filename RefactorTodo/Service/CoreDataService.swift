@@ -6,6 +6,7 @@ class CoreDataService {
     static let shared = CoreDataService()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    // CoreData에 일기를 저장
     func saveTodo(todo: TodoModel) -> Observable<Void> {
         return Observable.create { observer in
             let request = Todo.fetchRequest()
@@ -36,6 +37,7 @@ class CoreDataService {
         }
     }
     
+    // 일기를 수정
     func editTodo(todo: TodoModel) {
         let request = Todo.fetchRequest()
         request.predicate = NSPredicate(format: "date == %@", todo.date)
@@ -60,6 +62,7 @@ class CoreDataService {
         }
     }
     
+    // 일기를 삭제하고 상태를 return
     func deleteTodoForReactor(todo: TodoModel) -> Observable<Void> {
         return Observable.create { observer in
             let request = Todo.fetchRequest()
@@ -81,6 +84,7 @@ class CoreDataService {
         }
     }
     
+    // 단순 일기 삭제
     func deleteTodo(date: String) {
         let request = Todo.fetchRequest()
         request.predicate = NSPredicate(format: "date == %@", date)
@@ -96,6 +100,7 @@ class CoreDataService {
         }
     }
     
+    // 날짜에 맞는 일기 불러오기
     func loadTodoBy(date: String) -> Observable<TodoModel?> {
         return Observable.create { observer in
             let request = Todo.fetchRequest()
@@ -113,6 +118,7 @@ class CoreDataService {
         }
     }
     
+    // 검색한 키워드로 일기 찾기
     func loadTodoBy(keyword: String) -> Observable<[TodoModel]> {
         return Observable.create { observer in
             let request = Todo.fetchRequest()
@@ -132,6 +138,7 @@ class CoreDataService {
         }
     }
     
+    // 연, 월에 작성된 일기 불러오기
     func loadTodosBy(yearMonth: String) -> Observable<[TodoModel]> {
         return Observable.create { observer in
             let request = Todo.fetchRequest()
@@ -151,6 +158,7 @@ class CoreDataService {
         }
     }
     
+    // 모든 일기 삭제
     func deleteAllData() -> Observable<Void> {
         return Observable.create { observer in
             let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Todo.fetchRequest()

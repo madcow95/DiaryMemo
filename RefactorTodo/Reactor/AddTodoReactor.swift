@@ -11,6 +11,7 @@ class AddTodoReactor: Reactor {
         self.initialState = State(selectedDate: selectedDate, selectedPhotos: [])
     }
     
+    // 상태 관리할 변수들
     struct State {
         var createdTodo: TodoModel?
         var selectedDate: Date
@@ -19,6 +20,7 @@ class AddTodoReactor: Reactor {
         var selectedPhotos: [UIImage]
     }
     
+    // 버튼을 누르는 등의 액션
     enum Action {
         case addTodo(TodoModel, [UIImage])
         case deleteTodo(TodoModel)
@@ -33,6 +35,7 @@ class AddTodoReactor: Reactor {
         case none
     }
     
+    // State의 변화를 일으키는? 액션
     enum Mutation {
         case addTodo(TodoModel)
         case deleteTodo(TodoModel)
@@ -48,6 +51,7 @@ class AddTodoReactor: Reactor {
         case showImageViewer([UIImage], Int)
     }
     
+    // Action enum에 대한 동작들
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .addTodo(let newTodo, let images):
@@ -98,6 +102,7 @@ class AddTodoReactor: Reactor {
         }
     }
     
+    // Mutate에 대한 동작들
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
