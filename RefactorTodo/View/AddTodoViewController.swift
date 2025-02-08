@@ -174,6 +174,7 @@ class AddTodoViewController: TodoViewController {
 
 extension AddTodoViewController: View {
     func bind(reactor: AddTodoReactor) {
+        // MARK: TODO - 이모티콘으로 제한하지 말고 사용자가 원하는 사진으로도 선택할 수 있게 해보기
         emotionButton.rx.tap
             .map { .showEmotionView(reactor.currentState.selectedDate) }
             .bind(to: reactor.action)
