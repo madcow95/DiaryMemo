@@ -181,7 +181,7 @@ extension AddTodoViewController: View {
             .disposed(by: disposeBag)
         
         photoButton.rx.tap
-            .map { Reactor.Action.showPhotoLibrary }
+            .map { .showPhotoLibrary }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

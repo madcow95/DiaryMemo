@@ -62,7 +62,8 @@ class CustomButton: UIButton {
         image: UIImage? = nil,
         title: String? = nil,
         tintColor: UIColor? = nil,
-        backgroundColor: UIColor? = .clear
+        backgroundColor: UIColor? = .clear,
+        cornerRadius: CGFloat? = nil
     ) {
         self.init()
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -84,6 +85,9 @@ class CustomButton: UIButton {
         }
         if let backgroundColor = backgroundColor {
             self.backgroundColor = backgroundColor
+        }
+        if let cornerRadius = cornerRadius {
+            self.layer.cornerRadius = cornerRadius
         }
     }
 }

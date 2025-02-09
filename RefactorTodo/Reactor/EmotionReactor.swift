@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 import ReactorKit
 
 class EmotionReactor: Reactor {
@@ -11,11 +11,14 @@ class EmotionReactor: Reactor {
     
     enum Action {
         case emotionSelect(Int)
+        case presentGallery
+        case imageSelected(UIImage)
     }
     
     enum Mutation {
         case emotionSelected(Int)
         case moveToPrevPage
+        case imageSelected(UIImage)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -26,6 +29,12 @@ class EmotionReactor: Reactor {
                 .just(.emotionSelected(index)),
                 .just(.moveToPrevPage)
             ])
+        case .presentGallery:
+            print("test")
+            addTodoReactor?.addTodoCoordinator?.showPhotoLibaryView(photo: 4)
+            return .empty()
+        case .imageSelected(let image):
+            return .just(.imageSelected(image))
         }
     }
     
@@ -37,6 +46,8 @@ class EmotionReactor: Reactor {
             newState.selectedEmotionIndex = index
         case .moveToPrevPage:
             newState.emotionSelected = true
+        case .imageSelected(let image):
+            newState.selectedImage = image
         }
         
         return newState
@@ -47,5 +58,6 @@ class EmotionReactor: Reactor {
         var selectedEmotionIndex: Int?
         var emotionSelected: Bool = false
         var emotionImages: [String] = (0..<13).map { "emoji_\($0).png" }
+        var selectedImage: UIImage?
     }
 }
