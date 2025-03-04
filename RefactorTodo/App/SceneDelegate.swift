@@ -21,9 +21,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
-        let appCoordinator = AppCoordinator(window: window)
-        self.appCoordinator = appCoordinator
-        appCoordinator.start()
+//        let appCoordinator = AppCoordinator(window: window)
+//        self.appCoordinator = appCoordinator
+//        appCoordinator.start()
+        
+        let splashCoordinator = SplashCoordinator()
+        splashCoordinator.start()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
