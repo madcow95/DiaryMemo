@@ -1,11 +1,13 @@
 import UIKit
 
 class SplashCoordinator: Coordinator {
+    private let window: UIWindow
     var childCoordinators: [Coordinator] = []
     let initialNavigationController: UINavigationController
     
-    init() {
+    init(window: UIWindow) {
         self.initialNavigationController = UINavigationController()
+        self.window = window
     }
     
     func start() {
@@ -13,10 +15,12 @@ class SplashCoordinator: Coordinator {
         let splashReactor = SplashReactor(splashCoordinator: self)
         splashVC.reactor = splashReactor
         
-        self.initialNavigationController.viewControllers = [splashVC]
+        window.rootViewController = splashVC
+        window.makeKeyAndVisible()
     }
     
     func moveToHomeView() {
-        
+        let appCoordinator = AppCoordinator(window: window/*, navigationController: initialNavigationController*/)
+        appCoordinator.start()
     }
 }

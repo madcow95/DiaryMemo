@@ -6,15 +6,58 @@ import RxSwift
 class SplashViewController: TodoViewController {
     var disposeBag = DisposeBag()
     
+    private lazy var splashImage: UIImageView = {
+        let imgView = UIImageView()
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.image = UIImage(named: "splashImage")
+        imgView.snp.makeConstraints {
+            $0.width.height.equalTo(self.view.frame.width / 3)
+        }
+        imgView.contentMode = .scaleAspectFit
+        
+        return imgView
+    }()
+    
+    private let splashLabel = TodoLabel(text: "DiaryMemo", fontSize: 35, fontWeight: .bold)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = .splashColor
+        configureUI()
         dismissSplashView()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        self.reactor = nil
+    }
+    
+    func configureUI() {
+        setSplashImage()
+        setSplashLogo()
+    }
+    
+    func setSplashImage() {
+        view.addSubview(splashImage)
+        
+        splashImage.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
+    }
+    
+    func setSplashLogo() {
+        view.addSubview(splashLabel)
+        
+        splashLabel.snp.makeConstraints {
+            $0.top.equalTo(splashImage.snp.bottom).offset(10)
+            $0.centerX.equalTo(view.snp.centerX)
+        }
+    }
+    
     func dismissSplashView() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.reactor?.splashCoordinator?.moveToHomeView()
+        if let reactor = reactor {
+            reactor.action.on(.next(.moveToHomeView))
         }
     }
 }

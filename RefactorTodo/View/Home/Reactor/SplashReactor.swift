@@ -3,9 +3,9 @@ import RxSwift
 import ReactorKit
 
 class SplashReactor: Reactor {
-    weak var splashCoordinator: SplashCoordinator?
+    var splashCoordinator: SplashCoordinator
     
-    init(splashCoordinator: SplashCoordinator?) {
+    init(splashCoordinator: SplashCoordinator) {
         self.splashCoordinator = splashCoordinator
     }
     
@@ -14,7 +14,7 @@ class SplashReactor: Reactor {
     }
     
     enum Action {
-        
+        case moveToHomeView
     }
     
     enum Mutation {
@@ -22,7 +22,14 @@ class SplashReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-        
+        switch action {
+        case .moveToHomeView:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.splashCoordinator.moveToHomeView()
+            }
+            
+            return .empty()
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {

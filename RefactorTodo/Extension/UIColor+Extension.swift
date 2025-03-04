@@ -27,4 +27,10 @@ extension UIColor {
             return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
         }
     }
+    
+    static var splashColor: UIColor {
+        get {
+            return UIColor(red: 209/255, green: 205/255, blue: 197/255, alpha: 1)
+        }
+    }
 }
