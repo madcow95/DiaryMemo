@@ -10,13 +10,14 @@ class SettingReactor: Reactor {
     }
     
     struct State {
-        let cellLabels: [String] = ["글자 스타일", "개인정보 처리방침"]
-        let cellImage: [String] = ["t.circle", "lock"]
+        let cellLabels: [String] = ["글자 스타일", "개인정보 처리방침", "다크 모드"]
+        let cellImage: [String] = ["t.circle", "lock", "moon.fill"]
     }
     
     enum Action {
         case presentPrivatePolicy
         case showFontSettingView
+        case changeAppearanceTheme
     }
     
     enum Mutation {
@@ -30,6 +31,9 @@ class SettingReactor: Reactor {
             return .empty()
         case .showFontSettingView:
             settingCoordinator?.showFontStyleView()
+            return .empty()
+        case .changeAppearanceTheme:
+            UserInfoService.shared.setAppearance()
             return .empty()
         }
     }

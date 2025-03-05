@@ -35,6 +35,8 @@ class TodoViewController: UIViewController {
             tabBar.scrollEdgeAppearance = tabAppearance
             tabBar.isTranslucent = false
         }
+        
+        setAppearance()
     }
     
     /// LifeCycle이 viewDidLoad의 동작을 할 때 배경 색상을 변경함
@@ -63,5 +65,17 @@ extension UIViewController {
         }
         
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func setAppearance() {
+        let appearanceMode = UserInfoService.shared.getAppearance()
+        switch appearanceMode {
+        case "Light":
+            self.overrideUserInterfaceStyle = .light
+        case "Dark":
+            self.overrideUserInterfaceStyle = .dark
+        default:
+            break
+        }
     }
 }

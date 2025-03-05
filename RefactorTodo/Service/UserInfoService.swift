@@ -12,6 +12,9 @@ class UserInfoService {
         if defaults.object(forKey: "savedFontName") == nil {
             defaults.set("normal", forKey: "savedFontName")
         }
+        if defaults.object(forKey: "appearance") == nil {
+            defaults.set("Light", forKey: "appearance")
+        }
     }
     
     // 폰트 사이즈 저장
@@ -34,5 +37,15 @@ class UserInfoService {
     // 폰트명 불러오기
     func getFontName() -> String {
         return defaults.string(forKey: "savedFontName") ?? "normal"
+    }
+    
+    func setAppearance() {
+        if let mode = defaults.string(forKey: "appearance") {
+            defaults.set(mode == "Dark" ? "Light" : "Dark", forKey: "appearance")
+        }
+    }
+    
+    func getAppearance() -> String {
+        return defaults.string(forKey: "appearance") ?? "Light"
     }
 }

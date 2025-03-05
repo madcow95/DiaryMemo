@@ -25,6 +25,7 @@ class SplashReactor: Reactor {
         switch action {
         case .moveToHomeView:
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.splashCoordinator.navigationController.navigationBar.isHidden = false
                 self.splashCoordinator.navigationController.viewControllers.removeFirst()
                 self.splashCoordinator.moveToHomeView()
             }

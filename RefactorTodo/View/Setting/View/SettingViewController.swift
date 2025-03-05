@@ -53,14 +53,13 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SettingTableViewCell", for: indexPath) as? SettingTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SettingTableViewCell", for: indexPath) as? SettingTableViewCell, let reactor = self.reactor else {
             return UITableViewCell()
         }
         
-        if let title = reactor?.currentState.cellLabels[indexPath.item],
-            let image = reactor?.currentState.cellImage[indexPath.item] {
-            cell.configureCell(title: title, imageName: image)
-        }
+        let title = reactor.currentState.cellLabels[indexPath.row]
+        let image = reactor.currentState.cellImage[indexPath.row]
+        cell.configureCell(title: title, imageName: image, cellType: indexPath.row == 2 ? .toggle : .chevron)
         
         return cell
     }
@@ -76,6 +75,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             reactor?.action.onNext(.showFontSettingView)
         case 1:
             reactor?.action.onNext(.presentPrivatePolicy)
+        case 2:
+            reactor?.action.onNext(.changeAppearanceTheme)
         default:
             break
         }

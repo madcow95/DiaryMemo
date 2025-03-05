@@ -23,6 +23,7 @@ class SplashViewController: TodoViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .splashColor
+        navigationController?.navigationBar.isHidden = true
         configureUI()
         dismissSplashView()
     }
@@ -36,7 +37,8 @@ class SplashViewController: TodoViewController {
         view.addSubview(splashImage)
         
         splashImage.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.centerX.equalTo(view.snp.centerX)
+            $0.centerY.equalTo(view.snp.centerY)
         }
     }
     
