@@ -24,6 +24,7 @@ class TodoLabel: UILabel {
         updateFontSize(fontSize: fontSize)
     }
     
+    /// 현재 UserDefault에 저장된 폰트, 폰트크기로 설정
     func updateFontSize(fontSize: CGFloat? = nil, fontName: String? = nil, byPass: Bool = false) {
         let savedFontSize = UserInfoService.shared.getFontSize().fontSize
         let savedFontName = UserInfoService.shared.getFontName()

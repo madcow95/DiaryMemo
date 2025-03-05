@@ -2,6 +2,8 @@ import UIKit
 
 // 공통으로 사용하는 UIViewController
 class TodoViewController: UIViewController {
+    
+    /// Lifecycle이 viewIsAppearing이 동작을 할 때 tabbar, 뒤로가기 버튼 등의 색상을 primary Color로 변경
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         
@@ -35,6 +37,7 @@ class TodoViewController: UIViewController {
         }
     }
     
+    /// LifeCycle이 viewDidLoad의 동작을 할 때 배경 색상을 변경함
     override func viewDidLoad() {
         super.viewDidLoad()
         

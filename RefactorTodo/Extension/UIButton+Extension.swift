@@ -47,6 +47,7 @@ class AddButton: UIButton {
     }
 }
 
+/// width, height, image 등을 한 번에 설정할 수 있는 CustomButton
 class CustomButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -3,6 +3,7 @@ import SnapKit
 
 class EmotionCollectionViewCell: UICollectionViewCell {
     
+    // 감정 이모티콘을 표현할 ImageView
     lazy var emotionImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -21,6 +22,7 @@ class EmotionCollectionViewCell: UICollectionViewCell {
         initialCell()
     }
     
+    // 화면에 감정 이모티콘 UIImageView의 Constraint 설정
     func initialCell() {
         contentView.addSubview(emotionImage)
         emotionImage.snp.makeConstraints {
@@ -28,6 +30,7 @@ class EmotionCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    // 감정 이모티콘에 실제 이미지를 표시
     func configureCell(imgName: String) {
         emotionImage.image = UIImage(named: imgName)
     }

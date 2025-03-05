@@ -6,6 +6,7 @@ protocol Coordinator: AnyObject {
     func start()
 }
 
+// 이미지  삭제 후 동적처리를 위한 delegate
 protocol PhotoDeleteDelegate {
     func deletePhoto(index: Int)
 }

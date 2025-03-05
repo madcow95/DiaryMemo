@@ -4,6 +4,7 @@ import SnapKit
 class PhotoCollectionCell: UICollectionViewCell {
     var photoDelegate: PhotoDeleteDelegate?
     private var photoIndex: Int = -1
+    // 일기를 작성할 때 저장했던 ImageView
     private let photoView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,6 +44,7 @@ class PhotoCollectionCell: UICollectionViewCell {
         }
     }
     
+    // Cell의 재사용 방지
     override func prepareForReuse() {
        super.prepareForReuse()
        
@@ -51,6 +53,7 @@ class PhotoCollectionCell: UICollectionViewCell {
 }
 
 extension PhotoCollectionCell: UIContextMenuInteractionDelegate {
+    // 이미지를 길게 눌렀을 때 삭제 가능한 context menu 출력
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(
             identifier: nil,

@@ -162,8 +162,8 @@ class FontSizeSlider: UIView {
     }
 }
 
-// 간단한 알림메세지
 extension UIView {
+    /// 알림을 위한 토스트 메세지
     func showToast(msg: String, duration: TimeInterval = 2.0) {
         let toastLabel = UILabel()
         toastLabel.backgroundColor = UIColor.primaryColor.withAlphaComponent(0.7)
