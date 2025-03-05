@@ -26,7 +26,7 @@ class SearchResultTableViewCell: UITableViewCell {
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = true
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        collectionView.backgroundColor = .todoBackgroundColor
+        collectionView.backgroundColor = .lightBackgroundColor
         
         return collectionView
     }()
@@ -51,7 +51,7 @@ class SearchResultTableViewCell: UITableViewCell {
     }
     
     func initialCell() {
-        contentView.backgroundColor = .todoBackgroundColor
+        contentView.backgroundColor = .lightBackgroundColor
         contentView.addSubview(dateLabel)
         contentView.addSubview(feelingImageView)
         contentView.addSubview(contentLabel)

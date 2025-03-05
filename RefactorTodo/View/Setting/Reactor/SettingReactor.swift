@@ -38,11 +38,5 @@ class SettingReactor: Reactor {
         }
     }
     
-//    func reduce(state: State, mutation: Mutation) -> State {
-//        let newState = state
-//        
-//        return newState
-//    }
-    
     let initialState: State = State()
 }

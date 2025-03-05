@@ -16,14 +16,14 @@ class SettingTableViewCell: UITableViewCell {
         
         return imageView
     }()
-    private let darkThemeToggle: UISwitch = {
+    private lazy var darkThemeToggle: UISwitch = {
         let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
         toggle.onTintColor = .primaryColor
         
         return toggle
     }()
-    private let titleLabel = TodoLabel(text: "", textColor: .black)
+    private let titleLabel = TodoLabel(text: "", textColor: .label)
     private let chevronImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +45,7 @@ class SettingTableViewCell: UITableViewCell {
     }
     
     func initialCell() {
-        contentView.backgroundColor = .todoBackgroundColor
+        contentView.backgroundColor = UserInfoService.shared.getAppearance() == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         
         contentView.addSubview(titleImage)
         titleImage.snp.makeConstraints {
@@ -71,6 +71,9 @@ class SettingTableViewCell: UITableViewCell {
             $0.centerY.equalTo(contentView.snp.centerY)
             $0.right.equalTo(contentView.snp.right).offset(-15)
         }
+        
+        let theme = UserInfoService.shared.getAppearance()
+        darkThemeToggle.isOn = theme == "Dark" ? true : false
     }
     
     func configureCell(title: String, imageName: String, cellType: CellCase) {
@@ -87,6 +90,10 @@ class SettingTableViewCell: UITableViewCell {
             $0.width.height.equalTo(titleLabel.font.pointSize)
         }
         titleImage.image = UIImage(systemName: imageName)
+    }
+    
+    func changeDarkMode() {
+        darkThemeToggle.setOn(!darkThemeToggle.isOn, animated: true)
     }
     
     override func prepareForReuse() {

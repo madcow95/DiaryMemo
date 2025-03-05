@@ -2,7 +2,8 @@ import UIKit
 import SnapKit
 
 class FontTableViewCell: UITableViewCell {
-    private let titleLabel = TodoLabel(text: "", textColor: .black)
+    private let appearanceMode = UserInfoService.shared.getAppearance()
+    private lazy var titleLabel = TodoLabel(text: "", textColor: .label)
     let checkImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "checkmark"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +35,8 @@ class FontTableViewCell: UITableViewCell {
             $0.right.equalTo(contentView.snp.right).offset(-10)
             $0.width.height.equalTo(25)
         }
+        
+        contentView.backgroundColor = appearanceMode == "Dark" ? .lightGray : .white
     }
     
     func configureCell(title: String, fontName: String, fontSelected: Bool) {

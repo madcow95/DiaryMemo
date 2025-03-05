@@ -5,6 +5,7 @@ import RxSwift
 
 // 폰트 크기 조절 슬라이더
 class FontSizeSlider: UIView {
+    let appearanceMode = UserInfoService.shared.getAppearance()
     private lazy var minusButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +108,7 @@ class FontSizeSlider: UIView {
         for i in 0..<self.count {
             let circle = UIButton()
             var height: CGFloat = 10
-            var tintColor: UIColor = .systemGray4
+            var tintColor: UIColor = appearanceMode == "Dark" ? .white : .lightGray
             circle.translatesAutoresizingMaskIntoConstraints = false
             circle.setImage(UIImage(systemName: "circle.fill"), for: .normal)
             circle.backgroundColor = .clear
@@ -146,7 +147,7 @@ class FontSizeSlider: UIView {
     func updateCircle(index: Int) {
         for i in 0..<self.count {
             var height: CGFloat = 10
-            var tintColor: UIColor = .systemGray4
+            var tintColor: UIColor = appearanceMode == "Dark" ? .white : .lightGray
             
             if i == index {
                 height = 20

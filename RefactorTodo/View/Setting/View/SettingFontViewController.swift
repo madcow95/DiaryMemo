@@ -9,7 +9,7 @@ class SettingFontViewController: TodoViewController {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
         container.layer.cornerRadius = 10
-        container.backgroundColor = .white
+        container.backgroundColor = appearanceMode == "Dark" ? .lightGray : .white
         
         return container
     }()
@@ -23,8 +23,8 @@ class SettingFontViewController: TodoViewController {
         
         return imageView
     }()
-    private let dateLabel = TodoLabel(text: Date().dateToString(includeDay: .dayOfWeek),
-                                      textColor: .lightGray)
+    private lazy var dateLabel = TodoLabel(text: Date().dateToString(includeDay: .dayOfWeek),
+                                           textColor: appearanceMode == "Dark" ? .white : .lightGray)
     private let firstPreviewLabel = TodoLabel(text: "일기를 쓰는 습관 :)")
     private let secondPreviewLabel = TodoLabel(text: "변경된 폰트 사이즈가 표시됩니다")
     private lazy var slider = FontSizeSlider(count: 7,
@@ -36,6 +36,7 @@ class SettingFontViewController: TodoViewController {
         table.dataSource = self
         table.register(FontTableViewCell.self, forCellReuseIdentifier: "FontTableViewCell")
         table.layer.cornerRadius = 10
+        table.backgroundColor = appearanceMode == "Dark" ? .lightGray : .white
         
         return table
     }()

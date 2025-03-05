@@ -12,7 +12,7 @@ class SettingViewController: TodoViewController {
         table.delegate = self
         table.dataSource = self
         table.register(SettingTableViewCell.self, forCellReuseIdentifier: "SettingTableViewCell")
-        table.backgroundColor = .todoBackgroundColor
+        table.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         
         return table
     }()
@@ -77,6 +77,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             reactor?.action.onNext(.presentPrivatePolicy)
         case 2:
             reactor?.action.onNext(.changeAppearanceTheme)
+            guard let cell = tableView.cellForRow(at: indexPath) as? SettingTableViewCell else { return }
+            
+            cell.changeDarkMode()
         default:
             break
         }

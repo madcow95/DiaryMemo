@@ -12,7 +12,7 @@ class SearchDiaryViewController: TodoViewController {
         table.delegate = self
         table.dataSource = self
         table.register(SearchResultTableViewCell.self, forCellReuseIdentifier: "SearchResultTableViewCell")
-        table.backgroundColor = .todoBackgroundColor
+        table.backgroundColor = .lightBackgroundColor
         table.layer.cornerRadius = 10
         
         return table

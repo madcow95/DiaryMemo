@@ -3,6 +3,7 @@ import UIKit
 // 공통으로 사용하는 UIViewController
 class TodoViewController: UIViewController {
     
+    let appearanceMode = UserInfoService.shared.getAppearance()
     /// Lifecycle이 viewIsAppearing이 동작을 할 때 tabbar, 뒤로가기 버튼 등의 색상을 primary Color로 변경
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
@@ -11,7 +12,7 @@ class TodoViewController: UIViewController {
             let navBar = navigationVC.navigationBar
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = .todoBackgroundColor
+            appearance.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
             appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
             appearance.setBackIndicatorImage(
                 UIImage(systemName: "chevron.backward")?
@@ -29,7 +30,7 @@ class TodoViewController: UIViewController {
             let tabBar = tabBarVC.tabBar
             let tabAppearance = UITabBarAppearance()
             tabAppearance.configureWithOpaqueBackground()
-            tabAppearance.backgroundColor = .todoBackgroundColor
+            tabAppearance.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
             
             tabBar.standardAppearance = tabAppearance
             tabBar.scrollEdgeAppearance = tabAppearance
@@ -43,7 +44,7 @@ class TodoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.todoBackgroundColor
+        self.view.backgroundColor = UIColor.lightBackgroundColor
     }
 }
 
@@ -68,12 +69,14 @@ extension UIViewController {
     }
     
     func setAppearance() {
-        let appearanceMode = UserInfoService.shared.getAppearance()
-        switch appearanceMode {
+        
+        switch UserInfoService.shared.getAppearance() {
         case "Light":
             self.overrideUserInterfaceStyle = .light
+            self.view.backgroundColor = .lightBackgroundColor
         case "Dark":
             self.overrideUserInterfaceStyle = .dark
+            self.view.backgroundColor = .darkBackgroundColor
         default:
             break
         }

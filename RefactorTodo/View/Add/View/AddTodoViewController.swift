@@ -26,7 +26,7 @@ class AddTodoViewController: TodoViewController {
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = true
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        collectionView.backgroundColor = .todoBackgroundColor
+        collectionView.backgroundColor = .lightBackgroundColor
         
         return collectionView
     }()
@@ -41,7 +41,7 @@ class AddTodoViewController: TodoViewController {
             textView.font = UIFont(name: fontName, size: fontSize.fontSize)
         }
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        textView.backgroundColor = .todoBackgroundColor
+        textView.backgroundColor = .lightBackgroundColor
         textView.text = "오늘의 일기를 작성해주세요"
         textView.textColor = textView.text == "오늘의 일기를 작성해주세요" ? .lightGray : .black
         textView.delegate = self

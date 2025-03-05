@@ -22,13 +22,18 @@ class SplashViewController: TodoViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .splashColor
         navigationController?.navigationBar.isHidden = true
         configureUI()
         dismissSplashView()
     }
     
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        view.backgroundColor = .splashColor
+    }
+    
     func configureUI() {
+        
         setSplashImage()
         setSplashLogo()
     }
