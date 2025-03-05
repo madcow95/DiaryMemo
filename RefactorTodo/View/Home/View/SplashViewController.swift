@@ -27,12 +27,6 @@ class SplashViewController: TodoViewController {
         dismissSplashView()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        self.reactor = nil
-    }
-    
     func configureUI() {
         setSplashImage()
         setSplashLogo()

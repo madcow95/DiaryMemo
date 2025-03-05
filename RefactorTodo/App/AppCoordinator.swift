@@ -11,9 +11,9 @@ final class AppCoordinator: Coordinator {
     }
     
     func start() {
-        let homeCoordinator = HomeCoordinator(navigationController: navigationController)
-        childCoordinators.append(homeCoordinator)
-        homeCoordinator.start()
+        let splashCoordinator = SplashCoordinator(navigationController: navigationController)
+        childCoordinators.append(splashCoordinator)
+        splashCoordinator.start()
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
