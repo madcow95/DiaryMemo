@@ -3,11 +3,12 @@ import UIKit
 // 공통으로 사용하는 UIViewController
 class TodoViewController: UIViewController {
     
-    let appearanceMode = UserInfoService.shared.getAppearance()
     /// Lifecycle이 viewIsAppearing이 동작을 할 때 tabbar, 뒤로가기 버튼 등의 색상을 primary Color로 변경
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
+        let appearanceMode = UserInfoService.shared.getAppearance()
         
+        // Navigation Bar의 배경색 설정
         if let navigationVC = self.navigationController {
             let navBar = navigationVC.navigationBar
             let appearance = UINavigationBarAppearance()
@@ -26,6 +27,7 @@ class TodoViewController: UIViewController {
             navBar.isTranslucent = false
         }
         
+        // TabBar의 배경색 설정
         if let tabBarVC = self.tabBarController {
             let tabBar = tabBarVC.tabBar
             let tabAppearance = UITabBarAppearance()
@@ -37,14 +39,22 @@ class TodoViewController: UIViewController {
             tabBar.isTranslucent = false
         }
         
-        setAppearance()
+//        setAppearance()
+        switch appearanceMode {
+        case "Light":
+            self.overrideUserInterfaceStyle = .light
+            self.view.backgroundColor = .lightBackgroundColor
+        case "Dark":
+            self.overrideUserInterfaceStyle = .dark
+            self.view.backgroundColor = .darkBackgroundColor
+        default:
+            break
+        }
     }
     
-    /// LifeCycle이 viewDidLoad의 동작을 할 때 배경 색상을 변경함
+    /// LifeCycle이 viewDidLoad의 동작을 할 때 처리
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.lightBackgroundColor
     }
 }
 

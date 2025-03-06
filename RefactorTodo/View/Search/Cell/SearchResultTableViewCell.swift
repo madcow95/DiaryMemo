@@ -2,6 +2,7 @@ import UIKit
 import SnapKit
 
 class SearchResultTableViewCell: UITableViewCell {
+    private let appearanceMode = UserInfoService.shared.getAppearance()
     private let dateLabel = TodoLabel(text: "", textColor: .lightGray)
     private let feelingImageView: UIImageView = {
         let image = UIImageView()
@@ -26,7 +27,7 @@ class SearchResultTableViewCell: UITableViewCell {
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = true
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        collectionView.backgroundColor = .lightBackgroundColor
+        collectionView.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         
         return collectionView
     }()
@@ -51,7 +52,7 @@ class SearchResultTableViewCell: UITableViewCell {
     }
     
     func initialCell() {
-        contentView.backgroundColor = .lightBackgroundColor
+        contentView.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         contentView.addSubview(dateLabel)
         contentView.addSubview(feelingImageView)
         contentView.addSubview(contentLabel)

@@ -6,6 +6,7 @@ import RxRelay
 
 class AddTodoViewController: TodoViewController {
     var disposeBag = DisposeBag()
+    let appearanceMode = UserInfoService.shared.getAppearance()
     
     private let emotionButton = AddButton(width: 25, height: 25, imageColor: .primaryColor, backgroundColor: .clear)
     private lazy var dateLabel = TodoLabel(text: reactor?.currentState.selectedDate.dateToString(),
@@ -26,7 +27,7 @@ class AddTodoViewController: TodoViewController {
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = true
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        collectionView.backgroundColor = .lightBackgroundColor
+        collectionView.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         
         return collectionView
     }()
@@ -41,7 +42,7 @@ class AddTodoViewController: TodoViewController {
             textView.font = UIFont(name: fontName, size: fontSize.fontSize)
         }
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        textView.backgroundColor = .lightBackgroundColor
+        textView.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         textView.text = "오늘의 일기를 작성해주세요"
         textView.textColor = textView.text == "오늘의 일기를 작성해주세요" ? .lightGray : .black
         textView.delegate = self

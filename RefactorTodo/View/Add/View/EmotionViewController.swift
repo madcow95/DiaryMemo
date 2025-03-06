@@ -5,17 +5,17 @@ import PhotosUI
 
 class EmotionViewController: TodoViewController {
     var disposeBag = DisposeBag()
-    
+    let appearanceMode = UserInfoService.shared.getAppearance()
     private lazy var dateLabel = TodoLabel(text: reactor?.currentState.selectedDate.dateToString(),
                                            textColor: .lightGray,
                                            fontWeight: .bold)
-    private let todayEmotionLabel = TodoLabel(text: "오늘은 어떤 하루였나요?",
-                                              fontSize: 17,
-                                              fontWeight: .semibold)
+    private lazy var todayEmotionLabel = TodoLabel(text: "오늘은 어떤 하루였나요?",
+                                                   textColor: appearanceMode == "Dark" ? .white : .black, fontSize: 17,
+                                                   fontWeight: .semibold)
     private lazy var emotionCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collection.backgroundColor = .lightBackgroundColor
+        collection.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.delegate = self
         collection.dataSource = self

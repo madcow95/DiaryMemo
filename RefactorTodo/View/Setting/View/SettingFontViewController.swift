@@ -5,6 +5,7 @@ import RxSwift
 
 class SettingFontViewController: TodoViewController {
     var disposeBag = DisposeBag()
+    let appearanceMode = UserInfoService.shared.getAppearance()
     private lazy var previewContainer: UIView = {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false

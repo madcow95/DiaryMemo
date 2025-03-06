@@ -5,6 +5,7 @@ import RxSwift
 
 class SettingViewController: TodoViewController {
     var disposeBag = DisposeBag()
+    let appearanceMode = UserInfoService.shared.getAppearance()
     
     private lazy var settingTableView: UITableView = {
         let table = UITableView()
@@ -43,7 +44,18 @@ class SettingViewController: TodoViewController {
 
 extension SettingViewController: View {
     func bind(reactor: SettingReactor) {
-        
+        reactor.state.map { $0.themeChanged }
+            .observe(on: MainScheduler.instance)
+            .distinctUntilChanged()
+            .subscribe { _ in
+                self.viewIsAppearing(true)
+//                for (index, _) in reactor.currentState.cellLabels.enumerated() {
+//                    self.settingTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+//                }
+//                self.settingTableView.reloadInputViews()
+                self.settingTableView.backgroundColor = UserInfoService.shared.getAppearance() == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
+            }
+            .disposed(by: disposeBag)
     }
 }
 

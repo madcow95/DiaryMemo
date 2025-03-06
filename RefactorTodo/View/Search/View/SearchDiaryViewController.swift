@@ -5,6 +5,7 @@ import ReactorKit
 
 class SearchDiaryViewController: TodoViewController {
     var disposeBag: DisposeBag = DisposeBag()
+    let appearanceMode = UserInfoService.shared.getAppearance()
     let searchController = UISearchController(searchResultsController: nil)
     private lazy var resultTableView: UITableView = {
         let table = UITableView()
@@ -12,7 +13,7 @@ class SearchDiaryViewController: TodoViewController {
         table.delegate = self
         table.dataSource = self
         table.register(SearchResultTableViewCell.self, forCellReuseIdentifier: "SearchResultTableViewCell")
-        table.backgroundColor = .lightBackgroundColor
+        table.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         table.layer.cornerRadius = 10
         
         return table
