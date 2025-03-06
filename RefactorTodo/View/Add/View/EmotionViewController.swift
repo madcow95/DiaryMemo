@@ -10,7 +10,7 @@ class EmotionViewController: TodoViewController {
                                            textColor: .lightGray,
                                            fontWeight: .bold)
     private lazy var todayEmotionLabel = TodoLabel(text: "오늘은 어떤 하루였나요?",
-                                                   textColor: appearanceMode == "Dark" ? .white : .black, fontSize: 17,
+                                                   textColor: .label, fontSize: 17,
                                                    fontWeight: .semibold)
     private lazy var emotionCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -23,13 +23,15 @@ class EmotionViewController: TodoViewController {
         
         return collection
     }()
+    /*
+     MARK: 기본으로 제공되는 이모티콘 이미지가 아닌 사용자의 사진으로 이미지 등록하도록 수정
     private lazy var imageButton = CustomButton(width: view.frame.width - 100,
                                                 height: 50,
                                                 image: UIImage(systemName: "photo"),
                                                 tintColor: .primaryColor,
                                                 backgroundColor: .primaryColor.withAlphaComponent(0.5),
                                                 cornerRadius: 15)
-    
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,7 +41,7 @@ class EmotionViewController: TodoViewController {
     func configureUI() {
         configureLabel()
         configureTable()
-        configureButton()
+//        configureButton()
     }
     
     func configureLabel() {
@@ -64,7 +66,7 @@ class EmotionViewController: TodoViewController {
             $0.right.equalTo(view.snp.right).offset(-10)
         }
     }
-    
+    /*
     func configureButton() {
         view.addSubview(imageButton)
         imageButton.snp.makeConstraints {
@@ -73,6 +75,7 @@ class EmotionViewController: TodoViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
+     */
 }
 
 extension EmotionViewController: View {
@@ -82,11 +85,12 @@ extension EmotionViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        /*
         imageButton.rx.tap
             .map { .presentGallery }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-            
+        */
         reactor.state.map { $0.emotionSelected }
             .distinctUntilChanged()
             .filter { $0 }

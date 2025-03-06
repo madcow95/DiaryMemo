@@ -12,7 +12,7 @@ class SearchResultTableViewCell: UITableViewCell {
         
         return image
     }()
-    private let contentLabel = TodoLabel(text: "", textColor: .black)
+    private let contentLabel = TodoLabel(text: "", textColor: .label)
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal

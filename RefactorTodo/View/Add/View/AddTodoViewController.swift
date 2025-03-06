@@ -44,7 +44,7 @@ class AddTodoViewController: TodoViewController {
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         textView.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         textView.text = "오늘의 일기를 작성해주세요"
-        textView.textColor = textView.text == "오늘의 일기를 작성해주세요" ? .lightGray : .black
+        textView.textColor = textView.text == "오늘의 일기를 작성해주세요" ? .lightGray : .label
         textView.delegate = self
         
         return textView
@@ -276,7 +276,7 @@ extension AddTodoViewController: View {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] todo in
                 self?.todoContent.text = todo.content
-                self?.todoContent.textColor = .black
+                self?.todoContent.textColor = .label
                 if todo.emotion.isEmpty {
                     self?.emotionButton.setImage(UIImage(systemName: "plus"), for: .normal)
                 } else {                
@@ -395,7 +395,7 @@ extension AddTodoViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == placeholderText {
             textView.text = ""
-            textView.textColor = .black
+            textView.textColor = .label
         }
     }
     

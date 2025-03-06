@@ -49,10 +49,15 @@ extension SettingViewController: View {
             .distinctUntilChanged()
             .subscribe { _ in
                 self.viewIsAppearing(true)
-//                for (index, _) in reactor.currentState.cellLabels.enumerated() {
-//                    self.settingTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
-//                }
-//                self.settingTableView.reloadInputViews()
+                for (index, _) in reactor.currentState.cellLabels.enumerated() {
+                    if index == 2 {
+                        guard let cell = self.settingTableView.cellForRow(at: IndexPath(row: index, section: 0)) as? SettingTableViewCell else { return }
+                        
+                        cell.contentView.backgroundColor = UserInfoService.shared.getAppearance() == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
+                    } else {
+                        self.settingTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+                    }
+                }
                 self.settingTableView.backgroundColor = UserInfoService.shared.getAppearance() == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
             }
             .disposed(by: disposeBag)
