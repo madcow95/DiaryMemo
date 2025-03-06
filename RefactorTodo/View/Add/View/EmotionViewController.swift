@@ -64,6 +64,7 @@ class EmotionViewController: TodoViewController {
             $0.top.equalTo(todayEmotionLabel.snp.bottom).offset(10)
             $0.left.equalTo(view.snp.left).offset(10)
             $0.right.equalTo(view.snp.right).offset(-10)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
     /*

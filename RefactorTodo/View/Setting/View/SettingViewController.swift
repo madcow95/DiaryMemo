@@ -78,6 +78,12 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         let image = reactor.currentState.cellImage[indexPath.row]
         cell.configureCell(title: title, imageName: image, cellType: indexPath.row == 2 ? .toggle : .chevron)
         
+        if indexPath.row == 2 {
+            cell.changeAppearanceMode = {
+                self.reactor?.action.onNext(.changeAppearanceTheme)
+            }
+        }
+        
         return cell
     }
     

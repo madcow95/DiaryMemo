@@ -8,6 +8,8 @@ class SettingTableViewCell: UITableViewCell {
         case toggle
     }
     
+    var changeAppearanceMode: (() -> Void)?
+    
     private let titleImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,6 +22,12 @@ class SettingTableViewCell: UITableViewCell {
         let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
         toggle.onTintColor = .primaryColor
+        toggle.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            if let completion = self.changeAppearanceMode {
+                completion()
+            }
+        }, for: .valueChanged)
         
         return toggle
     }()
