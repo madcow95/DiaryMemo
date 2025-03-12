@@ -1,4 +1,4 @@
-# 간단한 일기장/메모 앱 DiaryMemo
+# 간단한 일기장/메모 앱 DiaryMemo 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/e1506db2-a3bf-42f4-8901-a559921d1b94" alt="DiaryMemo_icon" width="300px"/>
   <h3>DiaryMemo</h3>
