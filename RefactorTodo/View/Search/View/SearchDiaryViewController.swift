@@ -93,9 +93,9 @@ extension SearchDiaryViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // MARK: TODO - 화면 이동해서 정보 업데이트 기능 만들어야함
-//        if let todo = reactor?.currentState.searchedDiary[indexPath.item] {
-//            reactor?.homeCoordinator?.moveToAddTodo(selected: todo.date.stringToDate() ?? Date())
-//        }
+        if let todo = reactor?.currentState.searchedDiary[indexPath.item] {
+            reactor?.homeCoordinator?.moveToAddTodo(selected: todo.date.stringToDate() ?? Date())
+        }
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

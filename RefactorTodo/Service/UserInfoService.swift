@@ -5,6 +5,7 @@ class UserInfoService {
     private let defaults = UserDefaults.standard
     
     /// UserInfoService가 init될 때, UserDefault에 저장된 폰트와 크기가 없으면 기본값으로 설정한다.
+    /// 저장된 테마가 없으면 Light모드를 기본으로 한다.
     init() {
         if defaults.object(forKey: "savedFontSize") == nil {
             defaults.set(FontCase.normal.rawValue, forKey: "savedFontSize")
