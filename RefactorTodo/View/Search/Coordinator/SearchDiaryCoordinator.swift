@@ -1,6 +1,6 @@
 import UIKit
 
-class SearchDiaryCoordinator: Coordinator {
+final class SearchDiaryCoordinator: Coordinator {
     var parentCoordinator: HomeCoordinator?
     var childCoordinators: [Coordinator] = []
     private let navigationController: UINavigationController

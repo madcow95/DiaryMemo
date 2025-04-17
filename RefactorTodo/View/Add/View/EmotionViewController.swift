@@ -3,7 +3,7 @@ import SnapKit
 import ReactorKit
 import PhotosUI
 
-class EmotionViewController: TodoViewController {
+final class EmotionViewController: TodoViewController {
     var disposeBag = DisposeBag()
     let appearanceMode = UserInfoService.shared.getAppearance()
     private lazy var dateLabel = TodoLabel(text: reactor?.currentState.selectedDate.dateToString(),
@@ -38,13 +38,13 @@ class EmotionViewController: TodoViewController {
         configureUI()
     }
     
-    func configureUI() {
+    private func configureUI() {
         configureLabel()
         configureTable()
 //        configureButton()
     }
     
-    func configureLabel() {
+    private func configureLabel() {
         view.addSubview(dateLabel)
         dateLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
@@ -58,7 +58,7 @@ class EmotionViewController: TodoViewController {
         }
     }
     
-    func configureTable() {
+    private func configureTable() {
         view.addSubview(emotionCollectionView)
         emotionCollectionView.snp.makeConstraints {
             $0.top.equalTo(todayEmotionLabel.snp.bottom).offset(10)

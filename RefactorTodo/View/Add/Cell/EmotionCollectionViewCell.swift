@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class EmotionCollectionViewCell: UICollectionViewCell {
+final class EmotionCollectionViewCell: UICollectionViewCell {
     
     // 감정 이모티콘을 표현할 ImageView
     lazy var emotionImage: UIImageView = {
@@ -17,13 +17,14 @@ class EmotionCollectionViewCell: UICollectionViewCell {
         initialCell()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialCell()
     }
     
     // 화면에 감정 이모티콘 UIImageView의 Constraint 설정
-    func initialCell() {
+    private func initialCell() {
         contentView.addSubview(emotionImage)
         emotionImage.snp.makeConstraints {
             $0.edges.equalToSuperview()

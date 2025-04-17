@@ -3,10 +3,10 @@ import SnapKit
 import RxSwift
 import ReactorKit
 
-class SearchDiaryViewController: TodoViewController {
+final class SearchDiaryViewController: TodoViewController {
     var disposeBag: DisposeBag = DisposeBag()
-    let appearanceMode = UserInfoService.shared.getAppearance()
-    let searchController = UISearchController(searchResultsController: nil)
+    private let appearanceMode = UserInfoService.shared.getAppearance()
+    private let searchController = UISearchController(searchResultsController: nil)
     private lazy var resultTableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -30,12 +30,12 @@ class SearchDiaryViewController: TodoViewController {
         configureUI()
     }
     
-    func configureUI() {
+    private func configureUI() {
         configureSearchBar()
         configureTable()
     }
     
-    func configureSearchBar() {
+    private func configureSearchBar() {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "일기 검색"
         
@@ -45,7 +45,7 @@ class SearchDiaryViewController: TodoViewController {
         searchController.searchBar.searchTextField.backgroundColor = .systemBackground
     }
     
-    func configureTable() {
+    private func configureTable() {
         resultTableView.rowHeight = UITableView.automaticDimension
         resultTableView.estimatedRowHeight = 400
         

@@ -1,6 +1,6 @@
 import UIKit
 
-class SettingCoordinator: Coordinator {
+final class SettingCoordinator: Coordinator {
     weak var parentCoordinator: HomeCoordinator?
     var childCoordinators: [Coordinator] = []
     let navigationController: UINavigationController

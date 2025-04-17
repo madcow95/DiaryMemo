@@ -4,7 +4,7 @@ import SnapKit
 import ReactorKit
 import RxRelay
 
-class AddTodoViewController: TodoViewController {
+final class AddTodoViewController: TodoViewController {
     var disposeBag = DisposeBag()
     let appearanceMode = UserInfoService.shared.getAppearance()
     
@@ -112,7 +112,7 @@ class AddTodoViewController: TodoViewController {
         photoCollection.removeFromSuperview()
     }
     
-    func configureUI() {
+    private func configureUI() {
         configureButton()
         configureLabel()
         configureBottomView()
@@ -120,7 +120,7 @@ class AddTodoViewController: TodoViewController {
         configureTextView()
     }
     
-    func configureButton() {
+    private func configureButton() {
         view.addSubview(emotionButton)
         emotionButton.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
@@ -128,7 +128,7 @@ class AddTodoViewController: TodoViewController {
         }
     }
     
-    func configureLabel() {
+    private func configureLabel() {
         view.addSubview(dateLabel)
         dateLabel.snp.makeConstraints {
             $0.top.equalTo(emotionButton.snp.bottom).offset(5)
@@ -136,7 +136,7 @@ class AddTodoViewController: TodoViewController {
         }
     }
     
-    func configureBottomView() {
+    private func configureBottomView() {
         view.addSubview(bottomStackView)
         
         bottomStackView.snp.makeConstraints {
@@ -162,7 +162,7 @@ class AddTodoViewController: TodoViewController {
         }
     }
     
-    func configureTextView() {
+    private func configureTextView() {
         view.addSubview(todoContent)
         todoContent.snp.makeConstraints {
             $0.top.equalTo(photoCollection.snp.bottom).offset(10)

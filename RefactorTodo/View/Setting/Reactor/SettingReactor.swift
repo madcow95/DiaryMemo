@@ -2,7 +2,7 @@ import UIKit
 import ReactorKit
 import RxSwift
 
-class SettingReactor: Reactor {
+final class SettingReactor: Reactor {
     weak var settingCoordinator: SettingCoordinator?
     
     init(settingCoordinator: SettingCoordinator?) {

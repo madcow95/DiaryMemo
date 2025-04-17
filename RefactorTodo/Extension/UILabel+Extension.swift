@@ -1,12 +1,13 @@
 import UIKit
 
 // 공통으로 쓰기 위한 UILabel
-class TodoLabel: UILabel {
+final class TodoLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initialLabel()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialLabel()

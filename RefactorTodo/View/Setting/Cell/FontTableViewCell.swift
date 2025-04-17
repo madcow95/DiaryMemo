@@ -1,9 +1,9 @@
 import UIKit
 import SnapKit
 
-class FontTableViewCell: UITableViewCell {
+final class FontTableViewCell: UITableViewCell {
     private let appearanceMode = UserInfoService.shared.getAppearance()
-    private lazy var titleLabel = TodoLabel(text: "", textColor: .label)
+    private let titleLabel = TodoLabel(text: "", textColor: .label)
     let checkImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "checkmark"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,12 +17,13 @@ class FontTableViewCell: UITableViewCell {
         initialCell()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialCell()
     }
     
-    func initialCell() {
+    private func initialCell() {
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
             $0.centerY.equalTo(contentView.snp.centerY)

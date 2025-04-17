@@ -2,7 +2,7 @@ import Foundation
 import RxSwift
 import ReactorKit
 
-class HomeReactor: Reactor {
+final class HomeReactor: Reactor {
     weak var homeCoordinator: HomeCoordinator?
     
     init(homeCoordinator: HomeCoordinator?) {

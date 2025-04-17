@@ -2,7 +2,7 @@ import UIKit
 import ReactorKit
 import CoreData
 
-class CoreDataService {
+final class CoreDataService {
     static let shared = CoreDataService()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     

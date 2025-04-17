@@ -2,7 +2,7 @@ import UIKit
 import RxSwift
 import ReactorKit
 
-class SearchDiaryReactor: Reactor {
+final class SearchDiaryReactor: Reactor {
     weak var homeCoordinator: HomeCoordinator?
     
     struct State {

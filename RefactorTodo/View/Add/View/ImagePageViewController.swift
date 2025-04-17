@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class ImagePageViewController: UIPageViewController {
+final class ImagePageViewController: UIPageViewController {
     private let images: [UIImage]
     private var currentIndex: Int = 0
     
@@ -11,6 +11,7 @@ class ImagePageViewController: UIPageViewController {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

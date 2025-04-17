@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import ReactorKit
 
-class AddTodoReactor: Reactor {
+final class AddTodoReactor: Reactor {
     let initialState: State
     weak var addTodoCoordinator: AddTodoCoordinator?
     

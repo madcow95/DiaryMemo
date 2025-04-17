@@ -2,7 +2,7 @@ import RxSwift
 import ReactorKit
 
 
-class SettingFontReactor: Reactor {
+final class SettingFontReactor: Reactor {
     
     weak var parentCoordinator: SettingCoordinator?
     

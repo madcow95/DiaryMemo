@@ -1,6 +1,6 @@
 import UIKit
 
-class UserInfoService {
+final class UserInfoService {
     static let shared = UserInfoService()
     private let defaults = UserDefaults.standard
     

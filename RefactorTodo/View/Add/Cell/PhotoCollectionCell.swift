@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class PhotoCollectionCell: UICollectionViewCell {
+final class PhotoCollectionCell: UICollectionViewCell {
     var photoDelegate: PhotoDeleteDelegate?
     private var photoIndex: Int = -1
     // 일기를 작성할 때 저장했던 ImageView
@@ -19,12 +19,13 @@ class PhotoCollectionCell: UICollectionViewCell {
         initialCell()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialCell()
     }
     
-    func initialCell() {
+    private func initialCell() {
         contentView.addSubview(photoView)
         photoView.snp.makeConstraints {
             $0.edges.equalToSuperview()

@@ -2,12 +2,13 @@ import UIKit
 import RxCocoa
 
 // 공통으로 쓰기 위한 UIButton
-class AddButton: UIButton {
+final class AddButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initialButton()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialButton()
@@ -40,7 +41,7 @@ class AddButton: UIButton {
         self.backgroundColor = backgroundColor
     }
     
-    func initialButton() {
+    private func initialButton() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.setImage(UIImage(systemName: "plus"), for: .normal)
         self.tintColor = .white
@@ -48,11 +49,12 @@ class AddButton: UIButton {
 }
 
 /// width, height, image 등을 한 번에 설정할 수 있는 CustomButton
-class CustomButton: UIButton {
+final class CustomButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

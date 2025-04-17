@@ -4,7 +4,7 @@ import ReactorKit
 import RxSwift
 
 // 폰트 크기 조절 슬라이더
-class FontSizeSlider: UIView {
+final class FontSizeSlider: UIView {
     let appearanceMode = UserInfoService.shared.getAppearance()
     private lazy var minusButton: UIButton = {
         let button = UIButton()
@@ -48,12 +48,13 @@ class FontSizeSlider: UIView {
         initialSlider()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialSlider()
     }
     
-    func initialSlider() {
+    private func initialSlider() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.snp.makeConstraints {
             $0.height.equalTo(44)

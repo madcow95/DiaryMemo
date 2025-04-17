@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class SettingTableViewCell: UITableViewCell {
+final class SettingTableViewCell: UITableViewCell {
     
     enum CellCase {
         case chevron
@@ -47,12 +47,13 @@ class SettingTableViewCell: UITableViewCell {
         initialCell()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialCell()
     }
     
-    func initialCell() {
+    private func initialCell() {
         contentView.backgroundColor = UserInfoService.shared.getAppearance() == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         
         contentView.addSubview(titleImage)

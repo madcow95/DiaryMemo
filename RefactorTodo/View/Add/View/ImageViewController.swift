@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import ReactorKit
 
-class ImageViewerController: TodoViewController {
+final class ImageViewerController: TodoViewController {
     var disposeBag = DisposeBag()
     
     private let scrollView: UIScrollView = {
@@ -26,6 +26,7 @@ class ImageViewerController: TodoViewController {
         scrollView.delegate = self
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

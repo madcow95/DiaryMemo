@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-class PrivacyPolicyViewController: UIViewController {
+final class PrivacyPolicyViewController: UIViewController {
     private lazy var webView: WKWebView = {
         let preferences = WKWebpagePreferences()
         preferences.allowsContentJavaScript = true
@@ -20,6 +20,7 @@ class PrivacyPolicyViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

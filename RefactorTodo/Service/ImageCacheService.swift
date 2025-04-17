@@ -1,6 +1,6 @@
 import UIKit
 
-class ImageCacheService {
+final class ImageCacheService {
     static let shared = ImageCacheService()
     private let cache = NSCache<NSString, UIImage>()
     

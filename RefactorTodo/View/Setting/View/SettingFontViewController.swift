@@ -3,9 +3,9 @@ import SnapKit
 import ReactorKit
 import RxSwift
 
-class SettingFontViewController: TodoViewController {
+final class SettingFontViewController: TodoViewController {
     var disposeBag = DisposeBag()
-    let appearanceMode = UserInfoService.shared.getAppearance()
+    private let appearanceMode = UserInfoService.shared.getAppearance()
     private lazy var previewContainer: UIView = {
         let container = UIView()
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -28,8 +28,7 @@ class SettingFontViewController: TodoViewController {
                                            textColor: appearanceMode == "Dark" ? .white : .lightGray)
     private let firstPreviewLabel = TodoLabel(text: "일기를 쓰는 습관 :)")
     private let secondPreviewLabel = TodoLabel(text: "변경된 폰트 사이즈가 표시됩니다")
-    private lazy var slider = FontSizeSlider(count: 7,
-                                             vc: self)
+    private lazy var slider = FontSizeSlider(count: 7, vc: self)
     private lazy var fontTableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -54,14 +53,14 @@ class SettingFontViewController: TodoViewController {
         configureUI()
     }
     
-    func configureUI() {
+    private func configureUI() {
         self.title = "글자 스타일"
         configurePreview()
         configureSlider()
         configureTable()
     }
     
-    func configurePreview() {
+    private func configurePreview() {
         view.addSubview(previewContainer)
         previewContainer.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
@@ -99,7 +98,7 @@ class SettingFontViewController: TodoViewController {
         secondPreviewLabel.numberOfLines = 0
     }
     
-    func configureSlider() {
+    private func configureSlider() {
         view.addSubview(slider)
         slider.snp.makeConstraints {
             $0.top.equalTo(previewContainer.snp.bottom).offset(40)
@@ -114,7 +113,7 @@ class SettingFontViewController: TodoViewController {
         slider.addButtonAction()
     }
     
-    func configureTable() {
+    private func configureTable() {
         view.addSubview(fontTableView)
         fontTableView.snp.makeConstraints {
             $0.top.equalTo(slider.snp.bottom).offset(40)

@@ -3,7 +3,7 @@ import SnapKit
 import ReactorKit
 import RxSwift
 
-class SettingViewController: TodoViewController {
+final class SettingViewController: TodoViewController {
     var disposeBag = DisposeBag()
     let appearanceMode = UserInfoService.shared.getAppearance()
     
@@ -30,11 +30,11 @@ class SettingViewController: TodoViewController {
         configureUI()
     }
     
-    func configureUI() {
+    private func configureUI() {
         configureTable()
     }
     
-    func configureTable() {
+    private func configureTable() {
         view.addSubview(settingTableView)
         settingTableView.snp.makeConstraints {
             $0.top.left.right.bottom.equalToSuperview()

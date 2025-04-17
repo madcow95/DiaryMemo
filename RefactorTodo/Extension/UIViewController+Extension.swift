@@ -8,6 +8,17 @@ class TodoViewController: UIViewController {
         super.viewIsAppearing(animated)
         let appearanceMode = UserInfoService.shared.getAppearance()
         
+        switch appearanceMode {
+        case "Light":
+            self.overrideUserInterfaceStyle = .light
+            self.view.backgroundColor = .lightBackgroundColor
+        case "Dark":
+            self.overrideUserInterfaceStyle = .dark
+            self.view.backgroundColor = .darkBackgroundColor
+        default:
+            break
+        }
+        
         // Navigation Bar의 배경색 설정
         if let navigationVC = self.navigationController {
             let navBar = navigationVC.navigationBar
@@ -38,18 +49,6 @@ class TodoViewController: UIViewController {
             tabBar.scrollEdgeAppearance = tabAppearance
             tabBar.isTranslucent = false
         }
-        
-//        setAppearance()
-        switch appearanceMode {
-        case "Light":
-            self.overrideUserInterfaceStyle = .light
-            self.view.backgroundColor = .lightBackgroundColor
-        case "Dark":
-            self.overrideUserInterfaceStyle = .dark
-            self.view.backgroundColor = .darkBackgroundColor
-        default:
-            break
-        }
     }
     
     /// LifeCycle이 viewDidLoad의 동작을 할 때 처리
@@ -76,19 +75,5 @@ extension UIViewController {
         }
         
         present(alertController, animated: true, completion: nil)
-    }
-    
-    func setAppearance() {
-        
-        switch UserInfoService.shared.getAppearance() {
-        case "Light":
-            self.overrideUserInterfaceStyle = .light
-            self.view.backgroundColor = .lightBackgroundColor
-        case "Dark":
-            self.overrideUserInterfaceStyle = .dark
-            self.view.backgroundColor = .darkBackgroundColor
-        default:
-            break
-        }
     }
 }

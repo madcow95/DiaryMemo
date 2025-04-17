@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class SearchResultTableViewCell: UITableViewCell {
+final class SearchResultTableViewCell: UITableViewCell {
     private let appearanceMode = UserInfoService.shared.getAppearance()
     private let dateLabel = TodoLabel(text: "", textColor: .lightGray)
     private let feelingImageView: UIImageView = {
@@ -46,12 +46,13 @@ class SearchResultTableViewCell: UITableViewCell {
         initialCell()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initialCell()
     }
     
-    func initialCell() {
+    private func initialCell() {
         contentView.backgroundColor = appearanceMode == "Dark" ? .darkBackgroundColor : .lightBackgroundColor
         contentView.addSubview(dateLabel)
         contentView.addSubview(feelingImageView)

@@ -1,6 +1,6 @@
 import UIKit
 
-class SplashCoordinator: Coordinator {
+final class SplashCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     let navigationController: UINavigationController
     

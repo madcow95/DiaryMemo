@@ -2,7 +2,7 @@ import Foundation
 import RxSwift
 import ReactorKit
 
-class SplashReactor: Reactor {
+final class SplashReactor: Reactor {
     var splashCoordinator: SplashCoordinator
     
     init(splashCoordinator: SplashCoordinator) {

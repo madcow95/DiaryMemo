@@ -1,7 +1,7 @@
 import UIKit
 import ReactorKit
 
-class EmotionReactor: Reactor {
+final class EmotionReactor: Reactor {
     weak var addTodoReactor: AddTodoReactor?
     let initialState: State
     
